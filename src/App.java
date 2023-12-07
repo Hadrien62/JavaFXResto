@@ -437,21 +437,41 @@ public class App extends Application {
             System.out.println("Impossible d'enregistrer les données des employés.");
         }
     }
-    
+
     //---------- Pepper Manager® | Planning ----------//
     private void openPlanningPanel() {
-        App.setTitle("Pepper Manager® | Planning"); 
+        App.setTitle("Pepper Manager® | Planning");
+
+        // Création des composants
         ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundStock.png"));
         backgroundPlanning.fitWidthProperty().bind(App.widthProperty());
-        backgroundPlanning.fitHeightProperty().bind(App.heightProperty()); 
-       
-    // Pane Components
-        VBox components = new VBox();
-        StackPane PlanningPane = new StackPane(backgroundPlanning, components); 
-        
-        App.setScene(new Scene(PlanningPane, 800, 600));   
+        backgroundPlanning.fitHeightProperty().bind(App.heightProperty());
+
+        Text Member = new Text(employes.size() + " membres");
+        Member.getStyleClass().add("text-member2");
+        Member.setLayoutX(275);
+        Member.setLayoutY(120);
+
+        ListView<String> employeDispo = new ListView<>();
+        employeDispo.getStyleClass().add("list2");
+        for (Employe employe : employes) {
+            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+            employeDispo.getItems().add(employeInfoUsername);
+        }
+        employeDispo.setLayoutX(260);
+        employeDispo.setLayoutY(136);
+
+        // Assemblage du panneau avec l'arrière-plan et les composants
+        Pane PlanningPane = new Pane();
+        PlanningPane.getChildren().addAll(backgroundPlanning,employeDispo,Member);
+        // Application du style
+        PlanningPane.getStylesheets().add("login.css");
+
+        // Définition de la scène
+        App.setScene(new Scene(PlanningPane, 800, 600));
     }
-    
+
+
     //---------- Pepper Manager® | Statistique ----------//
     private void openStatisticPanel() {
     

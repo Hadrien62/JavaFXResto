@@ -139,6 +139,11 @@
     -fx-font-weight: 600; 
     -fx-text-fill: #7b7b7d;
 }
+.text-member2{
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #7b7b7d;
+}
 .valid{
     -fx-fill: #42f383;
     -fx-font-size: 12px; 
@@ -161,14 +166,18 @@
 }
 .list{
     -fx-background-color: white;
-    -fx-pref-width: 227px; 
+    -fx-pref-width: 227px;
 }
-.list-cell {
+.list2{/**Liste des employées à sélectionner**/
+    -fx-background-color: white;
+    -fx-max-width: 227px;
+}
+.list-cell {/**Case de la liste**/
     -fx-background-radius: 5px;
     -fx-background-color: #f5f7fb;
     -fx-border-color: white;
     -fx-border-width: 12px;
-    -fx-cell-size: 55px; 
+    -fx-cell-size: 70px;
 }
 .delete-button {
     -fx-background-radius: 5px; 
@@ -327,6 +336,6 @@
     -fx-fill: black;
 }
 .cancel-button{
-    -fx-background-color: gray !important;
+    -fx-background-color: grey !important;
 }
 
