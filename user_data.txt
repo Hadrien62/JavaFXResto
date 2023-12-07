@@ -1,8 +1,7 @@
-a:a:12.0:Serveur
 b:b:12.0:Barman
-gvhj:b n:23.0:Barman
 8:90:9.0:Barman
 HB:BJ:9.0:Barman
 q:q:12.0:Serveur
 w:w:12.0:Cuisinier
 z:z:12.0:Barman
+Coline:azerty:1200.0:Cuisinier

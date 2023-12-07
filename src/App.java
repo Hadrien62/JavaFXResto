@@ -13,20 +13,23 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.util.Duration;
+import javafx.scene.control.ListCell;
+import javafx.scene.paint.Color;
 
 
 public class App extends Application {
 
     private static final String DATA_FILE = "user_data.txt"; // DATA
-    private List<Employe> employes = new ArrayList<>(); // Liste des employées
+    private List<Employe> employes = new ArrayList<>(); // Liste des employés
+
+    private List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private Stage App;
 
 	//---------- Pepper® | Se Connecter ----------//
@@ -446,6 +449,11 @@ public class App extends Application {
         ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundStock.png"));
         backgroundPlanning.fitWidthProperty().bind(App.widthProperty());
         backgroundPlanning.fitHeightProperty().bind(App.heightProperty());
+        //Panel de Gauche
+        Button BackButton = new Button("Retour");
+        BackButton.setOnAction(e -> openManagerPanel());
+        BackButton.setLayoutX(50);
+        BackButton.setLayoutY(55);
 
         Text Member = new Text(employes.size() + " membres");
         Member.getStyleClass().add("text-member2");
@@ -454,21 +462,124 @@ public class App extends Application {
 
         ListView<String> employeDispo = new ListView<>();
         employeDispo.getStyleClass().add("list2");
+        employeDispo.setCellFactory(param -> createCustomListCell());
         for (Employe employe : employes) {
             String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
             employeDispo.getItems().add(employeInfoUsername);
+
         }
         employeDispo.setLayoutX(260);
         employeDispo.setLayoutY(136);
 
+        ListView<String> employeDuJour = new ListView<>();
+        employeDuJour.getStyleClass().add("list2");
+        for(Employe employe : employesTravail){
+            String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+            employeDuJour.getItems().add(employeTaffInfoUsername);
+        }
+        employeDuJour.setLayoutX(525);
+        employeDuJour.setLayoutY(136);
+
+        Button selectButton = new Button("Ajouter");
+        selectButton.setOnAction(e -> {
+            // Obtenir l'élément sélectionné
+            String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();
+
+            if (selectedEmployee != null) {
+                // Ajouter l'employé à la liste employesTravail
+                employesTravail.add(findEmployeeByUsername(selectedEmployee));
+                // Supprimer l'employé de la liste employes
+                employes.removeIf(employe -> (employe.getUsername() + "\n" + employe.getRole()).equals(selectedEmployee));
+                // Mettre à jour les listes dans les ListViews
+                updateEmployeeLists(employeDispo, employeDuJour);
+            }
+        });
+
         // Assemblage du panneau avec l'arrière-plan et les composants
         Pane PlanningPane = new Pane();
-        PlanningPane.getChildren().addAll(backgroundPlanning,employeDispo,Member);
+        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,employeDispo,Member,employeDuJour,selectButton);
+        BackButton.getStyleClass().add("backRecrutement-button");
         // Application du style
         PlanningPane.getStylesheets().add("login.css");
 
         // Définition de la scène
         App.setScene(new Scene(PlanningPane, 800, 600));
+    }
+
+    // Fonction pour créer une cellule personnalisée pour la ListView
+    private ListCell<String> createCustomListCell() {
+        return new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                    setDisable(false);
+                    setGraphic(null);
+                    setStyle("-fx-control-inner-background: white;"); // Fond blanc par défaut
+                } else {
+                    String[] userInfo = item.split("\n");
+                    String username = userInfo[0];
+
+                    Employe employe = findEmployeeByUsername(username);
+                    if (employe != null && employe.getNombreDeSoir() == 3) {
+                        setStyle("-fx-control-inner-background: #d3d3d3;"); // Fond gris
+                        setDisable(true); // Désactiver la sélection
+                    } else {
+                        setStyle("-fx-control-inner-background: white;"); // Fond blanc
+                        setDisable(false); // Activer la sélection
+                    }
+
+                    setText(item);
+
+                    // Changer la couleur du fond en rouge lorsque la cellule est sélectionnée
+                    selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
+                        if (isNowSelected) {
+                            setStyle("-fx-text-fill: red;"); // Fond rouge
+                            System.out.println("bonjour");
+                        } else {
+                            // Rétablir la couleur du fond normale lorsque la cellule n'est pas sélectionnée
+                            if (employe != null && employe.getNombreDeSoir() == 3) {
+                                setStyle("-fx-control-inner-background: #d3d3d3;"); // Fond gris
+                            } else {
+                                setStyle("-fx-control-inner-background: white;"); // Fond blanc
+                            }
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+
+    // Fonction pour trouver un employé par son nom d'utilisateur
+    private Employe findEmployeeByUsername(String username) {
+        for (Employe employe : employes) {
+            if ((employe.getUsername() + "\n" + employe.getRole()).equals(username)) {
+                return employe;
+            }
+        }
+        return null;
+    }
+
+    // Fonction pour mettre à jour les ListViews
+    private void updateEmployeeLists(ListView<String> employeDispo, ListView<String> employeDuJour) {
+        employeDispo.getItems().clear();
+        employeDuJour.getItems().clear();
+
+        for (Employe employe : employes) {
+            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+            employeDispo.getItems().add(employeInfoUsername);
+        }
+        for (Employe employe : employesTravail) {
+            try{
+                String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+                employeDuJour.getItems().add(employeTaffInfoUsername);
+            }
+            catch (Exception e){
+                System.out.println("Pas d'employé dans la liste");
+            }
+        }
     }
 
 
