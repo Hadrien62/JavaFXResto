@@ -75,15 +75,16 @@ public class App extends Application {
 		        	openManagerPanel();
 		        }
 		        else{
-		        	errorMessageText.setText("⚠ Nom d'utilisateur ou Mot de passe incorrect.");
-				    for (Employe employe : employes) {
+		        	errorMessageText.setText("⚠ Nom d'utilisateur ou Mot de passe incorrect ou vous n'êtes pas dans le planning.");
+                    loadEmployeeDuJourData();
+				    for (Employe employe : employesTravail) {
 				    	
 				    	// Validation mot de passe et username avec la DATA + Ouvrir le pannel en fonction du rôle
 				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password)) {
 						    switch (employe.getRole()) {
-							    case "Cuisinier" -> openCookPanel();
-		                        case "Serveur" -> openServeurPanel();
-		                        case "Barman" -> openBartenderPanel();          
+							    case "Cuisinier" -> openCookPanel(employe);
+		                        case "Serveur" -> openServeurPanel(employe);
+		                        case "Barman" -> openBartenderPanel(employe);
 						    }
 				        }
 				    }
@@ -753,10 +754,10 @@ public class App extends Application {
     }
     
     //---------- Pepper Barman® | Préparation ----------//
-    private void openBartenderPanel() {
+    private void openBartenderPanel(Employe employe) {
     
     // Setup
-        App.setTitle("Pepper Barman® | Préparation"); 
+        App.setTitle("Pepper Barman® | Préparation | " + employe.getUsername());
         ImageView backgroundBartender = new ImageView(new Image("images/BackgroundBarman.png"));
         backgroundBartender.fitWidthProperty().bind(App.widthProperty());
         backgroundBartender.fitHeightProperty().bind(App.heightProperty());     
@@ -779,10 +780,10 @@ public class App extends Application {
     }
     
     //---------- Pepper Cuisinier® | Préparation ----------//
-    private void openCookPanel() {
+    private void openCookPanel(Employe employe) {
     
     // Setup
-        App.setTitle("Pepper Cuisinier® | Préparation"); 
+        App.setTitle("Pepper Cuisinier® | Préparation | " + employe.getUsername());
         ImageView backgroundCook = new ImageView(new Image("images/BackgroundCuisinier.png"));
         backgroundCook.fitWidthProperty().bind(App.widthProperty());
         backgroundCook.fitHeightProperty().bind(App.heightProperty()); 
@@ -805,10 +806,10 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Réservation  ----------//
-    private void openServeurPanel() {
+    private void openServeurPanel(Employe employe) {
 
     // Setup
-        App.setTitle("Pepper Serveur® | Réservation"); 
+        App.setTitle("Pepper Serveur® | Réservation | " + employe.getUsername());
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
         backgroundServeur.fitWidthProperty().bind(App.widthProperty());
         backgroundServeur.fitHeightProperty().bind(App.heightProperty()); 
@@ -832,10 +833,10 @@ public class App extends Application {
             components.getChildren().remove(TableInput);
 
     		Button PayementButton = new Button("Payement");
-    		PayementButton.setOnAction(e1 ->openPayementPanel());
+    		PayementButton.setOnAction(e1 ->openPayementPanel(employe));
     		Button ServiceButton = new Button("Service");
     		Button OrderButton = new Button("Order");
-    		OrderButton.setOnAction(e1 ->openOrderPanel());
+    		OrderButton.setOnAction(e1 ->openOrderPanel(employe));
 
             components.getChildren().addAll(PayementButton, ServiceButton, OrderButton);
         });
@@ -849,7 +850,7 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel() {
+    private void openOrderPanel(Employe employe) {
     
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
@@ -859,7 +860,7 @@ public class App extends Application {
             
     // Pannel à Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openServeurPanel());
+        BackButton.setOnAction(e -> openServeurPanel(employe));
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -921,7 +922,7 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel() {
+    private void openPayementPanel(Employe employe) {
     
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
@@ -931,7 +932,7 @@ public class App extends Application {
                 
     // Pannel à Gauche
     Button BackButton = new Button("Retour");
-    BackButton.setOnAction(e -> openServeurPanel());
+    BackButton.setOnAction(e -> openServeurPanel(employe));
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55); 
 
