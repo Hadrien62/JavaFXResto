@@ -1,4 +1,3 @@
-HB:BJ:9.0:Barman
 q:q:12.0:Serveur
 w:w:12.0:Cuisinier
 z:z:12.0:Barman

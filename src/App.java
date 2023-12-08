@@ -30,9 +30,9 @@ public class App extends Application {
 
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
-    private List<Employe> employes = new ArrayList<>(); // Liste des employés
+    private final List<Employe> employes = new ArrayList<>(); // Liste des employés
 
-    private List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
+    private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private Stage App;
 
 	//---------- Pepper® | Se Connecter ----------//
@@ -450,7 +450,7 @@ public class App extends Application {
         App.setTitle("Pepper Manager® | Planning");
 
         // Création des composants
-        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundStock.png"));
+        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundPlanning.png"));
         backgroundPlanning.fitWidthProperty().bind(App.widthProperty());
         backgroundPlanning.fitHeightProperty().bind(App.heightProperty());
         //Panel de Gauche
@@ -484,8 +484,12 @@ public class App extends Application {
         }
         employeDuJour.setLayoutX(525);
         employeDuJour.setLayoutY(136);
+        Text AddText = new Text();
+        AddText.setLayoutX(280);
+        AddText.setLayoutY(560);
 
-        Button selectButton = new Button("Ajouter");
+
+        Button selectButton = new Button("AJOUTER");
         selectButton.setOnAction(e -> {
             // Obtenir l'élément sélectionné
             String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();
@@ -497,12 +501,16 @@ public class App extends Application {
                 employes.removeIf(employe -> (employe.getUsername() + "\n" + employe.getRole()).equals(selectedEmployee));
                 // Mettre à jour les listes dans les ListViews
                 updateEmployeeLists(employeDispo, employeDuJour);
+                AddText.setText("✔ Employé ajouté");
             }
         });
-        selectButton.setLayoutX(116);
-        selectButton.setLayoutY(500);
+        selectButton.setLayoutX(274);
+        selectButton.setLayoutY(502);
 
-        Button confirmerEquipe = new Button("Confirmer");
+        Button confirmerEquipe = new Button("VALIDER");
+        Text validText = new Text();
+        validText.setLayoutX(548);
+        validText.setLayoutY(560);
         confirmerEquipe.setOnAction(action ->{
                 try {
                     // Vérifier si le fichier existe, sinon le créer
@@ -526,6 +534,7 @@ public class App extends Application {
                             }
 
                             System.out.println("Données écrites avec succès dans le fichier : " + DATA_FILE);
+                            validText.setText("✔ Planning terminé");
                         } catch (IOException e) {
                             e.printStackTrace();
                             // Gérer l'exception selon votre logique d'application
@@ -535,13 +544,17 @@ public class App extends Application {
                     System.err.println("Erreur lors de la manipulation du fichier : " + e.getMessage());
                 }
         });
-        confirmerEquipe.setLayoutX(600);
-        confirmerEquipe.setLayoutY(565);
+        confirmerEquipe.setLayoutX(537);
+        confirmerEquipe.setLayoutY(502);
 
         // Assemblage du panneau avec l'arrière-plan et les composants
         Pane PlanningPane = new Pane();
-        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe);
+        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,AddText,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe);
         BackButton.getStyleClass().add("backRecrutement-button");
+        selectButton.getStyleClass().add("stock-button");
+        AddText.getStyleClass().add("valid");
+        confirmerEquipe.getStyleClass().add("stock-button");
+        validText.getStyleClass().add("valid");
         // Application du style
         PlanningPane.getStylesheets().add("login.css");
 
