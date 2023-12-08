@@ -21,12 +21,15 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.util.Duration;
 import javafx.scene.control.ListCell;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import javafx.scene.paint.Color;
 
 
 public class App extends Application {
 
     private static final String DATA_FILE = "user_data.txt"; // DATA
+    private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
     private List<Employe> employes = new ArrayList<>(); // Liste des employés
 
     private List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
@@ -463,6 +466,7 @@ public class App extends Application {
         ListView<String> employeDispo = new ListView<>();
         employeDispo.getStyleClass().add("list2");
         employeDispo.setCellFactory(param -> createCustomListCell());
+        loadEmployeeDuJourData();
         for (Employe employe : employes) {
             String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
             employeDispo.getItems().add(employeInfoUsername);
@@ -494,10 +498,48 @@ public class App extends Application {
                 updateEmployeeLists(employeDispo, employeDuJour);
             }
         });
+        selectButton.setLayoutX(116);
+        selectButton.setLayoutY(500);
+
+        Button confirmerEquipe = new Button("Confirmer");
+        confirmerEquipe.setOnAction(action ->{
+                try {
+                    // Vérifier si le fichier existe, sinon le créer
+                    Path fichierPath = Path.of(NomFichier);
+                    if (!Files.exists(fichierPath)) {
+                        Files.createFile(fichierPath);
+                    }
+
+                    // Utiliser BufferedWriter pour écrire dans le fichier
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(NomFichier))) {
+                        for (Employe employe : employesTravail) {
+                            writer.write(employe.getUsername() + ":" + employe.getPassword() + ":" + employe.getSalaire() + ":" + employe.getRole());
+                            writer.newLine(); // Ajouter une nouvelle ligne
+                        }
+
+                        System.out.println("Données écrites avec succès dans le fichier : " + NomFichier);
+                        try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DATA_FILE, false))) {
+                            for (Employe employe : employes) {
+                                writer2.write(employe.getUsername() + ":" + employe.getPassword() + ":" + employe.getSalaire() + ":" + employe.getRole());
+                                writer2.newLine(); // Ajouter une nouvelle ligne
+                            }
+
+                            System.out.println("Données écrites avec succès dans le fichier : " + DATA_FILE);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            // Gérer l'exception selon votre logique d'application
+                        }
+                    }
+                } catch (IOException e) {
+                    System.err.println("Erreur lors de la manipulation du fichier : " + e.getMessage());
+                }
+        });
+        confirmerEquipe.setLayoutX(600);
+        confirmerEquipe.setLayoutY(565);
 
         // Assemblage du panneau avec l'arrière-plan et les composants
         Pane PlanningPane = new Pane();
-        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,employeDispo,Member,employeDuJour,selectButton);
+        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe);
         BackButton.getStyleClass().add("backRecrutement-button");
         // Application du style
         PlanningPane.getStylesheets().add("login.css");
@@ -505,6 +547,36 @@ public class App extends Application {
         // Définition de la scène
         App.setScene(new Scene(PlanningPane, 800, 600));
     }
+
+    //Fonction pour récupérer les données des employés dans le fichier txt
+    private void loadEmployeeDuJourData() {
+        employesTravail.clear(); // Videz la liste des employés existante
+        File fichier = new File(NomFichier);
+
+        // Vérifier si le fichier existe avant de tenter de le lire
+        if (!fichier.exists()) {
+            System.out.println("Le fichier n'existe pas. Aucune donnée d'employé chargée.");
+            return; // Sortir de la méthode si le fichier n'existe pas
+        }
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fichier))) { // Lecture du DATA
+            String Separator;
+            while ((Separator = reader.readLine()) != null) {
+                String[] parts = Separator.split(":"); // Séparer les informations
+                if (parts.length == 4) { // Vérifier le bon format (4 parties) et Récupèrer les informations de chaque partie
+                    String username = parts[0];
+                    String password = parts[1];
+                    double salaire = Double.parseDouble(parts[2]);
+                    String role = parts[3];
+                    employesTravail.add(new Employe(username, password, role, salaire, 0)); // Ajouter un membre
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Impossible de charger les données des employés.");
+        }
+    }
+
 
     // Fonction pour créer une cellule personnalisée pour la ListView
     private ListCell<String> createCustomListCell() {
