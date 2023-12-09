@@ -995,15 +995,36 @@ public class App extends Application {
        	gridPane.setVgap(10);
        	gridPane.setHgap(10);
 
+        stock stock_tmp = new stock();
+        menu menu_actuel = new menu();
+        menu_actuel.actualiser_menu(stock_tmp);
+        int size_menu = menu_actuel.getLst_boissons().size() + menu_actuel.getLst_plats().size();
+        List<Integer> plat_possible = new ArrayList<>();
+        System.out.println("numéro de Plat:");
+        for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
+            System.out.println(menu_actuel.getLst_plats().get(i).getNum_produit());
+            plat_possible.add(menu_actuel.getLst_plats().get(i).getNum_produit());
+        }
+        System.out.println("numéro de Boisson:");
+        for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
+            System.out.println(menu_actuel.getLst_boissons().get(i).getNum_produit());
+            plat_possible.add(menu_actuel.getLst_boissons().get(i).getNum_produit());
+        }
+
         String[] imagePaths = {"images/Salade.png","images/Salade.png","images/Soupe.png","images/Soupe.png","images/Soupe.png","images/Burger.png","images/Burger.png","images/Burger.png","images/Pizza.png","images/Pizza.png","images/Pizza.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png","images/Eau.png"};
         String[] productNames = {"Salade AT", "Salade ST", "Soupe OI", "Soupe TM", "Soupe CP", "Burger TS","Burger S", "Burger V", "Pizza FT","Pizza CP", "Pizza SA","Limonade 33cl","Cidre 33cl","Bière 50cl","Jus 33cl", "Eau 1L"};
         int[] prices = {9,9,8,8,8,15,15,15,12,12,12,4,5,5,1,0};
        	   
-       	for (int i = 0; i < 16; i++) {
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[i], prices[i],imagePaths[i],i,Current_Commande,Total);
+       	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()], prices[menu_actuel.getLst_plats().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()],i,Current_Commande,Total);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
+        for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()],i,Current_Commande,Total);
+            gridPane.add(rectangle, i % 2, i / 2);
+            rectangle.getStyleClass().add("grid-cell");
+        }
        	gridPane.setPrefSize(230, 450);
        	    
        	ScrollPane scrollPane = new ScrollPane(gridPane);

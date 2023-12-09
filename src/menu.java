@@ -23,11 +23,11 @@ public class menu {
 		
 		List<Boisson> tmp_lst_boissons = new ArrayList<>();
 		List<Plats> tmp_lst_plats = new ArrayList<>();
-		for(int i = 0; i<=11; i++) {
+		for(int i = 1; i<=11; i++) {
 			Plats tmp_plat = new Plats(i);
 			tmp_lst_plats.add(tmp_plat);
 		}
-		for(int i = 0; i<=5; i++) {
+		for(int i = 12; i<=16; i++) {
 			Boisson tmp_boisson = new Boisson(i);
 			tmp_lst_boissons.add(tmp_boisson);
 		}
@@ -57,14 +57,14 @@ public class menu {
 	public void actualiser_menu(stock tmp_stock) {
 		List<Boisson> tmp_lst_boissons = new ArrayList<>();
 		List<Plats> tmp_lst_plats = new ArrayList<>();
-		for(int i = 0; i<=11; i++) {
+		for(int i = 1; i<=11; i++) {
 			Plats tmp_plat = new Plats(i);
 			if(tmp_plat.check_stock(tmp_stock)) {
 				tmp_lst_plats.add(tmp_plat);
 			}
 			
 		}
-		for(int i = 0; i<=5; i++) {
+		for(int i = 10; i<=13; i++) {
 			Boisson tmp_boisson = new Boisson(i);
 			if(tmp_stock.check_ingredient(i,1)){
 				tmp_lst_boissons.add(tmp_boisson);
