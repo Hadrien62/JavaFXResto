@@ -339,3 +339,11 @@
     -fx-background-color: grey !important;
 }
 
+.backServeur-button{
+    -fx-pref-width: 95px;
+    -fx-pref-height: 30px;
+    -fx-border: none;
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-text-fill: transparent;
+}

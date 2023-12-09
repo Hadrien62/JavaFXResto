@@ -32,7 +32,7 @@ public class App extends Application {
 
     private static final String DATA_Commande = "commande.txt"; // DATA commande
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
-    private ListeCourse tmp_liste = new ListeCourse();
+    private final ListeCourse tmp_liste = new ListeCourse();
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private final List<Boisson> listeCommandeBoissons = new ArrayList<>();// Liste des boissons
     private final List<Plats> listeCommandePlats = new ArrayList<>();// Liste des plats
@@ -189,66 +189,21 @@ public class App extends Application {
         Total.setLayoutY(462);
         ListView<String> stocklistView = new ListView<>();
         int taille_lst = tmp_liste.get_liste_course_quanitite().length;
+        if(tmp_liste != null) {
+            for (int i = 0; i < taille_lst; i++) {
 
-        for (int i =0; i<taille_lst; i++) {
-
-            String stockInfo= tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
-            stocklistView.getItems().add(stockInfo);
+                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
+                stocklistView.getItems().add(stockInfo);
+            }
         }
-
         stocklistView.setLayoutX(540);
         stocklistView.setLayoutY(116);
         //---------- Cellule Personnalisée ----------//
-        stocklistView.setCellFactory(param -> new ListCell<>() {
-            //---------- Méthode pour Supprimer un membre ----------//
-            private final Button deleteButton = new Button();{
 
-                // Image Poubelle Supprimer
-                ImageView deleteImageView = new ImageView(new Image("images/trash.png"));
-                deleteImageView.setFitWidth(16);
-                deleteImageView.setFitHeight(16);
-
-                // Configurez le bouton avec l'image
-                deleteButton.setGraphic(deleteImageView);
-            }
 
             //---------- Méthode Mise à jour de la cellule ----------//
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                }
-                else {
-                    int index = getIndex() + 1;
-                    HBox content = new HBox();
-                    VBox Button = new VBox();
-                    Text indexText = new Text("#" + index);
 
-                    String[] userInfoArray = item.split("\n");
-                    Label usernameLabel = new Label(userInfoArray[0]);
-                    Label roleLabel = new Label(userInfoArray[1]);
-
-                    VBox labelsVBox = new VBox();
-                    Button.setStyle("-fx-padding: 5 5 0 5;");
-                    labelsVBox.setStyle("-fx-padding: 5 0 0;");
-                    labelsVBox.setSpacing(-5);
-
-                    labelsVBox.getChildren().addAll(usernameLabel, roleLabel);
-                    Button.getChildren().addAll(deleteButton);
-                    content.getChildren().addAll(Button,indexText,labelsVBox);
-                    setGraphic(content);
-
-                    // Style
-                    indexText.getStyleClass().add("index");
-                    labelsVBox.getStyleClass().add("box");
-                    usernameLabel.getStyleClass().add("username");
-                    roleLabel.getStyleClass().add("role");
-                    deleteButton.getStyleClass().add("delete-button");
-                }
-            }
-        });
 
 
 
@@ -285,7 +240,7 @@ public class App extends Application {
 
         for (int i = 0; i < 13; i++) {
             RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-                    quantities[i], imagePaths[i],tmp_liste,i+1,App);
+                    quantities[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App);
             gridPane.add(rectangle, i % 2, i / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
@@ -299,7 +254,7 @@ public class App extends Application {
 
         // Pane Components
         Pane StockPane  = new Pane();
-        StockPane.getChildren().addAll( backgroundStock, BackButton, Date,stocklistView, Total,validText, CommandButton, gridPane,scrollPane);
+        StockPane.getChildren().addAll( backgroundStock, BackButton, Date,stocklistView, Total,validText, CommandButton, gridPane,scrollPane );
 
         // Style
         scrollPane.getStyleClass().add("grid");
@@ -310,10 +265,11 @@ public class App extends Application {
         CommandButton.getStyleClass().add("stock-button");
         BackButton.getStyleClass().add("backStock-button");
 
+
         StockPane.getStylesheets().add("login.css");
         App.setScene(new Scene(StockPane, 800, 600));
     }
-    
+
     //---------- Pepper Manager® | Recrutement ----------//
     private void openRecruitmentPanel() {
     	
@@ -910,45 +866,83 @@ public class App extends Application {
     //---------- Pepper Serveur® | Réservation  ----------//
     private void openServeurPanel(Employe employe) {
 
-    // Setup
-        App.setTitle("Pepper Serveur® | Réservation | " + employe.getUsername());
+        // Setup
+        App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
         backgroundServeur.fitWidthProperty().bind(App.widthProperty());
-        backgroundServeur.fitHeightProperty().bind(App.heightProperty()); 
-    
-    // Pannel à Gauche
+        backgroundServeur.fitHeightProperty().bind(App.heightProperty());
+
+        // Pannel à Gauche
         Button BackButton = new Button("Retour");
         BackButton.setOnAction(e -> start(App));
         BackButton.setLayoutX(50);
-        BackButton.setLayoutY(55);
-        
-    // Pane Components
-		Button TableButton= new Button("Prendre");
-		
-        TextField TableInput = new TextField();
-        TableInput.setPromptText("Client");
-        
-        VBox components = new VBox(BackButton, TableButton, TableInput);
-       
-        TableButton.setOnAction(e -> {
-            components.getChildren().remove(TableButton);
-            components.getChildren().remove(TableInput);
+        BackButton.setLayoutY(40);
 
-    		Button PayementButton = new Button("Payement");
-    		PayementButton.setOnAction(e1 ->openPayementPanel(employe));
-    		Button ServiceButton = new Button("Service");
-    		Button OrderButton = new Button("Order");
-    		OrderButton.setOnAction(e1 ->openOrderPanel(employe));
+        GridPane Table1 = createReusableGridPane("Paul", "8", employe);
+        Table1.setLayoutX(50);
+        Table1.setLayoutY(100);
 
-            components.getChildren().addAll(PayementButton, ServiceButton, OrderButton);
-        });
-        
-        StackPane ServeurPane = new StackPane(backgroundServeur, components); 
+        GridPane Table2 = createReusableGridPane("Paul", "8", employe);
+        Table2.setLayoutX(50);
+        Table2.setLayoutY(300);
 
-    // Style
+        // Pane Components
+        Pane ServeurPane = new Pane();
+        ServeurPane.getChildren().addAll(backgroundServeur, BackButton, Table1, Table2);
+
+        // Style
         BackButton.getStyleClass().add("backServeur-button");
+        ServeurPane.getStylesheets().add("login.css");
 
-        App.setScene(new Scene(ServeurPane, 800, 600)); 
+        // Scene
+        App.setScene(new Scene(ServeurPane, 800, 600));
+    }
+
+    private GridPane createReusableGridPane(String Serveur, String Client, Employe employe) {
+        GridPane gridPaneClient = new GridPane();
+        gridPaneClient.setHgap(10);
+        gridPaneClient.setVgap(10);
+
+        Text ServeurText = new Text("Serveur: " + Serveur);
+        gridPaneClient.add(ServeurText, 0, 1);
+
+        Text ClientText = new Text("Client: " + Client);
+        gridPaneClient.add(ClientText, 0, 2);
+
+        TextField InputClient = new TextField();
+        InputClient.setPromptText("Client");
+        gridPaneClient.add(InputClient, 0, 3);
+
+        Button ButtonClient = new Button("Submit");
+        gridPaneClient.add(ButtonClient, 1, 3);
+
+        ButtonClient.setOnAction(e -> {
+            String userInput = InputClient.getText();
+            if (isNumeric(userInput)) {
+                int number = Integer.parseInt(userInput);
+                if (number >= 1 && number <= 10) {
+                    gridPaneClient.getChildren().removeAll(InputClient, ButtonClient);
+                    Button paymentButton = new Button("Paiement");
+                    gridPaneClient.add(paymentButton, 0, 3);
+                    paymentButton.setOnAction(e1 -> openPayementPanel(employe));
+                    Button serviceButton = new Button("Service");
+                    gridPaneClient.add(serviceButton, 1, 3);
+                    Button orderButton = new Button("Order");
+                    gridPaneClient.add(orderButton, 2, 3);
+                    orderButton.setOnAction(e1 -> openOrderPanel(employe));
+                }
+            }
+        });
+        return gridPaneClient;
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
     
     //---------- Pepper Serveur® | Commander ----------//
@@ -990,15 +984,36 @@ public class App extends Application {
        	gridPane.setVgap(10);
        	gridPane.setHgap(10);
 
+        stock stock_tmp = new stock();
+        menu menu_actuel = new menu();
+        menu_actuel.actualiser_menu(stock_tmp);
+        int size_menu = menu_actuel.getLst_boissons().size() + menu_actuel.getLst_plats().size();
+        List<Integer> plat_possible = new ArrayList<>();
+        System.out.println("numéro de Plat:");
+        for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
+            System.out.println(menu_actuel.getLst_plats().get(i).getNum_produit());
+            plat_possible.add(menu_actuel.getLst_plats().get(i).getNum_produit());
+        }
+        System.out.println("numéro de Boisson:");
+        for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
+            System.out.println(menu_actuel.getLst_boissons().get(i).getNum_produit());
+            plat_possible.add(menu_actuel.getLst_boissons().get(i).getNum_produit());
+        }
+
         String[] imagePaths = {"images/Salade.png","images/Salade.png","images/Soupe.png","images/Soupe.png","images/Soupe.png","images/Burger.png","images/Burger.png","images/Burger.png","images/Pizza.png","images/Pizza.png","images/Pizza.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png","images/Eau.png"};
-        String[] productNames = {"Salade AT", "Salade ST", "Soupe OI", "Soupe TM", "Soupe CP", "Burger TS","Burger S", "Burger V", "Pizza FT","Pizza CP", "Pizza SA","Limonade 33cl","Cidre 33cl","Bière sans alcool 33cl","Jus 33cl", "Eau 1L"};
+        String[] productNames = {"Salade AT", "Salade ST", "Soupe OI", "Soupe TM", "Soupe CP", "Burger TS","Burger S", "Burger V", "Pizza FT","Pizza CP", "Pizza SA","Limonade 33cl","Cidre 33cl","Bière 50cl","Jus 33cl", "Eau 1L"};
         int[] prices = {9,9,8,8,8,15,15,15,12,12,12,4,5,5,1,0};
        	   
-       	for (int i = 0; i < 16; i++) {
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[i], prices[i],imagePaths[i],i,Current_Commande,Total);
+       	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()], prices[menu_actuel.getLst_plats().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()],i,Current_Commande,Total);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
+        for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()],i,Current_Commande,Total);
+            gridPane.add(rectangle, i % 2, i / 2);
+            rectangle.getStyleClass().add("grid-cell");
+        }
        	gridPane.setPrefSize(230, 450);
        	    
        	ScrollPane scrollPane = new ScrollPane(gridPane);
@@ -1135,7 +1150,7 @@ public class App extends Application {
 
 // Stock rectangle
 class RectangleWithProductInfo extends GridPane {
-    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, int  num_ingredient, Stage stage) {
+    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, ListView<String> stocklistView,ListeCourse tmp_liste  ,int  num_ingredient, Stage stage) {
         ImageView imageView = new ImageView(new Image(imagePath));
         imageView.setFitWidth(80);
         imageView.setFitHeight(80);
@@ -1154,6 +1169,7 @@ class RectangleWithProductInfo extends GridPane {
         addButton.setOnAction(e -> {
             tmp_liste_course.add_quantities(num_ingredient);
             stage.getScene().getRoot().requestFocus();
+            updateItemStock(stocklistView,tmp_liste );
         });
         HBox priceAndButtonBox = new HBox(10, priceText, addButton);
         priceAndButtonBox.setAlignment(Pos.CENTER);
@@ -1172,6 +1188,18 @@ class RectangleWithProductInfo extends GridPane {
         priceText.getStyleClass().add("name-text");
         addButton.getStyleClass().add("add-button");
     }
+    private void updateItemStock(ListView<String> stocklistView,ListeCourse tmp_liste) {
+        int taille_lst = tmp_liste.get_liste_course_quanitite().length;
+
+        if(tmp_liste != null) {
+            for (int i = 0; i < taille_lst; i++) {
+
+                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
+                stocklistView.getItems().add(stockInfo);
+            }
+        }
+    }
+
 }
 
 //Commande plat rectangle
