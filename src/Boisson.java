@@ -15,35 +15,35 @@ public class Boisson extends Produit {
 				setPrix(4);
 				setNom("Limonade");
 				setTemps_prep(2.0);
-				setNum_produit(10);
+				setNum_produit(12);
 				break;
 			case 13:
 				this.num_ingredient_boisson = 11;
 				setPrix(5);
 				setNom("Cidre doux");
 				setTemps_prep(2.0);
-				setNum_produit(11);
+				setNum_produit(13);
 				break;
 			case 14:
 				this.num_ingredient_boisson = 12;
 				setPrix(5);
 				setNom("Bière sans alcool");
 				setTemps_prep(2.0);
-				setNum_produit(12);
+				setNum_produit(14);
 				break;
 			case 15:
 				this.num_ingredient_boisson = 13;
 				setPrix(1);
 				setNom("Jus de fruit");
 				setTemps_prep(2.0);
-				setNum_produit(13);
+				setNum_produit(15);
 				break;
 			case 16:
 				this.num_ingredient_boisson = 14;
 				setPrix(0);
 				setNom("Verre d’eau");
 				setTemps_prep(2.0);
-				setNum_produit(14);
+				setNum_produit(16);
 				break;
 		}
 
