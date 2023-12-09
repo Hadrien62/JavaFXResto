@@ -3,3 +3,4 @@ b:b:12.0:Barman
 Coline:azerty:1200.0:Cuisinier
 HB:BJ:9.0:Barman
 aurelien:Piloufifa62:2000.0:Barman
+m:m:1.0:Serveur

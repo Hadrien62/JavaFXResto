@@ -23,7 +23,6 @@ import javafx.util.Duration;
 import javafx.scene.control.ListCell;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import javafx.scene.paint.Color;
 
 
 public class App extends Application {
@@ -864,7 +863,7 @@ public class App extends Application {
     
     //---------- Pepper Serveur® | Commander ----------//
     private void openOrderPanel(Employe employe) {
-    
+        Commande Current_Commande= new Commande(1001);
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
 	    ImageView backgroundOrder = new ImageView(new Image("images/BackgroundCommand.png"));
@@ -887,11 +886,12 @@ public class App extends Application {
        	validText.setLayoutY(560);
        		   
        	Button CommandButton = new Button("COMMANDER");
-       	CommandButton.setOnAction(new EventHandler<ActionEvent>() {
-       		public void handle(ActionEvent event) {
-       			validText.setText("✔ Commande envoyée");	
-       		}
-       	});
+        CommandButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Current_Commande.envoyerCommande();
+                validText.setText("✔ Commande envoyée");
+            }
+        });
        	CommandButton.setLayoutX(548);
        	CommandButton.setLayoutY(502);
 
@@ -899,13 +899,13 @@ public class App extends Application {
        	gridPane.setPadding(new Insets(10, 10, 10, 10));
        	gridPane.setVgap(10);
        	gridPane.setHgap(10);
-       	    
-       	String[] imagePaths = {"images/Burger.png","images/Burger.png","images/Burger.png","images/Soupe.png","images/Soupe.png","images/Soupe.png","images/Salade.png","images/Salade.png","images/Salade.png","images/Pizza.png","images/Pizza.png","images/Pizza.png","images/Eau.png","images/Jus.png","images/Citron.png","images/Cidre.png","images/Biere.png"};
-       	String[] productNames = {"Burger VG", "Burger CN", "Burger CL", "Soupe TM", "Soupe CP", "Soupe OG", "Salade CS","Salade NP", "Salade FR", "Pizza 4FR","Pizza FOR", "Pizza CAL", "Eau 1L", "Jus 33cl", "Citron 33cl", "Cidre 33cl", "Biere 50cl"};
-       	int[] prices = {12,14,15,7,8,10,12,15,18,13,16,18,1,4,5,8,10};	        
+
+        String[] imagePaths = {"images/Salade.png","images/Salade.png","images/Soupe.png","images/Soupe.png","images/Soupe.png","images/Burger.png","images/Burger.png","images/Burger.png","images/Pizza.png","images/Pizza.png","images/Pizza.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png","images/Eau.png"};
+        String[] productNames = {"Salade AT", "Salade ST", "Soupe OI", "Soupe TM", "Soupe CP", "Burger TS","Burger S", "Burger V", "Pizza FT","Pizza CP", "Pizza SA","Limonade 33cl","Cidre 33cl","Bière sans alcool 33cl","Jus 33cl", "Eau 1L"};
+        int[] prices = {9,9,8,8,8,15,15,15,12,12,12,4,5,5,1,0};
        	   
-       	for (int i = 0; i < 17; i++) {
-       		RectangleWithOrder rectangle = new RectangleWithOrder(productNames[i], prices[i],imagePaths[i]);
+       	for (int i = 0; i < 16; i++) {
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[i], prices[i],imagePaths[i],i,Current_Commande,Total);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
@@ -1082,7 +1082,7 @@ class RectangleWithProductInfo extends GridPane {
 
 //Commande plat rectangle
 class RectangleWithOrder extends GridPane {
-	public RectangleWithOrder(String productName,int prices,String imagePath) {
+    public RectangleWithOrder(String productName,int prices,String imagePath, int i, Commande Current_Commande, Text Total ) {
 		 ImageView imageView = new ImageView(new Image(imagePath));
 		 imageView.setFitWidth(80);
 		 imageView.setFitHeight(80);
@@ -1094,6 +1094,26 @@ class RectangleWithOrder extends GridPane {
 		 addImageView.setFitHeight(16);
 		 Button addButton = new Button("");
 		 addButton.setGraphic(addImageView);
+        addButton.setOnAction(e -> {
+
+            if (i <= 10 ){
+                Plats Plat_commande = new Plats(i+1);
+                Current_Commande.add_Plats(Plat_commande);
+            }
+            else{
+                Boisson Boisson_commande = new Boisson(i+1);
+                Current_Commande.add_Boissons(Boisson_commande);
+            }
+            System.out.println("Nombre de plats dans la liste : " + Current_Commande.Plats.size() + "Nombre de Boissons dans la liste : " + Current_Commande.Boissons.size());
+            for (Plats plat : Current_Commande.Plats) {
+                System.out.println(plat.getNom());
+            }
+            for (Boisson Boissons : Current_Commande.Boissons) {
+                System.out.println(Boissons.getNom());
+            }
+            Current_Commande.Calcule_Addition();
+            Total.setText(Current_Commande.Get_addition() + "€");
+        });
 		 HBox priceAndButtonBox = new HBox(10, priceText, addButton); 
 		 priceAndButtonBox.setAlignment(Pos.CENTER);
 		

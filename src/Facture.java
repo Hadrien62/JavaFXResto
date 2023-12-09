@@ -1,83 +1,63 @@
+import java.util.List;
 import java.io.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Facture {
-	private int numeroTable;
-	private double prix;
-	
-	public Facture(int numero, double prix) {
-		this.setNumeroTable(numero);
-		this.setPrix(prix);
-	}
 
-	public int getNumeroTable() {
-		return numeroTable;
-	}
+    int num_table;
+    double prix;
 
-	public void setNumeroTable(int numeroTable) {
-		this.numeroTable = numeroTable;
-	}
+    public Facture(int num_table, double prix) {
+        this.num_table = num_table;
+        this.prix = prix;
+    }
 
-	public double getPrix() {
-		return prix;
-	}
+    public void Creation_Facture(List<Plats> Plats, List<Boisson> Boissons) {
+        String cheminFichier = "Facture.txt";
 
-	public void setPrix(double prix) {
-		this.prix = prix;
-	}
-	
-	public void ajouterLigne(Produit produit) {
-		String nomFichier = "Facture.txt";
-        try {
-            File fichier = new File(nomFichier);
-            // Vérifie si le fichier n'existe pas
-            if (!fichier.exists()) {
-                // Crée le fichier s'il n'existe pas
-                fichier.createNewFile();
+
+        // Obtenez la date et l'heure actuelles
+        LocalDateTime maintenant = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        String dateHeure = maintenant.format(formatter);
+
+        String donnees = "Facture de la table :" + this.num_table + "\n";
+        donnees += "Date et heure : " + dateHeure + "\n";
+        if (!Plats.isEmpty()) {
+            donnees += "Plats:\n";
+            for (Plats plat : Plats) {
+                donnees += plat.getNom() + "   " + plat.getPrix() + " €\n";
             }
-            // Utilise un BufferedWriter pour écrire dans le fichier
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(fichier, true))) {
-                // Écriture de la ligne dans le fichier
-                writer.write(produit.toString()); // Assurez-vous que votre classe Produit a une méthode toString appropriée
-                // Ajout d'un saut de ligne pour la prochaine ligne (si nécessaire)
-                writer.newLine();
-                this.prix += produit.getPrix();
-                System.out.println("Ligne ajoutée avec succès.");
-            }
-        } catch (IOException e) {
-            System.err.println("Erreur lors de l'écriture dans le fichier : " + e.getMessage());
         }
-	}
-	
-	public void retirerLigne(Produit produit) {
-		String nomFichier = "Facture.txt";
-        String produitString = produit.toString(); // Assurez-vous que votre classe Produit a une méthode toString appropriée
+        if (!Boissons.isEmpty()) {
+            donnees += "Boissons:\n";
+            for (Boisson boisson : Boissons) {
+                donnees += boisson.getNom() + "   " + boisson.getPrix() + "€\n";
+            }
+        }
+
+        donnees += "Montant à payer :  " + this.prix + "€";
+        donnees += "\nFin de la Facture de la table :  " + this.num_table + "\n\n";
+
         try {
-            File fichier = new File(nomFichier);
-            File fichierTemp = new File("temp.txt");
-            // Vérifie si le fichier existe
-            if (!fichier.exists()) {
-                System.out.println("Le fichier n'existe pas.");
-                return;
-            }
-            try (BufferedReader reader = new BufferedReader(new FileReader(fichier));
-                 BufferedWriter writer = new BufferedWriter(new FileWriter(fichierTemp))) {
-                String ligneActuelle;
-                // Parcours du fichier
-                while ((ligneActuelle = reader.readLine()) != null) {
-                    // Si la ligne ne correspond pas au produit à retirer, l'écrire dans le fichier temporaire
-                    if (!ligneActuelle.equals(produitString)) {
-                        writer.write(ligneActuelle);
-                        writer.newLine();
-                    }
-                }
-            }
-            // Supprimer l'ancien fichier
-            fichier.delete();
-            // Renommer le fichier temporaire pour prendre la place de l'ancien fichier
-            fichierTemp.renameTo(fichier);
-            this.prix -= produit.getPrix();
-            System.out.println("Ligne retirée avec succès.");
+            // Créez un objet FileWriter avec le chemin du fichier en mode ajout
+            FileWriter fileWriter = new FileWriter(cheminFichier, true);
+
+            // Créez un objet BufferedWriter pour écrire dans le fichier
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // Écrivez les données dans le fichier
+            bufferedWriter.write(donnees);
+
+            // Fermez le BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("Les données ont été ajoutées avec succès dans le fichier.");
+
         } catch (IOException e) {
-            System.err.println("Erreur lors de la manipulation du fichier : " + e.getMessage());
+            System.err.println("Une erreur s'est produite lors de l'écriture dans le fichier : " + e.getMessage());
         }
     }
+
 }
