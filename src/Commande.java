@@ -44,20 +44,17 @@ public class Commande extends Table {
         String cheminFichier = "commande.txt";
         String donnees = "";
         // Les données à écrire dans le fichier
+        donnees += this.num_table + ":";
         for (Plats plat : this.Plats) {
-            donnees += plat.getNum_produit() + "\n";
+            donnees += plat.getNum_produit() + ":";
         }
         for (Boisson boisson : this.Boissons) {
-            donnees += boisson.getNum_produit() + "\n";
+            donnees += boisson.getNum_produit() + ":";
         }
-        try {
-            // Crée un objet FileWriter avec le chemin du fichier
-            FileWriter fileWriter = new FileWriter(cheminFichier);
-            // Crée un objet BufferedWriter pour écrire dans le fichier
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))) { // Ecriture du DATA
             // Écrire les données dans le fichier
-            bufferedWriter.write(donnees);
-            bufferedWriter.close();
+            writer.write(donnees);
+            writer.newLine();
             System.out.println("Les données ont été écrites avec succès dans le fichier.");
         } catch (IOException e) {
             System.err.println("Une erreur s'est produite lors de l'écriture dans le fichier : " + e.getMessage());
