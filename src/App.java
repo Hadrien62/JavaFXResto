@@ -972,15 +972,19 @@ public class App extends Application {
         int[] prices = {9,9,8,8,8,15,15,15,12,12,12,4,5,5,1,0};
        	   
        	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()], prices[menu_actuel.getLst_plats().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()],i,Current_Commande,Total);
+               System.out.println(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()]);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()-1], prices[menu_actuel.getLst_plats().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()-1],i,Current_Commande,Total);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
         for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()],i,Current_Commande,Total);
-            gridPane.add(rectangle, i % 2, i / 2);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i,Current_Commande,Total);
+            gridPane.add(rectangle, (i+menu_actuel.getLst_plats().size()) % 2, (i+menu_actuel.getLst_plats().size())  / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
+        RectangleWithOrder rectangle = new RectangleWithOrder(productNames[15], prices[15],imagePaths[15],16 ,Current_Commande,Total);
+        gridPane.add(rectangle, size_menu % 2, size_menu  / 2);
+        rectangle.getStyleClass().add("grid-cell");
        	gridPane.setPrefSize(230, 450);
        	    
        	ScrollPane scrollPane = new ScrollPane(gridPane);
