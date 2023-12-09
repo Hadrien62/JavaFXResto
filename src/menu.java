@@ -64,12 +64,13 @@ public class menu {
 			}
 			
 		}
-		for(int i = 10; i<=13; i++) {
-			Boisson tmp_boisson = new Boisson(i);
-			if(tmp_stock.check_ingredient(i,1)){
-				tmp_lst_boissons.add(tmp_boisson);
+		for(int i = 10; i<=14; i++) {
+			Boisson tmp_boisson = new Boisson(i+2);
+			if(i < 14) {
+				if (tmp_stock.check_ingredient(i, 1)) {
+					tmp_lst_boissons.add(tmp_boisson);
+				}
 			}
-			
 		}
 		
 		this.lst_boissons = tmp_lst_boissons;

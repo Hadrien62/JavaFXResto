@@ -30,7 +30,7 @@ public class App extends Application {
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
-    private ListeCourse tmp_liste = new ListeCourse();
+    private final ListeCourse tmp_liste = new ListeCourse();
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private Stage App;
 
@@ -185,66 +185,21 @@ public class App extends Application {
         Total.setLayoutY(462);
         ListView<String> stocklistView = new ListView<>();
         int taille_lst = tmp_liste.get_liste_course_quanitite().length;
+        if(tmp_liste != null) {
+            for (int i = 0; i < taille_lst; i++) {
 
-        for (int i =0; i<taille_lst; i++) {
-
-            String stockInfo= tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
-            stocklistView.getItems().add(stockInfo);
+                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
+                stocklistView.getItems().add(stockInfo);
+            }
         }
-
         stocklistView.setLayoutX(540);
         stocklistView.setLayoutY(116);
         //---------- Cellule Personnalisée ----------//
-        stocklistView.setCellFactory(param -> new ListCell<>() {
-            //---------- Méthode pour Supprimer un membre ----------//
-            private final Button deleteButton = new Button();{
 
-                // Image Poubelle Supprimer
-                ImageView deleteImageView = new ImageView(new Image("images/trash.png"));
-                deleteImageView.setFitWidth(16);
-                deleteImageView.setFitHeight(16);
-
-                // Configurez le bouton avec l'image
-                deleteButton.setGraphic(deleteImageView);
-            }
 
             //---------- Méthode Mise à jour de la cellule ----------//
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                }
-                else {
-                    int index = getIndex() + 1;
-                    HBox content = new HBox();
-                    VBox Button = new VBox();
-                    Text indexText = new Text("#" + index);
 
-                    String[] userInfoArray = item.split("\n");
-                    Label usernameLabel = new Label(userInfoArray[0]);
-                    Label roleLabel = new Label(userInfoArray[1]);
-
-                    VBox labelsVBox = new VBox();
-                    Button.setStyle("-fx-padding: 5 5 0 5;");
-                    labelsVBox.setStyle("-fx-padding: 5 0 0;");
-                    labelsVBox.setSpacing(-5);
-
-                    labelsVBox.getChildren().addAll(usernameLabel, roleLabel);
-                    Button.getChildren().addAll(deleteButton);
-                    content.getChildren().addAll(Button,indexText,labelsVBox);
-                    setGraphic(content);
-
-                    // Style
-                    indexText.getStyleClass().add("index");
-                    labelsVBox.getStyleClass().add("box");
-                    usernameLabel.getStyleClass().add("username");
-                    roleLabel.getStyleClass().add("role");
-                    deleteButton.getStyleClass().add("delete-button");
-                }
-            }
-        });
 
 
 
@@ -281,7 +236,7 @@ public class App extends Application {
 
         for (int i = 0; i < 13; i++) {
             RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-                    quantities[i], imagePaths[i],tmp_liste,i+1,App);
+                    quantities[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App);
             gridPane.add(rectangle, i % 2, i / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
@@ -295,7 +250,7 @@ public class App extends Application {
 
         // Pane Components
         Pane StockPane  = new Pane();
-        StockPane.getChildren().addAll( backgroundStock, BackButton, Date,stocklistView, Total,validText, CommandButton, gridPane,scrollPane);
+        StockPane.getChildren().addAll( backgroundStock, BackButton, Date,stocklistView, Total,validText, CommandButton, gridPane,scrollPane );
 
         // Style
         scrollPane.getStyleClass().add("grid");
@@ -306,10 +261,11 @@ public class App extends Application {
         CommandButton.getStyleClass().add("stock-button");
         BackButton.getStyleClass().add("backStock-button");
 
+
         StockPane.getStylesheets().add("login.css");
         App.setScene(new Scene(StockPane, 800, 600));
     }
-    
+
     //---------- Pepper Manager® | Recrutement ----------//
     private void openRecruitmentPanel() {
     	
@@ -1161,7 +1117,7 @@ public class App extends Application {
 
 // Stock rectangle
 class RectangleWithProductInfo extends GridPane {
-    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, int  num_ingredient, Stage stage) {
+    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, ListView<String> stocklistView,ListeCourse tmp_liste  ,int  num_ingredient, Stage stage) {
         ImageView imageView = new ImageView(new Image(imagePath));
         imageView.setFitWidth(80);
         imageView.setFitHeight(80);
@@ -1180,6 +1136,7 @@ class RectangleWithProductInfo extends GridPane {
         addButton.setOnAction(e -> {
             tmp_liste_course.add_quantities(num_ingredient);
             stage.getScene().getRoot().requestFocus();
+            updateItemStock(stocklistView,tmp_liste );
         });
         HBox priceAndButtonBox = new HBox(10, priceText, addButton);
         priceAndButtonBox.setAlignment(Pos.CENTER);
@@ -1198,6 +1155,18 @@ class RectangleWithProductInfo extends GridPane {
         priceText.getStyleClass().add("name-text");
         addButton.getStyleClass().add("add-button");
     }
+    private void updateItemStock(ListView<String> stocklistView,ListeCourse tmp_liste) {
+        int taille_lst = tmp_liste.get_liste_course_quanitite().length;
+
+        if(tmp_liste != null) {
+            for (int i = 0; i < taille_lst; i++) {
+
+                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
+                stocklistView.getItems().add(stockInfo);
+            }
+        }
+    }
+
 }
 
 //Commande plat rectangle
