@@ -118,16 +118,17 @@ public class Plats extends Produit {
 	public void setIngredients(Map<Integer,Integer> ingredients) {
 		this.ingredients = ingredients;
 	}
-	
-	public void removestock(stock tmp_stock) {
-		
+
+	public void removestock(stock tmp_stock, ListeCourse tmp_liste) {
+
 		for(int i=1; i<=13 ;i++) {
 			if (this.ingredients.containsKey(i)) {
 				int quantite_actuelle = ingredients.get(i);
 				tmp_stock.remove_quantities(i, quantite_actuelle);
+				tmp_liste.add_quantities_automatique(i, quantite_actuelle);
 			}
 		}
-		
+
 	}
 		
 	

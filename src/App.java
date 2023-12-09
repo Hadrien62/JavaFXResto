@@ -30,7 +30,7 @@ public class App extends Application {
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
-
+    private ListeCourse tmp_liste = new ListeCourse();
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private Stage App;
 
@@ -154,77 +154,150 @@ public class App extends Application {
         ManagerPane.getStylesheets().add("login.css"); 
         App.setScene(new Scene(ManagerPane, 800, 600));
     }
-    
+
     //---------- Pepper Manager® | Gestion des Stocks ----------//
     private void openStockPanel() {
-    	
-    // Setup
-        App.setTitle("Pepper Manager® | Gestion des Stocks "); 
+        stock tmp_stock = new stock();
+
+        // Setup
+        App.setTitle("Pepper Manager® | Gestion des Stocks ");
         ImageView backgroundStock = new ImageView(new Image("images/BackgroundStock.png"));
         backgroundStock.fitWidthProperty().bind(App.widthProperty());
-        backgroundStock.fitHeightProperty().bind(App.heightProperty()); 
+        backgroundStock.fitHeightProperty().bind(App.heightProperty());
 
-    // Pannel à Gauche
+        // Pannel à Gauche
         Button BackButton = new Button("Retour");
         BackButton.setOnAction(e -> openManagerPanel());
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
-    // Pannel à Droite
+        // Pannel à Droite
         Label Date = new Label();
-		Date.setLayoutX(685);
-		Date.setLayoutY(65);
+        Date.setLayoutX(685);
+        Date.setLayoutY(65);
         LocalDate currentDate = LocalDate.now(); // Récupérer la date actuelle
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String formattedDate = currentDate.format(formatter);
         Date.setText(formattedDate);
-        
-		Text Total = new Text("000 €");
-		Total.setLayoutX(695);
-		Total.setLayoutY(462);
-		
-		Text validText = new Text();
-		validText.setLayoutX(548);
-		validText.setLayoutY(560);
-		   
-		Button CommandButton = new Button("COMMANDER");
-		CommandButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-		       	validText.setText("✔ Stock remplis");
-			}
-	    });
-		CommandButton.setLayoutX(548);
-		CommandButton.setLayoutY(502);
 
-		GridPane gridPane = new GridPane();
-	    gridPane.setPadding(new Insets(10, 10, 10, 10));
-	    gridPane.setVgap(10);
-	    gridPane.setHgap(10);
-	    
-	    String[] imagePaths = {"images/Beef.png","images/Bread.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Pan.png","images/Salad.png","images/Sausage.png","images/Tomato.png","images/Eau.png","images/Jus.png","images/Citron.png","images/Cidre.png","images/Biere.png"};
-	    String[] productNames = {"Boeuf", "Pate", "Conte", "Oignon", "Enoki", "Pain", "Salade","Boudin", "Tomate", "Eau", "Jus", "Citron", "Cidre", "Biere"};
-	    int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};	        
-	    int[] quantities = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-	   
-	    for (int i = 0; i < 14; i++) {
-	    	RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-	        quantities[i], imagePaths[i]);
-	        gridPane.add(rectangle, i % 2, i / 2);
-	        rectangle.getStyleClass().add("grid-cell");
-	    }
-	    gridPane.setPrefSize(230, 450);
-	    
-	    ScrollPane scrollPane = new ScrollPane(gridPane);
-	    scrollPane.setLayoutX(265);
-	    scrollPane.setLayoutY(105);
-	    scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
-	    scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); 
+        Text Total = new Text("000 €");
+        Total.setLayoutX(695);
+        Total.setLayoutY(462);
+        ListView<String> stocklistView = new ListView<>();
+        int taille_lst = tmp_liste.get_liste_course_quanitite().length;
 
-     // Pane Components
+        for (int i =0; i<taille_lst; i++) {
+
+            String stockInfo= tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
+            stocklistView.getItems().add(stockInfo);
+        }
+
+        stocklistView.setLayoutX(540);
+        stocklistView.setLayoutY(116);
+        //---------- Cellule Personnalisée ----------//
+        stocklistView.setCellFactory(param -> new ListCell<>() {
+            //---------- Méthode pour Supprimer un membre ----------//
+            private final Button deleteButton = new Button();{
+
+                // Image Poubelle Supprimer
+                ImageView deleteImageView = new ImageView(new Image("images/trash.png"));
+                deleteImageView.setFitWidth(16);
+                deleteImageView.setFitHeight(16);
+
+                // Configurez le bouton avec l'image
+                deleteButton.setGraphic(deleteImageView);
+            }
+
+            //---------- Méthode Mise à jour de la cellule ----------//
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                }
+                else {
+                    int index = getIndex() + 1;
+                    HBox content = new HBox();
+                    VBox Button = new VBox();
+                    Text indexText = new Text("#" + index);
+
+                    String[] userInfoArray = item.split("\n");
+                    Label usernameLabel = new Label(userInfoArray[0]);
+                    Label roleLabel = new Label(userInfoArray[1]);
+
+                    VBox labelsVBox = new VBox();
+                    Button.setStyle("-fx-padding: 5 5 0 5;");
+                    labelsVBox.setStyle("-fx-padding: 5 0 0;");
+                    labelsVBox.setSpacing(-5);
+
+                    labelsVBox.getChildren().addAll(usernameLabel, roleLabel);
+                    Button.getChildren().addAll(deleteButton);
+                    content.getChildren().addAll(Button,indexText,labelsVBox);
+                    setGraphic(content);
+
+                    // Style
+                    indexText.getStyleClass().add("index");
+                    labelsVBox.getStyleClass().add("box");
+                    usernameLabel.getStyleClass().add("username");
+                    roleLabel.getStyleClass().add("role");
+                    deleteButton.getStyleClass().add("delete-button");
+                }
+            }
+        });
+
+
+
+        // Style
+        BackButton.getStyleClass().add("backRecrutement-button");
+        stocklistView.getStyleClass().add("list");
+
+        Text validText = new Text();
+        validText.setLayoutX(548);
+        validText.setLayoutY(560);
+
+
+        Button CommandButton = new Button("COMMANDER");
+        CommandButton.setOnAction(new EventHandler<ActionEvent>() {
+
+            public void handle(ActionEvent event) {
+                validText.setText("✔ Stock remplis");
+                tmp_liste.confirme_liste_course(tmp_stock);
+            }
+        });
+        CommandButton.setLayoutX(548);
+        CommandButton.setLayoutY(502);
+
+        GridPane gridPane = new GridPane();
+        gridPane.setPadding(new Insets(10, 10, 10, 10));
+        gridPane.setVgap(10);
+        gridPane.setHgap(10);
+
+        String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
+        String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
+        int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};
+        int[] quantities = tmp_stock.get_lst_quantities();
+
+
+        for (int i = 0; i < 13; i++) {
+            RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
+                    quantities[i], imagePaths[i],tmp_liste,i+1,App);
+            gridPane.add(rectangle, i % 2, i / 2);
+            rectangle.getStyleClass().add("grid-cell");
+        }
+        gridPane.setPrefSize(230, 450);
+
+        ScrollPane scrollPane = new ScrollPane(gridPane);
+        scrollPane.setLayoutX(265);
+        scrollPane.setLayoutY(105);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
+        // Pane Components
         Pane StockPane  = new Pane();
-        StockPane.getChildren().addAll( backgroundStock, BackButton, Date, Total,validText, CommandButton, gridPane,scrollPane);    
+        StockPane.getChildren().addAll( backgroundStock, BackButton, Date,stocklistView, Total,validText, CommandButton, gridPane,scrollPane);
 
-     // Style
+        // Style
         scrollPane.getStyleClass().add("grid");
         gridPane.getStyleClass().add("grid");
         Date.getStyleClass().add("date");
@@ -232,9 +305,9 @@ public class App extends Application {
         validText.getStyleClass().add("valid");
         CommandButton.getStyleClass().add("stock-button");
         BackButton.getStyleClass().add("backStock-button");
-        
-        StockPane.getStylesheets().add("login.css"); 
-        App.setScene(new Scene(StockPane, 800, 600)); 
+
+        StockPane.getStylesheets().add("login.css");
+        App.setScene(new Scene(StockPane, 800, 600));
     }
     
     //---------- Pepper Manager® | Recrutement ----------//
@@ -670,101 +743,85 @@ public class App extends Application {
 
     //---------- Pepper Manager® | Statistique ----------//
     private void openStatisticPanel() {
-    
-    // Setup
-        App.setTitle("Pepper Manager® | Statistique"); 
+
+        // Setup
+        Stat tmp_stat  = new Stat();
+        App.setTitle("Pepper Manager® | Statistique");
         ImageView backgroundStatistic = new ImageView(new Image("images/BackgroundStatistic.png"));
         backgroundStatistic.fitWidthProperty().bind(App.widthProperty());
-        backgroundStatistic.fitHeightProperty().bind(App.heightProperty()); 
+        backgroundStatistic.fitHeightProperty().bind(App.heightProperty());
 
-    // Pannel à Gauche
-       Button BackButton = new Button("Retour");
-       BackButton.setOnAction(e -> openManagerPanel());
-       BackButton.setLayoutX(50);
-       BackButton.setLayoutY(55);
-       
-       Label Time = new Label();
-       Time.setLayoutX(325);
-       Time.setLayoutY(107);
+        // Pannel à Gauche
+        Button BackButton = new Button("Retour");
+        BackButton.setOnAction(e -> openManagerPanel());
+        BackButton.setLayoutX(50);
+        BackButton.setLayoutY(55);
 
-       Timeline timeline = new Timeline(
-               new KeyFrame(Duration.seconds(1), event -> {
-                   LocalDateTime currentDateTime = LocalDateTime.now();
-                   DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
-                   String formattedDateTime = currentDateTime.format(formatter);
-                   Time.setText(formattedDateTime);
-               })
-       );
+        Label Time = new Label();
+        Time.setLayoutX(325);
+        Time.setLayoutY(111);
 
-       timeline.setCycleCount(Timeline.INDEFINITE);
-       timeline.play();
-       
-	   Text PlatDay = new Text("99");
-	   PlatDay.setLayoutX(300);
-	   PlatDay.setLayoutY(330);
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    LocalDateTime currentDateTime = LocalDateTime.now();
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss dd/MM/yyyy");
+                    String formattedDateTime = currentDateTime.format(formatter);
+                    Time.setText(formattedDateTime);
+                })
+        );
 
-	   Text CocktailDay = new Text("99");
-	   CocktailDay.setLayoutX(405);
-	   CocktailDay.setLayoutY(330);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
 
-	   Text CoinDay = new Text("999");
-	   CoinDay.setLayoutX(292);
-	   CoinDay.setLayoutY(185);
+        Text validText = new Text();
+        validText.setLayoutX(280);
+        validText.setLayoutY(490);
 
-	   Text ClientDay = new Text("99");
-	   ClientDay.setLayoutX(405);
-	   ClientDay.setLayoutY(185);
-	   
-	   Text validText = new Text();
-	   validText.setLayoutX(278);
-	   validText.setLayoutY(490);
-	   
-	   Button PrintButton = new Button("IMPRIMER COURSE");
-	   PrintButton.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-		       	validText.setText("✔ Liste de Course Imprimée");	
-			}
-	   });
-	   PrintButton.setLayoutX(278);
-	   PrintButton.setLayoutY(425);
+        Button PrintButton = new Button("IMPRIMER COURSE");
+        PrintButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                tmp_liste.ecrire_Map_Fichier_automatique("ListeAutomatique.txt");
 
-	   Text PlatTotal = new Text("99");
-	   PlatTotal.setLayoutX(578);
-	   PlatTotal.setLayoutY(330);
+                validText.setText("✔ Liste de Course Imprimée");
+            }
+        });
+        PrintButton.setLayoutX(280);
+        PrintButton.setLayoutY(425);
 
-	   Text CocktailTotal = new Text("99");
-	   CocktailTotal.setLayoutX(678);
-	   CocktailTotal.setLayoutY(330);
+        Text PlatTotal = new Text(""+tmp_stat.getNb_plat_vendu());
+        PlatTotal.setLayoutX(578);
+        PlatTotal.setLayoutY(330);
 
-	   Text CoinTotal = new Text("999");
-	   CoinTotal.setLayoutX(563);
-	   CoinTotal.setLayoutY(185);
+        Text CocktailTotal = new Text(""+tmp_stat.getNb_cocktail_vendu());
+        CocktailTotal.setLayoutX(678);
+        CocktailTotal.setLayoutY(330);
 
-	   Text ClientTotal = new Text("99");
-	   ClientTotal.setLayoutX(678);
-	   ClientTotal.setLayoutY(185);
-	   
-       // Pane Components
-       Pane StatisticPane = new Pane();
-       StatisticPane.getChildren().addAll( backgroundStatistic, BackButton, Time,PlatDay, CocktailDay, CoinDay, ClientDay,validText, PrintButton, PlatTotal,CocktailTotal, CoinTotal, ClientTotal );  
+        Text CoinTotal = new Text(""+tmp_stat.getChiffre_d_affaire());
+        CoinTotal.setLayoutX(563);
+        CoinTotal.setLayoutY(185);
 
-       // Style
-       PlatDay.getStyleClass().add("statistique");
-       CocktailDay.getStyleClass().add("statistique");
-       CoinDay.getStyleClass().add("statistique");
-       ClientDay.getStyleClass().add("statistique");
-       PlatTotal.getStyleClass().add("statistique");
-       CocktailTotal.getStyleClass().add("statistique");
-       CoinTotal.getStyleClass().add("statistique");
-       ClientTotal.getStyleClass().add("statistique");
-       BackButton.getStyleClass().add("backStatistic-button");
-       PrintButton.getStyleClass().add("print-button");
-       validText.getStyleClass().add("valid");
-            
-       StatisticPane.getStylesheets().add("login.css");        
-       App.setScene(new Scene(StatisticPane, 800, 600));
+        Text ClientTotal = new Text(""+tmp_stat.getNb_client());
+        ClientTotal.setLayoutX(678);
+        ClientTotal.setLayoutY(185);
+
+        // Pane Components
+        Pane StatisticPane = new Pane();
+        StatisticPane.getChildren().addAll( backgroundStatistic, BackButton, Time,validText, PrintButton, PlatTotal,CocktailTotal, CoinTotal, ClientTotal );
+
+        // Style
+        PlatTotal.getStyleClass().add("statistique");
+        CocktailTotal.getStyleClass().add("statistique");
+        CoinTotal.getStyleClass().add("statistique");
+        ClientTotal.getStyleClass().add("statistique");
+        BackButton.getStyleClass().add("backStatistic-button");
+        PrintButton.getStyleClass().add("print-button");
+        validText.getStyleClass().add("valid");
+
+        StatisticPane.getStylesheets().add("login.css");
+        App.setScene(new Scene(StatisticPane, 800, 600));
     }
-    
+
+
     //---------- Pepper Barman® | Préparation ----------//
     private void openBartenderPanel(Employe employe) {
     
@@ -1045,39 +1102,43 @@ public class App extends Application {
 
 // Stock rectangle
 class RectangleWithProductInfo extends GridPane {
-	public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath) {
-	    ImageView imageView = new ImageView(new Image(imagePath));
-	    imageView.setFitWidth(80);
-	    imageView.setFitHeight(80);
-	    
-	    Text nameText = new Text(productName);
-	    Text quantityText = new Text("" + quantity);
-	    HBox nameAndQuantityBox = new HBox(10, nameText, quantityText); 
-	    nameAndQuantityBox.setAlignment(Pos.CENTER);
-	
-	    Text priceText = new Text(prices + "€");
-	    ImageView addImageView = new ImageView(new Image("images/add.png"));
-	    addImageView.setFitWidth(16); 
-	    addImageView.setFitHeight(16);
-	    Button addButton = new Button("");
-	    addButton.setGraphic(addImageView);
-	    HBox priceAndButtonBox = new HBox(10, priceText, addButton); 
-	    priceAndButtonBox.setAlignment(Pos.CENTER);
-	
-	    // Pane Components
-	    this.add(imageView, 1, 0);
-	    this.add(nameAndQuantityBox, 1, 1);
-	    this.add(priceAndButtonBox, 1, 2);
-	    this.setPadding(new Insets(7));
-	    this.setVgap(5);
-	    this.setHgap(5);     
-	
-	    // Style
-	    quantityText.getStyleClass().add("name-text");
-	    nameText.getStyleClass().add("name-text");
-	    priceText.getStyleClass().add("name-text");
-	    addButton.getStyleClass().add("add-button");
-	}
+    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, int  num_ingredient, Stage stage) {
+        ImageView imageView = new ImageView(new Image(imagePath));
+        imageView.setFitWidth(80);
+        imageView.setFitHeight(80);
+
+        Text nameText = new Text(productName);
+        Text quantityText = new Text("" + quantity);
+        HBox nameAndQuantityBox = new HBox(10, nameText, quantityText);
+        nameAndQuantityBox.setAlignment(Pos.CENTER);
+
+        Text priceText = new Text(prices + "€");
+        ImageView addImageView = new ImageView(new Image("images/add.png"));
+        addImageView.setFitWidth(16);
+        addImageView.setFitHeight(16);
+        Button addButton = new Button("");
+        addButton.setGraphic(addImageView);
+        addButton.setOnAction(e -> {
+            tmp_liste_course.add_quantities(num_ingredient);
+            stage.getScene().getRoot().requestFocus();
+        });
+        HBox priceAndButtonBox = new HBox(10, priceText, addButton);
+        priceAndButtonBox.setAlignment(Pos.CENTER);
+
+        // Pane Components
+        this.add(imageView, 1, 0);
+        this.add(nameAndQuantityBox, 1, 1);
+        this.add(priceAndButtonBox, 1, 2);
+        this.setPadding(new Insets(7));
+        this.setVgap(5);
+        this.setHgap(5);
+
+        // Style
+        quantityText.getStyleClass().add("name-text");
+        nameText.getStyleClass().add("name-text");
+        priceText.getStyleClass().add("name-text");
+        addButton.getStyleClass().add("add-button");
+    }
 }
 
 //Commande plat rectangle
