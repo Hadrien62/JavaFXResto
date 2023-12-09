@@ -58,4 +58,8 @@ public class Boisson extends Produit {
 
 
 	}
+	public void removestock(stock tmp_stock, ListeCourse tmp_liste) {
+		tmp_stock.remove_quantities(num_ingredient_boisson, 1);
+		tmp_liste.add_quantities_automatique(num_ingredient_boisson, 1);
+	}
 }

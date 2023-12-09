@@ -29,9 +29,13 @@ public class App extends Application {
 
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
+
+    private static final String DATA_Commande = "commande.txt"; // DATA commande
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
     private final ListeCourse tmp_liste = new ListeCourse();
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
+    private final List<Boisson> listeCommandeBoissons = new ArrayList<>();// Liste des boissons
+    private final List<Plats> listeCommandePlats = new ArrayList<>();// Liste des plats
     private Stage App;
 
 	//---------- Pepper® | Se Connecter ----------//
@@ -793,15 +797,44 @@ public class App extends Application {
        BackButton.setLayoutX(50);
        BackButton.setLayoutY(55);
 
+        ListView<String> listEnPrep = new ListView<>();
+        listEnPrep.getStyleClass().add("list2");
+        listEnPrep.setCellFactory(param -> createCustomListCell());
+        loadCommandeDataBoisson();
+        for (Boisson boisson : listeCommandeBoissons) {
+            String boissonInfo = boisson.getNom() + "\n" + boisson.getTemps_prep();
+            listEnPrep.getItems().add(boissonInfo);
+
+        }
+        listEnPrep.setLayoutX(260);
+        listEnPrep.setLayoutY(136);
+
     // Pane Components
         Pane BartenderPane   = new Pane();
-        BartenderPane.getChildren().addAll( backgroundBartender, BackButton);    
+        BartenderPane.getChildren().addAll( backgroundBartender, BackButton,listEnPrep);
 
     // Style
         BackButton.getStyleClass().add("backBarman-button");
                    
         BartenderPane.getStylesheets().add("login.css");        
         App.setScene(new Scene(BartenderPane, 800, 600));    
+    }
+    private void loadCommandeDataBoisson() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(DATA_Commande))) { // Lecture du DATA
+            String Separator;
+            while ((Separator = reader.readLine()) != null) {
+                String[] parts = Separator.split(":"); // Séparer les informations
+                String numTable = parts[0];
+                for(int i = 1;i<parts.length;i++){ // Vérifier le bon format (4 parties) et Récupérer les informations de chaque partie
+                    if(Integer.parseInt(parts[i]) > 11){
+                        listeCommandeBoissons.add(new Boisson(Integer.parseInt(parts[i])));
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Impossible de charger les données des employés.");
+        }
     }
     
     //---------- Pepper Cuisinier® | Préparation ----------//
