@@ -549,7 +549,7 @@ public class App extends Application {
 
         // Assemblage du panneau avec l'arrière-plan et les composants
         Pane PlanningPane = new Pane();
-        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,AddText,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe);
+        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,AddText,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe,validText);
         BackButton.getStyleClass().add("backRecrutement-button");
         selectButton.getStyleClass().add("stock-button");
         AddText.getStyleClass().add("valid");
