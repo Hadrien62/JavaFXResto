@@ -5,12 +5,14 @@ public abstract class Produit {
 	private String nom;
 	private int prix;
 	private Double temps_prep;
-	
+
+	private int num_produit;
 	
 	public Produit() {
 		this.nom = "";
 		this.temps_prep = 0.0;
 		this.prix = 0;
+		this.num_produit = 20;
 	}
 	public String getNom() {
 		return nom;
@@ -37,6 +39,11 @@ public abstract class Produit {
 	}
 
 
+	public int getNum_produit() {
+		return num_produit;
+	}
 
-
+	public void setNum_produit(int num_produit) {
+		this.num_produit = num_produit;
+	}
 }

@@ -31,30 +31,35 @@ public class Plats extends Produit {
 			setPrix(9);
 			setNom("salades avec tomates");
 			setTemps_prep(10.0);
+			num_plat = 1;
 			break;
 		case 2:
 			ingredients.put(7, 1);
 			setPrix(9);
 			setNom("salades sans tomates");
 			setTemps_prep(10.0);
+			num_plat = 2;
 			break;
 		case 3:
 			ingredients.put(5, 3);
 			setPrix(8);
 			setNom("potages oignon");
 			setTemps_prep(12.0);
+			num_plat = 3;
 			break;
 		case 4:
 			ingredients.put(1, 3);
 			setPrix(8);
 			setNom("potages tomates");
 			setTemps_prep(12.0);
+			num_plat = 3;
 			break;
 		case 5:
 			ingredients.put(6, 3);
 			setPrix(8);
 			setNom("potages champignon");
 			setTemps_prep(12.0);
+			num_plat = 4;
 			break;
 		case 6:
 			ingredients.put(3, 1);
@@ -64,6 +69,7 @@ public class Plats extends Produit {
 			setPrix(15);
 			setNom("burger tomate, salades");
 			setTemps_prep(16.0);
+			num_plat = 6;
 			break;
 		case 7:
 			ingredients.put(3, 1);
@@ -72,6 +78,7 @@ public class Plats extends Produit {
 			setPrix(15);
 			setNom("burger salade");
 			setTemps_prep(16.0);
+			num_plat = 7;
 			break;
 		case 8:
 			ingredients.put(3, 1);
@@ -79,6 +86,7 @@ public class Plats extends Produit {
 			setPrix(15);
 			setNom("burger que viande");
 			setTemps_prep(14.0);
+			num_plat = 8;
 			break;
 		case 9:
 			ingredients.put(9, 1);
@@ -86,7 +94,8 @@ public class Plats extends Produit {
 			ingredients.put(4, 1);
 			setPrix(12);
 			setNom("pizza tomate fromage");
-			setTemps_prep(20.0);
+
+			num_plat = 9;
 			break;
 		case 10:
 			ingredients.put(9, 1);
@@ -96,6 +105,7 @@ public class Plats extends Produit {
 			setPrix(12);
 			setNom("pizza champignon");
 			setTemps_prep(21.0);
+			num_plat = 10;
 			break;
 		case 11:
 			ingredients.put(9, 1);
@@ -105,6 +115,7 @@ public class Plats extends Produit {
 			setPrix(12);
 			setNom("pizza saucisse");
 			setTemps_prep(22.0);
+			num_plat = 11;
 			break;
 		default:
 			System.out.println("Plat non reconnu");
