@@ -45,11 +45,10 @@ public class Commande extends Table {
         String donnees = "";
         // Les données à écrire dans le fichier
         for (Plats plat : this.Plats) {
-            donnees += plat.getNom() + "\n";
+            donnees += plat.getNum_produit() + "\n";
         }
-        donnees += "Boissons:\n";
         for (Boisson boisson : this.Boissons) {
-            donnees += boisson.getNom() + "\n";
+            donnees += boisson.getNum_produit() + "\n";
         }
         try {
             // Crée un objet FileWriter avec le chemin du fichier
