@@ -1017,11 +1017,11 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
-        GridPane Table1 = createReusableGridPane("Paul", "8", employe);
+        GridPane Table1 = createReusableGridPane("Hadrien", "0", employe);
         Table1.setLayoutX(50);
         Table1.setLayoutY(100);
 
-        GridPane Table2 = createReusableGridPane("Paul", "8", employe);
+        GridPane Table2 = createReusableGridPane("Matt", "0", employe);
         Table2.setLayoutX(50);
         Table2.setLayoutY(300);
 
@@ -1058,22 +1058,33 @@ public class App extends Application {
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
             if (isNumeric(userInput)) {
+                System.out.println(userInput);
                 int number = Integer.parseInt(userInput);
-                if (number >= 1 && number <= 10) {
+                if (number >= 1 && number <= 20) {
+                    // Mettre à jour le texte existant
+                    ClientText.setText("Client: " + InputClient.getText());
+
+                    // Supprimer l'ancien champ de texte et le bouton
                     gridPaneClient.getChildren().removeAll(InputClient, ButtonClient);
+
+                    // Ajouter de nouveaux éléments
                     Button paymentButton = new Button("Paiement");
                     gridPaneClient.add(paymentButton, 0, 3);
                     paymentButton.setOnAction(e1 -> openPayementPanel(employe));
+
                     Button serviceButton = new Button("Service");
                     gridPaneClient.add(serviceButton, 1, 3);
+
                     Button orderButton = new Button("Order");
                     gridPaneClient.add(orderButton, 2, 3);
                     orderButton.setOnAction(e1 -> openOrderPanel(employe));
                 }
             }
         });
+
         return gridPaneClient;
     }
+
 
     private boolean isNumeric(String str) {
         try {
@@ -1184,7 +1195,9 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel(Employe employe) {
+    private void openPayementPanel(Employe employe, String NbrClient) {
+
+        Transaction transaction = new Transaction();
     
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
@@ -1198,7 +1211,7 @@ public class App extends Application {
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55); 
 
-	Text ClientText = new Text("Clients: " + " personnes");
+	Text ClientText = new Text("Clients: " + NbrClient + " personnes");
 	ClientText.setLayoutX(280);
 	ClientText.setLayoutY(125);
 
@@ -1215,6 +1228,7 @@ public class App extends Application {
 	SeparateButton.setLayoutX(280);
 	SeparateButton.setLayoutY(210);
 	SeparateButton.setOnAction(new EventHandler<ActionEvent>() {
+
 		public void handle(ActionEvent event) {
 	       	InfoText.setText("✔ payement séparé");	
 		}

@@ -123,3 +123,23 @@ Bière sans alcool   5€
 Montant à payer :  18.0€
 Fin de la Facture de la table :  1001
 
+Facture de la table :1001
+Date et heure : 10-12-2023 13:13:00
+Plats:
+burger que viande   15 €
+Boissons:
+Bière sans alcool   5€
+Montant à payer :  20.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 13:49:37
+Plats:
+salades avec tomates   9 €
+burger tomate, salades   15 €
+Boissons:
+Cidre doux   5€
+Bière sans alcool   5€
+Montant à payer :  34.0€
+Fin de la Facture de la table :  1001
+

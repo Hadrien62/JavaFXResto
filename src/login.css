@@ -351,3 +351,63 @@
     -fx-background-color: transparent;
     -fx-text-fill: transparent;
 }
+
+.serveur{
+    -fx-font-size: 12px;
+    -fx-font-weight: 700 !important;
+}
+.client{
+    -fx-font-size: 12px;
+    -fx-font-weight: 700 !important;
+    -fx-fill: #434242;
+}
+.client-button{
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 900;
+    -fx-text-transform: uppercase;
+    -fx-pref-width: 80px;
+    -fx-pref-height: 30px;
+    -fx-margin: 20px 0px 0px 0px;
+    -fx-cursor: hand;
+    -fx-border-radius: 6px;
+    -fx-background-color: #ff6565;
+    -fx-text-fill: white;
+}
+.client-button:pressed {
+    -fx-transition: "scale-squeeze";
+    -fx-transition-duration: 0.3s;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+.serveur-manage-button{
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 900;
+    -fx-text-transform: uppercase;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-margin: 20px 0px 0px 0px;
+    -fx-cursor: hand;
+    -fx-border-radius: 6px;
+    -fx-background-color: #ff6565;
+    -fx-text-fill: white;
+}
+.serveur-manage-button:pressed {
+    -fx-transition: "scale-squeeze";
+    -fx-transition-duration: 0.3s;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}
+
+.client-input {
+    -fx-background-radius: 5px !important;
+    -fx-font-size: 16px !important;
+    -fx-pref-height: 30px !important;
+    -fx-pref-width: 50px !important;
+    -fx-font-weight: 600 !important;
+    -fx-border-color: none !important;
+    -fx-background-color: #f5f7fb !important;
+    -fx-prompt-text-fill: #b4b3b3 !important;
+    -fx-text-fill: black !important;
+}
