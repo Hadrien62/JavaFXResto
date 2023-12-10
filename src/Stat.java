@@ -10,7 +10,7 @@ public class Stat {
         lireDepuisFichier("stats.txt");
     }
 
-    public int getChiffre_d_affaire() {
+    public double getChiffre_d_affaire() {
         return chiffre_d_affaire;
     }
 
@@ -72,7 +72,6 @@ public class Stat {
     public void add_stat(int quantite, int type){
         switch (type) {
             case 1:
-
                 this.chiffre_d_affaire += quantite;
             case 2:
                 this.nb_client += quantite;

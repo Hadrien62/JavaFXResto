@@ -211,3 +211,45 @@ Cidre doux   5€
 Montant à payer :  41.0€
 Fin de la Facture de la table :  1001
 
+Facture de la table :1001
+Date et heure : 10-12-2023 15:58:52
+Plats:
+salades avec tomates   9 €
+burger que viande   15 €
+Boissons:
+Bière sans alcool   5€
+Montant à payer :  29.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 16:01:09
+Plats:
+salades avec tomates   9 €
+burger que viande   15 €
+Boissons:
+Bière sans alcool   5€
+Jus de fruit   1€
+Montant à payer :  30.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 16:04:04
+Plats:
+salades avec tomates   9 €
+salades sans tomates   9 €
+burger que viande   15 €
+Boissons:
+Bière sans alcool   5€
+Montant à payer :  38.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 16:06:21
+Plats:
+salades avec tomates   9 €
+burger que viande   15 €
+Boissons:
+Cidre doux   5€
+Montant à payer :  29.0€
+Fin de la Facture de la table :  1001
+

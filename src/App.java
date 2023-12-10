@@ -1184,6 +1184,10 @@ public class App extends Application {
        	Button CommandButton = new Button("COMMANDER");
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+                Stat tmp_stat = new Stat();
+                tmp_stat.add_stat(Current_Commande.addition, 1);
+                tmp_stat.add_stat(Current_Commande.Boissons.size(), 4);
+                tmp_stat.add_stat(Current_Commande.Plats.size(), 3);
                 Current_Commande.envoyerCommande(tmp_liste);
                 validText.setText("✔ Commande envoyée");
             }

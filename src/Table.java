@@ -3,11 +3,11 @@ import java.util.List;
 public class Table {
 	int num_table;
 	Commande commande;
-	double addition;
+	int addition;
 	
 	public Table(int numero_table) {
 		this.num_table=numero_table;
-		this.addition=0.00;
+		this.addition=0;
 	}
 	
 	public int Get_num_table(){

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 public class Transaction extends Table{
 	LocalDate Date_Transaction;
 	
-	public Transaction(int num_table,double addition) {
+	public Transaction(int num_table,int addition) {
 		super(num_table);
 		this.Date_Transaction=LocalDate.now();
 		this.addition=addition;
@@ -15,7 +15,7 @@ public class Transaction extends Table{
 	}
 	
 	public void payment_split(int nbr_personne) {
-		double par_personne=addition/nbr_personne;
+		int par_personne=addition/nbr_personne;
 	}
 	
 	public int Get_num_table() {
@@ -34,7 +34,7 @@ public class Transaction extends Table{
 		this.num_table=Nv_num_table;
 	}
 	
-	public void Set_montant(double Nv_montant) {
+	public void Set_montant(int Nv_montant) {
 		this.addition=Nv_montant;
 	}
 }
