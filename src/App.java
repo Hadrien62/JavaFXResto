@@ -814,7 +814,7 @@ public class App extends Application {
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         loadCommandeDataBoisson();
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo = "Table N°: " + boisson.getNumTable() + "\n" + boisson.getNom() + "\n" + boisson.getTemps_prep();
+            String boissonInfo = "Table N°: " + boisson.getNumTable() + "\n" + boisson.getNum_boisson() + " " + boisson.getNom() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
@@ -825,11 +825,13 @@ public class App extends Application {
         // Bouton pour valider la préparation
         Button validerButton = new Button("Valider");
         validerButton.setOnAction(e -> {
-            String selectedPlat = listEnPrep.getSelectionModel().getSelectedItem();
-            if (selectedPlat != null) {
-                listEnPrep.getItems().remove(selectedPlat);
-                listeCommandeBoissons.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNom() + "\n" + plat.getTemps_prep()).equals(selectedPlat));
-                listeCommandeServir.add(new Plats(Integer.parseInt(selectedPlat.split(" ")[0])));
+            String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
+            if (selectedBoisson != null) {
+                listEnPrep.getItems().remove(selectedBoisson);
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNom() + "\n" + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));
+                Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));
+                boisson.setPret(true);
+                listeCommandeServir.add(boisson);
             }
         });
         validerButton.setLayoutX(260);
@@ -841,7 +843,7 @@ public class App extends Application {
 
     // Style
         BackButton.getStyleClass().add("backBarman-button");
-                   
+        validerButton.getStyleClass().add("stock-button");
         BartenderPane.getStylesheets().add("login.css");        
         App.setScene(new Scene(BartenderPane, 800, 600));    
     }
@@ -854,15 +856,21 @@ public class App extends Application {
                 String boissonInfo;
                 while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {
                     String[] parts = boissonInfo.split(":");
-                    if (parts.length == 2) {
+                    if (parts.length == 3) {
                         int identifiantBoisson = Integer.parseInt(parts[0]);
                         boolean boissonPret = Boolean.parseBoolean(parts[1]);
+                        int idBoisson = Integer.parseInt(parts[2]);
 
                         if (identifiantBoisson > 11) {
-                            Boisson boisson = new Boisson(identifiantBoisson);
-                            boisson.setPret(boissonPret);
-                            boisson.setNumTable(tableNumber);
-                            listeCommandeBoissons.add(boisson);
+                            Boisson existingBoisson = findBoissonInList(idBoisson);
+                            if (existingBoisson == null) {
+                                // Ajouter l'élément à la liste s'il n'existe pas encore
+                                Boisson boisson = new Boisson(identifiantBoisson);
+                                boisson.setPret(boissonPret);
+                                boisson.setNumTable(tableNumber);
+                                boisson.setId(idBoisson);
+                                listeCommandeBoissons.add(boisson);
+                            }
                         }
                     }
                 }
@@ -871,6 +879,15 @@ public class App extends Application {
             e.printStackTrace();
             System.out.println("Impossible de charger les données des employés.");
         }
+    }
+    private Boisson findBoissonInList(int idBoisson) {
+        // Recherche de l'élément dans la liste
+        for (Boisson boisson : listeCommandeBoissons) {
+            if (boisson.getId() == idBoisson) {
+                return boisson;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
     }
     
     //---------- Pepper Cuisinier® | Préparation ----------//
@@ -982,15 +999,20 @@ public class App extends Application {
                 String platInfo;
                 while ((platInfo = reader.readLine()) != null && platInfo.length() > 0) {
                     String[] parts = platInfo.split(":");
-                    if (parts.length == 2) {
+                    if (parts.length == 3) {
                         int identifiantPlat = Integer.parseInt(parts[0]);
                         boolean platPret = Boolean.parseBoolean(parts[1]);
-
+                        int idPlat = Integer.parseInt(parts[2]);
                         if (identifiantPlat <= 11) {
-                            Plats plat = new Plats(identifiantPlat);
-                            plat.setPret(platPret);
-                            plat.setNumTable(tableNumber);
-                            listeCommandePlats.add(plat);
+                            Plats existingPlat = findPlatInList(idPlat);
+                            if (existingPlat == null) {
+                                // Ajouter l'élément à la liste s'il n'existe pas encore
+                                Plats plat = new Plats(identifiantPlat);
+                                plat.setPret(platPret);
+                                plat.setNumTable(tableNumber);
+                                plat.setId(idPlat);
+                                listeCommandePlats.add(plat);
+                            }
                         }
                     }
                 }
@@ -999,6 +1021,16 @@ public class App extends Application {
             e.printStackTrace();
             System.out.println("Impossible de charger les données des employés.");
         }
+    }
+
+    private Plats findPlatInList(int idPlat) {
+        // Recherche de l'élément dans la liste
+        for (Plats plat : listeCommandePlats) {
+            if (plat.getId() == idPlat) {
+                return plat;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
     }
 
 

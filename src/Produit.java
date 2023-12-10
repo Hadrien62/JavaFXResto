@@ -8,7 +8,7 @@ public abstract class Produit {
 
 	private int num_produit;
 	private boolean pret;
-
+	private int id = 0;
 	private int numTable;
 	
 	public Produit() {
@@ -64,5 +64,13 @@ public abstract class Produit {
 
 	public void setNumTable(int numTable) {
 		this.numTable = numTable;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }
