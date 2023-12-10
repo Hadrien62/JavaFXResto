@@ -284,9 +284,6 @@ public class App extends Application {
             //---------- Méthode Mise à jour de la cellule ----------//
 
 
-
-
-
         // Style
         BackButton.getStyleClass().add("backRecrutement-button");
         stocklistView.getStyleClass().add("list");
@@ -893,7 +890,7 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
+            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNum_produit() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
@@ -907,9 +904,10 @@ public class App extends Application {
             String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedBoisson != null) {
                 listEnPrep.getItems().remove(selectedBoisson);
-                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNom() + " " +  boisson.getId() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));
                 Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));
                 boisson.setPret(true);
+                boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));
                 listeCommandeServir.add(boisson);
             }
         });
@@ -931,7 +929,7 @@ public class App extends Application {
             String numTable;
             while ((numTable = reader.readLine()) != null) {
                 int tableNumber = Integer.parseInt(numTable);
-
+                System.out.println("Table N°: " + tableNumber);
                 String boissonInfo;
                 while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {
                     String[] parts = boissonInfo.split(":");
@@ -985,9 +983,8 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list3");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Plats plat : listeCommandePlats) {
-            String platInfo =  plat.getNum_produit() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep();
+            String platInfo =  plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep();
             listEnPrep.getItems().add(platInfo);
-
         }
         listEnPrep.setLayoutX(260);
         listEnPrep.setLayoutY(120);
@@ -999,9 +996,10 @@ public class App extends Application {
             String selectedPlat = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedPlat != null) {
                 listEnPrep.getItems().remove(selectedPlat);
-                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));
+                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));
                 Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));
                 plat.setPret(true);
+                plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));
                 listeCommandeServir.add(plat);
             }
         });

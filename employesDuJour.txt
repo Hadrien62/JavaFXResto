@@ -1,1 +1,7 @@
-
+q:q:12.0:Serveur
+z:z:12.0:Barman
+Coline:azerty:1200.0:Cuisinier
+w:w:12.0:Cuisinier
+a:b:1.0:Serveur
+m:m:1.0:Serveur
+t:m:1.0:Serveur
