@@ -1025,7 +1025,6 @@ public class App extends Application {
     //---------- Pepper Serveur® | Réservation  ----------//
     private void openServeurPanel(Employe employe) {
         // Setup
-
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
         backgroundServeur.fitWidthProperty().bind(App.widthProperty());
@@ -1037,41 +1036,41 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
-        GridPane Table1 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table1 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table1.setLayoutX(55);
         Table1.setLayoutY(86);
 
-        GridPane Table2 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table2 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table2.setLayoutX(243);
         Table2.setLayoutY(86);
 
-        GridPane Table3 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table3 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table3.setLayoutX(429);
         Table3.setLayoutY(86);
 
-        GridPane Table4 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table4 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table4.setLayoutX(615);
         Table4.setLayoutY(86);
 
-        GridPane Table5 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table5 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table5.setLayoutX(55);
         Table5.setLayoutY(345);
 
-        GridPane Table6 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table6 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table6.setLayoutX(243);
         Table6.setLayoutY(345);
 
-        GridPane Table7 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table7 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table7.setLayoutX(429);
         Table7.setLayoutY(345);
 
-        GridPane Table8 = createReusableGridPane("Pauqsqsl", "8", employe);
+        GridPane Table8 = createReusableGridPane("Pauqsqsl", "8",employe);
         Table8.setLayoutX(615);
         Table8.setLayoutY(345);
 
         // Pane Components
         Pane ServeurPane = new Pane();
-        ServeurPane.getChildren().addAll(backgroundServeur, BackButton, Table1, Table2);
+        ServeurPane.getChildren().addAll(backgroundServeur, BackButton,Table1,Table2,Table3,Table4,Table5,Table6,Table7,Table8);
 
         // Style
         BackButton.getStyleClass().add("backServeur-button");
@@ -1081,17 +1080,28 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client, Employe employe) {
+    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe) {
+
         GridPane gridPaneClient = new GridPane();
 
         Text ServeurText = new Text("Serveur: " + Serveur);
         Text ClientText = new Text("Client: " + Client);
-        gridPaneClient.add(ClientText, 0, 2);
-
+        Button ButtonClient = new Button("Prendre");
         TextField InputClient = new TextField();
 
-        Button ButtonClient = new Button("Submit");
-        gridPaneClient.add(ButtonClient, 1, 3);
+        gridPaneClient.add(ServeurText, 0, 0);
+        gridPaneClient.add(ClientText, 0, 1);
+        gridPaneClient.add(ButtonClient, 0, 2);
+        gridPaneClient.add(InputClient, 1, 2);
+        GridPane.setMargin(ButtonClient, new Insets(137, 0, 0, 0));
+        GridPane.setMargin(InputClient, new Insets(117, 0, 0, -20));
+
+        // Style
+        ServeurText.getStyleClass().add("serveur");
+        ClientText.getStyleClass().add("client");
+        ButtonClient.getStyleClass().add("client-button");
+        InputClient.getStyleClass().add("client-input");
+        gridPaneClient.getStylesheets().add("login.css");
 
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
@@ -1145,7 +1155,8 @@ public class App extends Application {
             return false;
         }
     }
-    
+
+
     //---------- Pepper Serveur® | Commander ----------//
     private void openOrderPanel(Employe employe) {
         Commande Current_Commande= new Commande(1001);
