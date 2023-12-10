@@ -1318,7 +1318,7 @@ public class App extends Application {
         PayementInput.setLayoutX(281);
         PayementInput.setLayoutY(138);
 
-        Text ClientText = new Text("Clients:" + Nbr_Client + " personnes");
+        Text ClientText = new Text("Clients: " + Nbr_Client + " personnes");
         ClientText.setLayoutX(280);
         ClientText.setLayoutY(125);
 
@@ -1338,9 +1338,6 @@ public class App extends Application {
                 try {
                     // Convertir la valeur du champ de paiement en un nombre
                     int numberOfClients = Integer.parseInt(paymentValueText);
-
-                    // Mettre à jour le texte ClientText avec le nombre de clients
-                    ClientText.setText("Clients: " + numberOfClients + " personnes");
 
                     // Vérifier si le nombre de clients est valide et effectuer la division
                     if (numberOfClients > 0) {
@@ -1500,16 +1497,20 @@ class RectangleWithOrder extends GridPane {
 		 Button addButton = new Button("");
 		 addButton.setGraphic(addImageView);
         addButton.setOnAction(e -> {
-
+            System.out.println(i);
             if (i <= 10 ){
                 Plats Plat_commande = new Plats(i+1);
                 Current_Commande.add_Plats(Plat_commande);
+            }
+            if( i == 16){
+                Boisson Boisson_commande = new Boisson(i);
+                Current_Commande.add_Boissons(Boisson_commande);
             }
             else{
                 Boisson Boisson_commande = new Boisson(i+1);
                 Current_Commande.add_Boissons(Boisson_commande);
             }
-            System.out.println("Nombre de plats dans la liste : " + Current_Commande.Plats.size() + "Nombre de Boissons dans la liste : " + Current_Commande.Boissons.size());
+            System.out.println("Nombre de plats dans la liste : " + Current_Commande.Plats.size() + " Nombre de Boissons dans la liste : " + Current_Commande.Boissons.size());
             for (Plats plat : Current_Commande.Plats) {
                 System.out.println(plat.getNom());
             }

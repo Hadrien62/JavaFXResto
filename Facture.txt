@@ -333,3 +333,19 @@ Bière sans alcool   5€
 Montant à payer :  29.0€
 Fin de la Facture de la table :  1
 
+Facture de la table :1
+Date et heure : 10-12-2023 18:27:52
+Boissons:
+   0€
+Jus de fruit   1€
+Montant à payer :  1.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 10-12-2023 18:36:14
+Boissons:
+Verre d’eau   0€
+Jus de fruit   1€
+Montant à payer :  1.0€
+Fin de la Facture de la table :  1
+
