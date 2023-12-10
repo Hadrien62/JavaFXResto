@@ -1,0 +1,121 @@
+Facture de la table :1001
+Date et heure : 09-12-2023 21:59:52
+Plats:
+salades avec tomates   9 €
+pizza champignon   12 €
+Boissons:
+Limonade   4€
+Montant à payer :  25.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 22:01:39
+Plats:
+pizza champignon   12 €
+Boissons:
+Limonade   4€
+Montant à payer :  16.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 22:08:33
+Plats:
+salades avec tomates   9 €
+pizza champignon   12 €
+Boissons:
+Cidre doux   5€
+Limonade   4€
+Montant à payer :  30.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 22:13:11
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+potages champignon   8 €
+Montant à payer :  25.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 22:15:23
+Plats:
+pizza tomate fromage   12 €
+pizza saucisse   12 €
+Boissons:
+Limonade   4€
+Montant à payer :  28.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:22:45
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+potages champignon   8 €
+Montant à payer :  25.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:41:20
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Montant à payer :  17.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:41:29
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+potages oignon   8 €
+burger tomate, salades   15 €
+Montant à payer :  40.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:41:42
+Plats:
+potages tomates   8 €
+burger tomate, salades   15 €
+Montant à payer :  23.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:46:54
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+burger tomate, salades   15 €
+Montant à payer :  32.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:47:08
+Plats:
+potages oignon   8 €
+potages champignon   8 €
+burger tomate, salades   15 €
+Montant à payer :  31.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 09-12-2023 23:51:59
+Plats:
+potages oignon   8 €
+burger salade   15 €
+potages champignon   8 €
+Montant à payer :  31.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 00:14:14
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Boissons:
+Jus de fruit   1€
+Montant à payer :  18.0€
+Fin de la Facture de la table :  1001
+
