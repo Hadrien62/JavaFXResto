@@ -930,16 +930,12 @@ public class App extends Application {
                         int idBoisson = Integer.parseInt(parts[2]);
 
                         if (identifiantBoisson > 11) {
-                            Boisson existingBoisson = findBoissonInList(idBoisson);
-
-                            if (existingBoisson == null) {
-                                // Ajouter l'élément à la liste s'il n'existe pas encore
+                                // Ajouter l'élément à la liste
                                 Boisson boisson = new Boisson(identifiantBoisson);
                                 boisson.setPret(boissonPret);
                                 boisson.setNumTable(tableNumber);
                                 boisson.setId(idBoisson);
                                 listeCommandeBoissons.add(boisson);
-                            }
                         }
                     }
                 }
@@ -1074,15 +1070,12 @@ public class App extends Application {
                         boolean platPret = Boolean.parseBoolean(parts[1]);
                         int idPlat = Integer.parseInt(parts[2]);
                         if (identifiantPlat <= 11) {
-                            Plats existingPlat = findPlatInList(idPlat);
-                            if (existingPlat == null) {
                                 // Ajouter l'élément à la liste s'il n'existe pas encore
                                 Plats plat = new Plats(identifiantPlat);
                                 plat.setPret(platPret);
                                 plat.setNumTable(tableNumber);
                                 plat.setId(idPlat);
                                 listeCommandePlats.add(plat);
-                            }
                         }
                     }
                 }
