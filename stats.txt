@@ -1,4 +1,4 @@
-Chiffre d'affaire : 29
-Nombre de clients : 29
-Nombre de plats vendus : 31
-Nombre de cocktails vendus : 32
+Chiffre d'affaire : 18
+Nombre de clients : 0
+Nombre de plats vendus : 2
+Nombre de cocktails vendus : 0

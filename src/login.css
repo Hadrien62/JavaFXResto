@@ -411,3 +411,22 @@
     -fx-prompt-text-fill: #b4b3b3 !important;
     -fx-text-fill: black !important;
 }
+.open-button{
+    -fx-background-radius: 5px;
+    -fx-font-size: 16px;
+    -fx-font-weight: 900;
+    -fx-text-transform: uppercase;
+    -fx-pref-width: 180px;
+    -fx-pref-height: 40px;
+    -fx-margin: 20px 0px 0px 0px;
+    -fx-cursor: hand;
+    -fx-border-radius: 6px;
+    -fx-background-color: #ff6565;
+    -fx-text-fill: white;
+}
+.open-button:pressed {
+    -fx-transition: "scale-squeeze";
+    -fx-transition-duration: 0.3s;
+    -fx-scale-x: 0.97;
+    -fx-scale-y: 0.97;
+}

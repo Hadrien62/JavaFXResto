@@ -73,12 +73,18 @@ public class Stat {
         switch (type) {
             case 1:
                 this.chiffre_d_affaire += quantite;
+                break;
             case 2:
                 this.nb_client += quantite;
+                break;
             case 3:
                 this.nb_plat_vendu += quantite;
+                break;
             case 4:
                 this.nb_cocktail_vendu += quantite;
+                break;
+            default:
+                System.out.println("probleme stat");
         }
 
         ecrireDansFichier("stats.txt");

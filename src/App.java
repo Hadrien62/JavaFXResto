@@ -114,55 +114,60 @@ public class App extends Application {
 
     //---------- Pepper Manager® | Menu Principal ----------//
     private void openManagerPanel() {
-   
-   // Setup Stage
+
+        // Setup Stage
         App.setTitle("Pepper Manager® | Menu Principal");
 
-    // ImageView
+        // ImageView
         ImageView backgroundManager = new ImageView(new Image("images/BackgroundManager.png"));
         backgroundManager.fitWidthProperty().bind(App.widthProperty());
         backgroundManager.fitHeightProperty().bind(App.heightProperty());
 
-    // Boutons
+        // Boutons
         Button BackButton = new Button("Retour");
         BackButton.setOnAction(e -> start(App));
         BackButton.setLayoutX(55);
         BackButton.setLayoutY(50);
-        
+
+        Button OuvrirButton = new Button("OUVRIR PEPPER");
+        OuvrirButton.setOnAction(null);
+        OuvrirButton.setLayoutX(58);
+        OuvrirButton.setLayoutY(285);
+
         Button PlanningButton = new Button("PLANNING");
         PlanningButton.setOnAction(e -> openPlanningPanel());
         PlanningButton.setLayoutX(318);
         PlanningButton.setLayoutY(210);
-        
+
         Button RecruitmentButton = new Button("RECRUTEMENT");
         RecruitmentButton.setOnAction(e -> openRecruitmentPanel());
         RecruitmentButton.setLayoutX(573);
         RecruitmentButton.setLayoutY(210);
-        
+
         Button StockButton = new Button("STOCK");
         StockButton.setOnAction(e -> openStockPanel());
         StockButton.setLayoutX(318);
         StockButton.setLayoutY(480);
-        
+
         Button StatisticButton = new Button("STATISTIQUE");
         StatisticButton.setOnAction(e -> openStatisticPanel());
         StatisticButton.setLayoutX(573);
         StatisticButton.setLayoutY(480);
 
         Pane ManagerPane = new Pane();
-        ManagerPane.getChildren().addAll(backgroundManager, BackButton, PlanningButton, RecruitmentButton, StatisticButton, StockButton);
+        ManagerPane.getChildren().addAll(backgroundManager, BackButton,OuvrirButton, PlanningButton, RecruitmentButton, StatisticButton, StockButton);
 
-    // Style 
+        // Style
         BackButton.getStyleClass().add("back-button");
+        OuvrirButton.getStyleClass().add("open-button");
         PlanningButton.getStyleClass().add("manager-button");
         RecruitmentButton.getStyleClass().add("manager-button");
         StatisticButton.getStyleClass().add("manager-button");
         StockButton.getStyleClass().add("manager-button");
 
-        ManagerPane.getStylesheets().add("login.css"); 
+        ManagerPane.getStylesheets().add("login.css");
         App.setScene(new Scene(ManagerPane, 800, 600));
     }
-
     //---------- Pepper Manager® | Gestion des Stocks ----------//
     private void openStockPanel() {
         stock tmp_stock = new stock();
