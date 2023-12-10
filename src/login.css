@@ -176,6 +176,12 @@
     -fx-background-color: white;
     -fx-max-width: 227px;
 }
+
+.list4{/**Liste des employées à sélectionner**/
+    -fx-background-color: white;
+    -fx-max-width: 227px;
+    -fx-max-height: 300px;
+}
 .list-cell {/**Case de la liste**/
     -fx-background-radius: 5px;
     -fx-background-color: #f5f7fb;

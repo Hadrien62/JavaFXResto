@@ -98,50 +98,50 @@ public class ListeCourse {
 
 		// Conversion du tableau en liste pour permettre l'ajout d'éléments
 
-		List<Integer> lst_tmp = null;
+		List<Integer> lst_tmp = new ArrayList<>();
 
 
 		for (Map.Entry<Integer, Integer> entry : lst_course.entrySet()) {
 			int key = entry.getKey();
 			switch (key) {
 				case 1:
-					lst_tmp.add(10);
+					lst_tmp.add(8);
 					break;
 				case 2:
-					lst_tmp.add(20);
+					lst_tmp.add(2);
 					break;
 				case 3:
-					lst_tmp.add(30);
+					lst_tmp.add(4);
 					break;
 				case 4:
-					lst_tmp.add(15);
+					lst_tmp.add(3);
 					break;
 				case 5:
-					lst_tmp.add(25);
+					lst_tmp.add(5);
 					break;
 				case 6:
-					lst_tmp.add(35);
+					lst_tmp.add(2);
 					break;
 				case 7:
-					lst_tmp.add(12);
+					lst_tmp.add(6);
 					break;
 				case 8:
-					lst_tmp.add(22);
+					lst_tmp.add(8);
 					break;
 				case 9:
-					lst_tmp.add(32);
+					lst_tmp.add(1);
 					break;
 				case 10:
-					lst_tmp.add(18);
+					lst_tmp.add(0);
 					break;
 				case 11:
-					lst_tmp.add(28);
+					lst_tmp.add(2);
 					break;
 				case 12:
-					lst_tmp.add(38);
+					lst_tmp.add(2);
 					break;
 				case 13:
-					lst_tmp.add(14);
+					lst_tmp.add(3);
 					break;
 				default:
 					System.out.println("ingredient non reconnu");
@@ -209,6 +209,16 @@ public class ListeCourse {
 		String[] result  = lst_tmp.toArray(new String[0]);
 		return result;
 	}
+
+	public int get_prix_total(){
+		  int tmp = 0;
+		if(get_prix_liste_course().length > 0) {
+			for (int i = 0; i < get_prix_liste_course().length; i++) {
+				tmp += get_liste_course_quanitite()[i] * get_prix_liste_course()[i];
+			}
+		}
+		return tmp;
+	}
 	public void ecrire_Map_Fichier(String nomFichier) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
 			for (Map.Entry<Integer, Integer> entry : lst_course.entrySet()) {
@@ -226,7 +236,7 @@ public class ListeCourse {
 			entry.getKey();
 			stock_tmp.add_quantities(entry.getKey(),entry.getValue());
 		}
-
+		lst_course.clear();
 	}
 
 
