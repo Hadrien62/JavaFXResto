@@ -890,7 +890,7 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNum_produit() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
+            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
@@ -1322,7 +1322,7 @@ public class App extends Application {
                 System.out.println("les Tables:");
                 System.out.println(elem.getNumTable());
                 System.out.println(num_table);
-                if (elem.getNumTable() == num_table-1){
+                if (elem.getNumTable() == num_table){
                     System.out.println("rocket launcher");
                     count++;
                 }
