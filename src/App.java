@@ -890,7 +890,7 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNum_produit() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
+            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
