@@ -83,3 +83,33 @@ potages tomates   8 €
 Montant à payer :  88.0€
 Fin de la Facture de la table :  1001
 
+Facture de la table :1001
+Date et heure : 10-12-2023 12:58:56
+Plats:
+burger salade   15 €
+burger tomate, salades   15 €
+burger tomate, salades   15 €
+Montant à payer :  45.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 12:59:12
+Plats:
+burger salade   15 €
+burger tomate, salades   15 €
+burger tomate, salades   15 €
+burger que viande   15 €
+burger que viande   15 €
+Montant à payer :  75.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 13:05:33
+Plats:
+salades avec tomates   9 €
+salades avec tomates   9 €
+pizza tomate fromage   12 €
+burger tomate, salades   15 €
+Montant à payer :  45.0€
+Fin de la Facture de la table :  1001
+
