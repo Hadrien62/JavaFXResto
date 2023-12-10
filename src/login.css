@@ -172,6 +172,10 @@
     -fx-background-color: white;
     -fx-max-width: 227px;
 }
+.list3{/**Liste des employées à sélectionner**/
+    -fx-background-color: white;
+    -fx-max-width: 227px;
+}
 .list-cell {/**Case de la liste**/
     -fx-background-radius: 5px;
     -fx-background-color: #f5f7fb;

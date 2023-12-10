@@ -43,17 +43,13 @@ public class Commande extends Table {
         Facturetable.Creation_Facture(this.getPlats(),this.getBoissons());
         String cheminFichier = "commande.txt";
         String donnees = "";
-        stock tmp_stock = new stock();
-        ListeCourse course_tmp = new ListeCourse();
         // Les données à écrire dans le fichier
-        donnees += this.num_table + ":";
+        donnees += this.num_table + "\n";
         for (Plats plat : this.Plats) {
-            donnees += plat.getNum_produit() + ":";
-            plat.removestock(tmp_stock,course_tmp);
+            donnees += plat.getNum_produit() + ":" + false;
         }
         for (Boisson boisson : this.Boissons) {
-            donnees += boisson.getNum_produit() + ":";
-            boisson.removestock(tmp_stock,course_tmp);
+            donnees += boisson.getNum_produit() + ":" + false;
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))) { // Ecriture du DATA
             // Écrire les données dans le fichier

@@ -2,9 +2,8 @@ import java.util.List;
 public class Serveur extends Employe{
 	private List<String> tableAttribuees; //à changer par la classe Table
 	
-	public Serveur(String nom, String pass, double salaire, int nbJour, List<String> table) {
+	public Serveur(String nom, String pass, double salaire, int nbJour) {
 		super(nom, pass, "Serveur", salaire, nbJour);
-		this.tableAttribuees = table;
 	}
 	
 	public List<String> getTable(){
