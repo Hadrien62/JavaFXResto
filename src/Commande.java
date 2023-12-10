@@ -80,17 +80,17 @@ public class Commande extends Table {
     }
 
     public void Get_addition_From_txt(){
-        List<Plats>listeCommandePlats = null;
-        List<Boisson>listeCommandeBoisson = null;
+        List<Plats>listeCommandePlats = new ArrayList<>();
+        List<Boisson>listeCommandeBoisson = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader("commande.txt"))) {
             String numTable;
             while ((numTable = reader.readLine()) != null) {
                 int tableNumber = Integer.parseInt(numTable);
-
+                this.num_table = tableNumber;
                 String platInfo;
                 while ((platInfo = reader.readLine()) != null && platInfo.length() > 0) {
                     String[] parts = platInfo.split(":");
-                    if (parts.length == 2) {
+                    if (parts.length == 3) {
                         int identifiantPlat = Integer.parseInt(parts[0]);
 
                         if (identifiantPlat <= 11) {
@@ -106,15 +106,37 @@ public class Commande extends Table {
                     }
                 }
             }
-            for (int i = 0; i < listeCommandeBoisson.size(); i++) {
-                this.addition+=listeCommandeBoisson.get(i).getPrix();
+            if (!listeCommandeBoisson.isEmpty()){
+                for (int i = 0; i < listeCommandeBoisson.size(); i++) {
+                    this.addition+=listeCommandeBoisson.get(i).getPrix();
+                }
             }
-            for (int i = 0; i < listeCommandePlats.size(); i++) {
-                this.addition+=listeCommandePlats.get(i).getPrix();
+            if (!listeCommandePlats.isEmpty()) {
+                for (int i = 0; i < listeCommandePlats.size(); i++) {
+                    this.addition += listeCommandePlats.get(i).getPrix();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Impossible de charger les données des employés.");
+        }
+    }
+
+    public void clearCommandeFile() {
+        try {
+            File file = new File("chemin/vers/commande.txt");  // Remplacez par le chemin correct
+            FileWriter fileWriter = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // Écrire une chaîne vide dans le fichier
+            bufferedWriter.write("");
+
+            // Fermer le BufferedWriter
+            bufferedWriter.close();
+
+            System.out.println("Le fichier commande.txt a été vidé avec succès.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

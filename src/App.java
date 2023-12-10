@@ -23,7 +23,8 @@ import javafx.util.Duration;
 import javafx.scene.control.ListCell;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.util.concurrent.atomic.AtomicReference;
+import java.math.BigDecimal;
 
 public class App extends Application {
 
@@ -1131,7 +1132,7 @@ public class App extends Application {
                     paymentImageView.setFitWidth(22);
                     paymentImageView.setFitHeight(22);
                     paymentButton.setGraphic(paymentImageView);
-                    paymentButton.setOnAction(e1 -> openPayementPanel(employe));
+                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,Serveur));
 
                     Button serviceButton = new Button();
                     ImageView serviceImageView = new ImageView(new Image("images/service.png"));
@@ -1280,10 +1281,12 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel(Employe employe) {
+    private void openPayementPanel(Employe employe, String Serveur) {
     Commande commande_tmp = new Commande(1001);
     commande_tmp.Get_addition_From_txt();
-    System.out.println(commande_tmp.addition);
+    AtomicReference<Double> split_prix = new AtomicReference<>(0.00);
+    double prix_payer = (double) commande_tmp.addition;
+
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
     ImageView backgroundPayement = new ImageView(new Image("images/BackgroundPayement.png"));
@@ -1294,35 +1297,61 @@ public class App extends Application {
     Button BackButton = new Button("Retour");
     BackButton.setOnAction(e -> openServeurPanel(employe));
     BackButton.setLayoutX(50);
-    BackButton.setLayoutY(55); 
+    BackButton.setLayoutY(55);
 
-	Text ClientText = new Text("Clients: " + " personnes");
-	ClientText.setLayoutX(280);
-	ClientText.setLayoutY(125);
+        TextField PayementInput = new TextField();
+        PayementInput.setPromptText("Nombre de client");
+        PayementInput.setLayoutX(281);
+        PayementInput.setLayoutY(138);
 
-    TextField PayementInput = new TextField();
-    PayementInput.setPromptText("Nombre de client");
-	PayementInput.setLayoutX(281);
-	PayementInput.setLayoutY(138);
+        Text ClientText = new Text("Clients: 0 personnes");
+        ClientText.setLayoutX(280);
+        ClientText.setLayoutY(125);
 
-	Text InfoText = new Text();
-	InfoText.setLayoutX(280);
-	InfoText.setLayoutY(340);
-	
-	Button SeparateButton = new Button("SEPARER");
-	SeparateButton.setLayoutX(280);
-	SeparateButton.setLayoutY(210);
-	SeparateButton.setOnAction(new EventHandler<ActionEvent>() {
-		public void handle(ActionEvent event) {
-	       	InfoText.setText("✔ payement séparé");	
-		}
-    });
+        Text InfoText = new Text();
+        InfoText.setLayoutX(280);
+        InfoText.setLayoutY(340);
+
+        Text TotalRestant = new Text(split_prix + "€");
+        TotalRestant.setLayoutX(707);
+        TotalRestant.setLayoutY(417);
+
+        Button SeparateButton = new Button("SEPARER");
+        SeparateButton.setLayoutX(280);
+        SeparateButton.setLayoutY(210);
+        SeparateButton.setOnAction(e -> {
+                String paymentValueText = PayementInput.getText();
+                try {
+                    // Convertir la valeur du champ de paiement en un nombre
+                    int numberOfClients = Integer.parseInt(paymentValueText);
+
+                    // Mettre à jour le texte ClientText avec le nombre de clients
+                    ClientText.setText("Clients: " + numberOfClients + " personnes");
+
+                    // Vérifier si le nombre de clients est valide et effectuer la division
+                    if (numberOfClients > 0) {
+                        BigDecimal splitPrice = BigDecimal.valueOf(commande_tmp.addition)
+                                .divide(BigDecimal.valueOf(numberOfClients), 2, BigDecimal.ROUND_HALF_UP);
+
+                        split_prix.set(splitPrice.doubleValue());
+                        // Afficher un message d'information
+                        InfoText.setText("✔ Paiement séparé");
+                    } else {
+                        InfoText.setText("❌ Nombre de clients invalide");
+                    }
+                } catch (NumberFormatException ex) {
+                    // En cas d'erreur de conversion
+                    InfoText.setText("❌ Veuillez entrer un nombre valide de clients");
+                }
+                TotalRestant.setText(split_prix + "€");
+            });
 
 	Button CancelButton = new Button("ANNULER");
 	CancelButton.setLayoutX(280);
 	CancelButton.setLayoutY(275);
 	CancelButton.setOnAction(new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event) {
+
 	       	InfoText.setText("✔ séparation annulée");	
 		}
     });
@@ -1336,19 +1365,15 @@ public class App extends Application {
     String formattedDate = currentDate.format(formatter);
     Date.setText(formattedDate);
 
-	Text ServeurText = new Text("Serveur: " + "");
+	Text ServeurText = new Text("Serveur: " + Serveur);
 	ServeurText.setLayoutX(543);
 	ServeurText.setLayoutY(125);
 
-	Text TableText = new Text("#T" + "");
-	TableText.setLayoutX(730);
+	Text TableText = new Text("#T" + commande_tmp.num_table);
+	TableText.setLayoutX(720);
 	TableText.setLayoutY(125);
 	
-	Text TotalRestant = new Text("000 €");
-	TotalRestant.setLayoutX(707);
-	TotalRestant.setLayoutY(417);
-	
-	Text Total = new Text("000 €");
+	Text Total = new Text(commande_tmp.addition + "€");
 	Total.setLayoutX(695);
 	Total.setLayoutY(462);
 	
@@ -1359,7 +1384,9 @@ public class App extends Application {
 	Button PayementButton = new Button("PAYER");
 	PayementButton.setOnAction(new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event) {
-	       	validText.setText("✔ payement accepté");	
+            commande_tmp.clearCommandeFile();
+            openServeurPanel(employe);
+	       	validText.setText("✔ payement accepté");
 		}
     });
 	PayementButton.setLayoutX(548);
