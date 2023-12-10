@@ -158,11 +158,10 @@ public class App extends Application {
                     }
                 }
             }else{
+                loadEmployeeDuJourData();
+                employes.addAll(employesTravail);
+                employesTravail.clear();
                 restaurant.fermerResto();
-                for(Employe employe : employesTravail){
-                    employes.add(employe);
-                    employesTravail.remove(employe);
-                }
                 try {
                     // Vérifier si le fichier existe, sinon le créer
                     Path fichierPath = Path.of(NomFichier);
@@ -1076,7 +1075,6 @@ public class App extends Application {
                         int idPlat = Integer.parseInt(parts[2]);
                         if (identifiantPlat <= 11) {
                             Plats existingPlat = findPlatInList(idPlat);
-
                             if (existingPlat == null) {
                                 // Ajouter l'élément à la liste s'il n'existe pas encore
                                 Plats plat = new Plats(identifiantPlat);
