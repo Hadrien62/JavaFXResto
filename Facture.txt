@@ -169,3 +169,45 @@ burger tomate, salades   15 €
 Montant à payer :  15.0€
 Fin de la Facture de la table :  1001
 
+Facture de la table :1001
+Date et heure : 10-12-2023 15:13:22
+Plats:
+pizza tomate fromage   12 €
+burger que viande   15 €
+Boissons:
+Jus de fruit   1€
+Montant à payer :  28.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:13:36
+Plats:
+pizza tomate fromage   12 €
+burger que viande   15 €
+Boissons:
+Jus de fruit   1€
+Montant à payer :  28.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:26:09
+Plats:
+salades avec tomates   9 €
+burger que viande   15 €
+Boissons:
+Bière sans alcool   5€
+Jus de fruit   1€
+Montant à payer :  30.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:45:25
+Plats:
+salades avec tomates   9 €
+burger tomate, salades   15 €
+pizza champignon   12 €
+Boissons:
+Cidre doux   5€
+Montant à payer :  41.0€
+Fin de la Facture de la table :  1001
+

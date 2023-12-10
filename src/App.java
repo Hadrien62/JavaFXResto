@@ -1127,7 +1127,7 @@ public class App extends Application {
                     orderImageView.setFitWidth(22);
                     orderImageView.setFitHeight(22);
                     orderButton.setGraphic(orderImageView);
-                    orderButton.setOnAction(e1 -> openOrderPanel(employe));
+                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste));
 
                     gridPaneClient.getChildren().removeAll(ButtonClient, InputClient);
 
@@ -1158,7 +1158,7 @@ public class App extends Application {
 
 
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel(Employe employe) {
+    private void openOrderPanel(Employe employe,ListeCourse tmp_liste) {
         Commande Current_Commande= new Commande(1001);
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
@@ -1184,7 +1184,7 @@ public class App extends Application {
        	Button CommandButton = new Button("COMMANDER");
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                Current_Commande.envoyerCommande();
+                Current_Commande.envoyerCommande(tmp_liste);
                 validText.setText("✔ Commande envoyée");
             }
         });
@@ -1258,7 +1258,9 @@ public class App extends Application {
     
     //---------- Pepper Serveur® | Paiement  ----------//
     private void openPayementPanel(Employe employe) {
-    
+    Commande commande_tmp = new Commande(1001);
+    commande_tmp.Get_addition_From_txt();
+    System.out.println(commande_tmp.addition);
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
     ImageView backgroundPayement = new ImageView(new Image("images/BackgroundPayement.png"));
