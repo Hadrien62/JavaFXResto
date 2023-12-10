@@ -1059,35 +1059,35 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
-        GridPane Table1 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table1 = createReusableGridPane("Matthieu", "0",employe,1);
         Table1.setLayoutX(55);
         Table1.setLayoutY(86);
 
-        GridPane Table2 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table2 = createReusableGridPane("Hadrien", "0",employe,2);
         Table2.setLayoutX(243);
         Table2.setLayoutY(86);
 
-        GridPane Table3 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table3 = createReusableGridPane("Paul", "0",employe,3);
         Table3.setLayoutX(429);
         Table3.setLayoutY(86);
 
-        GridPane Table4 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table4 = createReusableGridPane("Axel", "0",employe,4);
         Table4.setLayoutX(615);
         Table4.setLayoutY(86);
 
-        GridPane Table5 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table5 = createReusableGridPane("MethissYT", "0",employe,5);
         Table5.setLayoutX(55);
         Table5.setLayoutY(345);
 
-        GridPane Table6 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table6 = createReusableGridPane("Paul", "0",employe,6);
         Table6.setLayoutX(243);
         Table6.setLayoutY(345);
 
-        GridPane Table7 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table7 = createReusableGridPane("Marco", "0",employe,7);
         Table7.setLayoutX(429);
         Table7.setLayoutY(345);
 
-        GridPane Table8 = createReusableGridPane("Pauqsqsl", "8",employe);
+        GridPane Table8 = createReusableGridPane("Paulo", "0",employe,8);
         Table8.setLayoutX(615);
         Table8.setLayoutY(345);
 
@@ -1103,7 +1103,7 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe) {
+    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe, int num_table) {
 
         GridPane gridPaneClient = new GridPane();
 
@@ -1128,6 +1128,7 @@ public class App extends Application {
 
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
+            ClientText.setText("Client: " + userInput);
             if (isNumeric(userInput)) {
                 int number = Integer.parseInt(userInput);
                 if (number >= 1 && number <= 10) {
@@ -1137,7 +1138,7 @@ public class App extends Application {
                     paymentImageView.setFitWidth(22);
                     paymentImageView.setFitHeight(22);
                     paymentButton.setGraphic(paymentImageView);
-                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,Serveur));
+                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,Serveur, userInput,num_table));
 
                     Button serviceButton = new Button();
                     ImageView serviceImageView = new ImageView(new Image("images/service.png"));
@@ -1150,7 +1151,7 @@ public class App extends Application {
                     orderImageView.setFitWidth(22);
                     orderImageView.setFitHeight(22);
                     orderButton.setGraphic(orderImageView);
-                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste));
+                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste,num_table));
 
                     gridPaneClient.getChildren().removeAll(ButtonClient, InputClient);
 
@@ -1181,8 +1182,8 @@ public class App extends Application {
 
 
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel(Employe employe,ListeCourse tmp_liste) {
-        Commande Current_Commande= new Commande(1001);
+    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table) {
+        Commande Current_Commande= new Commande(num_table);
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
 	    ImageView backgroundOrder = new ImageView(new Image("images/BackgroundCommand.png"));
@@ -1286,8 +1287,9 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel(Employe employe, String Serveur) {
-    Commande commande_tmp = new Commande(1001);
+    private void openPayementPanel(Employe employe, String Serveur, String Nbr_Client,int num_table) {
+    Commande commande_tmp = new Commande(num_table);
+    System.out.println(commande_tmp.num_table);
     commande_tmp.Get_addition_From_txt();
     AtomicReference<Double> split_prix = new AtomicReference<>(0.00);
     double prix_payer = (double) commande_tmp.addition;
@@ -1309,7 +1311,7 @@ public class App extends Application {
         PayementInput.setLayoutX(281);
         PayementInput.setLayoutY(138);
 
-        Text ClientText = new Text("Clients: 0 personnes");
+        Text ClientText = new Text("Clients:" + Nbr_Client + " personnes");
         ClientText.setLayoutX(280);
         ClientText.setLayoutY(125);
 

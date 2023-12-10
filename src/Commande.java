@@ -124,7 +124,7 @@ public class Commande extends Table {
 
     public void clearCommandeFile() {
         try {
-            File file = new File("chemin/vers/commande.txt");  // Remplacez par le chemin correct
+            File file = new File("commande.txt");
             FileWriter fileWriter = new FileWriter(file);
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
