@@ -144,6 +144,7 @@ public class App extends Application {
         Button OuvrirButton = new Button(message);
         OuvrirButton.setOnAction(e -> {
             if(!restaurant.getRestaurant_ouvert()){
+                loadEmployeeDuJourData();
                 restaurant.setEmployesDuJour(employesTravail);
                 restaurant.ouvrirResto();
                 if(!restaurant.getRestaurant_ouvert()){
@@ -187,7 +188,6 @@ public class App extends Application {
                 } catch (IOException exception2) {
                     System.err.println("Erreur lors de la manipulation du fichier : " + exception2.getMessage());
                 }
-
             }
         });
         OuvrirButton.setLayoutX(58);

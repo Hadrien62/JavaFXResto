@@ -19,20 +19,21 @@ public class Restaurant {
 		int compteurBarman = 0;
 		int compteurCuisinier = 0;
 		for(int i = 0;i<this.employesDuJour.size();i++) {
-			if(this.employesDuJour.get(i).getRole() == "Cuisinier") {
+			if(this.employesDuJour.get(i).getRole().equals("Cuisinier")) {
 				compteurCuisinier++;
 			}
-			else if(this.employesDuJour.get(i).getRole() == "Barman") {
+			else if(this.employesDuJour.get(i).getRole().equals("Barman")) {
 				compteurBarman++;
 			}
 			else {
 				compteurServeur++;
+				System.out.println(this.employesDuJour.get(i).getRole());
 			}
 		}
 		if((compteurCuisinier >= 4) && (compteurBarman >= 1) && (compteurServeur >= 2)) {
 			this.restaurant_ouvert = true;
 		}else {
-			System.out.println("Il n'y a pas assez d'employés pour ouvrir le restaurant");
+			System.out.println("Il n'y a pas assez d'employés pour ouvrir le restaurant " + compteurCuisinier + " " + compteurBarman + " " + compteurServeur);
 			this.restaurant_ouvert = false;
 		}
 	}
