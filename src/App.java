@@ -1150,7 +1150,8 @@ public class App extends Application {
        	    rectangle.getStyleClass().add("grid-cell");
        	}
         for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i,Current_Commande,Total);
+            System.out.println(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()]);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i+11,Current_Commande,Total);
             gridPane.add(rectangle, (i+menu_actuel.getLst_plats().size()) % 2, (i+menu_actuel.getLst_plats().size())  / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
