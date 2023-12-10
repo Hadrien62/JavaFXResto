@@ -27,4 +27,7 @@ public class Employe {
     public int getNombreDeSoir() {
         return nombreDeSoir;
     }
+    public void setNombreDeSoir(int nombreDeSoir) {
+        this.nombreDeSoir = nombreDeSoir;
+    }
 }

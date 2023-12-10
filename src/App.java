@@ -43,6 +43,8 @@ public class App extends Application {
     private int idProduit = 0; // ID des produits
     private Stage App;
 
+    private Restaurant restaurant = new Restaurant();
+
 	//---------- Pepper® | Se Connecter ----------//
     public void start(Stage App) {
         this.App = App;
@@ -88,7 +90,7 @@ public class App extends Application {
 				    for (Employe employe : employesTravail) {
 				    	
 				    	// Validation mot de passe et username avec la DATA + Ouvrir le pannel en fonction du rôle
-				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password)) {
+				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password) && restaurant.getRestaurant_ouvert()) {
 						    switch (employe.getRole()) {
 							    case "Cuisinier" -> openCookPanel(employe);
 		                        case "Serveur" -> openServeurPanel(employe,employesTravail);
@@ -129,9 +131,65 @@ public class App extends Application {
         BackButton.setOnAction(e -> start(App));
         BackButton.setLayoutX(55);
         BackButton.setLayoutY(50);
+        Text errorMessageText = new Text();
+        errorMessageText.getStyleClass().add("error");
+        errorMessageText.setLayoutX(15);
+        errorMessageText.setLayoutY(350);
+        String message = "";
+        if(!restaurant.getRestaurant_ouvert()){
+            message = "OUVRIR PEPPER";
+        }else{
+            message = "FERMER PEPPER";
+        }
+        Button OuvrirButton = new Button(message);
+        OuvrirButton.setOnAction(e -> {
+            if(!restaurant.getRestaurant_ouvert()){
+                restaurant.setEmployesDuJour(employesTravail);
+                restaurant.ouvrirResto();
+                if(!restaurant.getRestaurant_ouvert()){
+                    errorMessageText.setText("⚠ Il n'y a pas assez d'employés pour ouvrir le restaurant");
+                }else{
+                    for(Employe employe : employes){
+                        employe.setNombreDeSoir(0);
+                    }
+                    for(Employe employe : employesTravail){
+                        employe.setNombreDeSoir(employe.getNombreDeSoir() + 1);
+                    }
+                }
+            }else{
+                restaurant.fermerResto();
+                for(Employe employe : employesTravail){
+                    employes.add(employe);
+                    employesTravail.remove(employe);
+                }
+                try {
+                    // Vérifier si le fichier existe, sinon le créer
+                    Path fichierPath = Path.of(NomFichier);
+                    if (!Files.exists(fichierPath)) {
+                        Files.createFile(fichierPath);
+                    }
+                    // Utiliser BufferedWriter pour écrire dans le fichier
+                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(NomFichier))) {
+                            writer.write("");
+                            writer.newLine(); // Ajouter une nouvelle ligne
+                        System.out.println("Données écrites avec succès dans le fichier : " + NomFichier);
+                        try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DATA_FILE, false))) {
+                            for (Employe employe : employes) {
+                                writer2.write(employe.getUsername() + ":" + employe.getPassword() + ":" + employe.getSalaire() + ":" + employe.getRole());
+                                writer2.newLine(); // Ajouter une nouvelle ligne
+                            }
+                            System.out.println("Données écrites avec succès dans le fichier : " + DATA_FILE);
+                        } catch (IOException exception) {
+                            exception.printStackTrace();
+                            // Gérer l'exception selon votre logique d'application
+                        }
+                    }
+                } catch (IOException exception2) {
+                    System.err.println("Erreur lors de la manipulation du fichier : " + exception2.getMessage());
+                }
 
-        Button OuvrirButton = new Button("OUVRIR PEPPER");
-        OuvrirButton.setOnAction(null);
+            }
+        });
         OuvrirButton.setLayoutX(58);
         OuvrirButton.setLayoutY(285);
 
@@ -156,7 +214,7 @@ public class App extends Application {
         StatisticButton.setLayoutY(480);
 
         Pane ManagerPane = new Pane();
-        ManagerPane.getChildren().addAll(backgroundManager, BackButton,OuvrirButton, PlanningButton, RecruitmentButton, StatisticButton, StockButton);
+        ManagerPane.getChildren().addAll(backgroundManager, BackButton,OuvrirButton, PlanningButton, RecruitmentButton, StatisticButton, StockButton,errorMessageText);
 
         // Style
         BackButton.getStyleClass().add("back-button");
@@ -169,6 +227,7 @@ public class App extends Application {
         ManagerPane.getStylesheets().add("login.css");
         App.setScene(new Scene(ManagerPane, 800, 600));
     }
+
     //---------- Pepper Manager® | Gestion des Stocks ----------//
     private void openStockPanel() {
         stock tmp_stock = new stock();
@@ -520,6 +579,9 @@ public class App extends Application {
         employeDispo.setCellFactory(param -> createCustomListCell());
         loadEmployeeDuJourData();
         for (Employe employe : employes) {
+            if(employe.getNombreDeSoir() >= 3){
+                continue;
+            }
             String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
             employeDispo.getItems().add(employeInfoUsername);
 

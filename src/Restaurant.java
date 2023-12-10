@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Restaurant {
-	List<Table> tableRepertoire; 
-	List<Employe> employesDuJour;
-	menu carteRepas;
-	stock stock;
-	Transaction transaction;
-	Boolean restaurant_ouvert = false;
+	private List<Table> tableRepertoire;
+	private List<Employe> employesDuJour;
+	private menu carteRepas;
+	private stock stock;
+	private Transaction transaction;
+	private Boolean restaurant_ouvert = false;
 	
 	public Restaurant() {
 		this.tableRepertoire= new ArrayList<Table>();
@@ -43,5 +43,33 @@ public class Restaurant {
 		}else {
 			System.out.println("Le restaurant n'est pas ouvert");
 		}
+	}
+
+	public void setEmployesDuJour(List<Employe> employesDuJour) {
+		this.employesDuJour = employesDuJour;
+	}
+
+	public List<Employe> getEmployesDuJour() {
+		return employesDuJour;
+	}
+
+	public Boolean getRestaurant_ouvert() {
+		return restaurant_ouvert;
+	}
+
+	public menu getCarteRepas() {
+		return carteRepas;
+	}
+
+	public void setCarteRepas(menu carteRepas) {
+		this.carteRepas = carteRepas;
+	}
+
+	public List<Table> getTableRepertoire() {
+		return tableRepertoire;
+	}
+
+	public void setTableRepertoire(List<Table> tableRepertoire) {
+		this.tableRepertoire = tableRepertoire;
 	}
 }
