@@ -1311,11 +1311,7 @@ public class App extends Application {
             orderButton.getStyleClass().add("serveur-manage-button");
             int count = 0;
             for (Produit elem : listeCommandeServir) {
-                System.out.println("les Tables:");
-                System.out.println(elem.getNumTable());
-                System.out.println(num_table);
                 if (elem.getNumTable() == num_table){
-                    System.out.println("rocket launcher");
                     count++;
                 }
             }
@@ -1359,7 +1355,22 @@ public class App extends Application {
         Text Total = new Text("000 €");
        	Total.setLayoutX(695);
        	Total.setLayoutY(462);
-       		
+
+        ListView<String> commandelistview = new ListView<>();
+        commandelistview.getStyleClass().add("list4");
+        commandelistview.setLayoutX(540);
+        commandelistview.setLayoutY(116);
+
+
+
+
+
+
+
+
+
+
+
        	Text validText = new Text();
        	validText.setLayoutX(548);
        	validText.setLayoutY(560);
@@ -1410,17 +1421,17 @@ public class App extends Application {
        	   
        	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
                System.out.println(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()]);
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()-1], prices[menu_actuel.getLst_plats().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()-1],i,Current_Commande,Total,idProduit);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()-1], prices[menu_actuel.getLst_plats().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()-1],i,Current_Commande,Total,commandelistview);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
         for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
             System.out.println(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()]);
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i+11,Current_Commande,Total,idproduit);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i+11,Current_Commande,Total,commandelistview);
             gridPane.add(rectangle, (i+menu_actuel.getLst_plats().size()) % 2, (i+menu_actuel.getLst_plats().size())  / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
-        RectangleWithOrder rectangle = new RectangleWithOrder(productNames[15], prices[15],imagePaths[15],16 ,Current_Commande,Total,idproduit);
+        RectangleWithOrder rectangle = new RectangleWithOrder(productNames[15], prices[15],imagePaths[15],16 ,Current_Commande,Total,commandelistview);
         gridPane.add(rectangle, size_menu % 2, size_menu  / 2);
         rectangle.getStyleClass().add("grid-cell");
        	gridPane.setPrefSize(230, 450);
@@ -1433,7 +1444,7 @@ public class App extends Application {
 
     // Pane Components
         Pane OrderPane   = new Pane();
-        OrderPane.getChildren().addAll( backgroundOrder, BackButton, Total,validText, CommandButton, gridPane,scrollPane);    
+        OrderPane.getChildren().addAll( backgroundOrder, BackButton, Total,validText, CommandButton, gridPane,scrollPane,commandelistview);
            
     // Style
         BackButton.getStyleClass().add("backOrder-button");
@@ -1665,7 +1676,7 @@ class RectangleWithProductInfo extends GridPane {
 
 //Commande plat rectangle
 class RectangleWithOrder extends GridPane {
-    public RectangleWithOrder(String productName,int prices,String imagePath, int i, Commande Current_Commande, Text Total, int idproduit ) {
+    public RectangleWithOrder(String productName,int prices,String imagePath, int i, Commande Current_Commande, Text Total, ListView<String> commandelistview ) {
 		 ImageView imageView = new ImageView(new Image(imagePath));
 		 imageView.setFitWidth(80);
 		 imageView.setFitHeight(80);
@@ -1678,7 +1689,7 @@ class RectangleWithOrder extends GridPane {
 		 Button addButton = new Button("");
 		 addButton.setGraphic(addImageView);
         addButton.setOnAction(e -> {
-            System.out.println(i);
+
             if (i <= 10 ){
                 Plats Plat_commande = new Plats(i+1);
                 Current_Commande.add_Plats(Plat_commande);
@@ -1698,7 +1709,7 @@ class RectangleWithOrder extends GridPane {
             for (Boisson Boissons : Current_Commande.Boissons) {
                 System.out.println(Boissons.getNom());
             }
-
+            updatecommandelist(commandelistview,Current_Commande);
             Current_Commande.Calcule_Addition();
             Total.setText(Current_Commande.Get_addition() + "€");
         });
@@ -1718,4 +1729,29 @@ class RectangleWithOrder extends GridPane {
 		 priceText.getStyleClass().add("name-text");
 		 addButton.getStyleClass().add("add-button");
 	}
+
+    private void updatecommandelist(ListView<String>  tmp_stocklistView, Commande Current_Commande) {
+        tmp_stocklistView.getItems().clear();
+        if (!Current_Commande.Plats.isEmpty()){
+            for (Plats plat: Current_Commande.Plats) {
+                System.out.println(plat.getNom());
+                tmp_stocklistView.getItems().add(plat.getNom());
+            }
+            for (int i = 0;i<Current_Commande.Plats.size();i++) {
+                String tmp = tmp_stocklistView.getItems().get(i) + "\n" + Current_Commande.Plats.get(i).getPrix() +"€";
+                tmp_stocklistView.getItems().add(i, tmp);
+                tmp_stocklistView.getItems().remove(i+1);
+            }
+        }
+        if (!Current_Commande.Boissons.isEmpty()){
+            for (Boisson boisson: Current_Commande.Boissons) {
+                tmp_stocklistView.getItems().add(boisson.getNom());
+            }
+            for (int i = Current_Commande.Plats.size();i<Current_Commande.Boissons.size()+Current_Commande.Plats.size();i++) {
+                String tmp = tmp_stocklistView.getItems().get(i) + "\n" + Current_Commande.Boissons.get(i- Current_Commande.Plats.size()).getPrix() +"€";
+                tmp_stocklistView.getItems().add(i, tmp);
+                tmp_stocklistView.getItems().remove(i+1);
+            }
+        }
+    }
 }
