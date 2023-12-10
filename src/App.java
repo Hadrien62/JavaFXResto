@@ -80,6 +80,17 @@ public class App extends Application {
 				String username = UsernameInput.getText(); 
 			    String password = PasswordInput.getText();
 
+                Map<Integer, Integer> Table_busy = new HashMap<Integer, Integer>() {{
+                    put(1, 0);
+                    put(2, 0);
+                    put(3, 0);
+                    put(4, 0);
+                    put(5, 0);
+                    put(6, 0);
+                    put(7, 0);
+                    put(8, 0);
+                }};
+
 		    	// Ouvrir le pannel Manager
 		        if(username.equalsIgnoreCase("a") && password.equals("az")){
 		        	openManagerPanel();
@@ -93,7 +104,7 @@ public class App extends Application {
 				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password) && restaurant.getRestaurant_ouvert()) {
 						    switch (employe.getRole()) {
 							    case "Cuisinier" -> openCookPanel(employe);
-		                        case "Serveur" -> openServeurPanel(employe,employesTravail,idProduit);
+		                        case "Serveur" -> openServeurPanel(employe,employesTravail,idProduit,Table_busy);
 		                        case "Barman" -> openBartenderPanel(employe);
 						    }
 				        }
@@ -1108,7 +1119,7 @@ public class App extends Application {
 
     
     //---------- Pepper Serveur® | Réservation  ----------//
-    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit) {
+    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit, Map<Integer,Integer> Table_busy) {
         // Setup
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
@@ -1129,39 +1140,81 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
+        GridPane Table1;
+        GridPane Table2;
+        GridPane Table3;
+        GridPane Table4;
+        GridPane Table5;
+        GridPane Table6;
+        GridPane Table7;
+        GridPane Table8;
 
+        if (Table_busy.isEmpty()){
+            Table1 = createReusableGridPane(Serveur.get(0), "0",employe,1,employesTravail,Table_busy);
+            Table1.setLayoutX(55);
+            Table1.setLayoutY(86);
 
-        GridPane Table1 = createReusableGridPane(Serveur.get(0), "0",employe,1,employesTravail);
-        Table1.setLayoutX(55);
-        Table1.setLayoutY(86);
+            Table2 = createReusableGridPane(Serveur.get(0), "0",employe,2,employesTravail,Table_busy);
+            Table2.setLayoutX(243);
+            Table2.setLayoutY(86);
 
-        GridPane Table2 = createReusableGridPane(Serveur.get(0), "0",employe,2,employesTravail);
-        Table2.setLayoutX(243);
-        Table2.setLayoutY(86);
+            Table3 = createReusableGridPane(Serveur.get(1), "0",employe,3,employesTravail,Table_busy);
+            Table3.setLayoutX(429);
+            Table3.setLayoutY(86);
 
-        GridPane Table3 = createReusableGridPane(Serveur.get(1), "0",employe,3,employesTravail);
-        Table3.setLayoutX(429);
-        Table3.setLayoutY(86);
+            Table4 = createReusableGridPane(Serveur.get(1), "0",employe,4,employesTravail,Table_busy);
+            Table4.setLayoutX(615);
+            Table4.setLayoutY(86);
 
-        GridPane Table4 = createReusableGridPane(Serveur.get(1), "0",employe,4,employesTravail);
-        Table4.setLayoutX(615);
-        Table4.setLayoutY(86);
+            Table5 = createReusableGridPane(Serveur.get(2), "0",employe,5,employesTravail,Table_busy);
+            Table5.setLayoutX(55);
+            Table5.setLayoutY(345);
 
-        GridPane Table5 = createReusableGridPane(Serveur.get(2), "0",employe,5,employesTravail);
-        Table5.setLayoutX(55);
-        Table5.setLayoutY(345);
+            Table6 = createReusableGridPane(Serveur.get(2), "0",employe,6,employesTravail,Table_busy);
+            Table6.setLayoutX(243);
+            Table6.setLayoutY(345);
 
-        GridPane Table6 = createReusableGridPane(Serveur.get(2), "0",employe,6,employesTravail);
-        Table6.setLayoutX(243);
-        Table6.setLayoutY(345);
+            Table7 = createReusableGridPane(Serveur.get(3), "0",employe,7,employesTravail,Table_busy);
+            Table7.setLayoutX(429);
+            Table7.setLayoutY(345);
 
-        GridPane Table7 = createReusableGridPane(Serveur.get(3), "0",employe,7,employesTravail);
-        Table7.setLayoutX(429);
-        Table7.setLayoutY(345);
+            Table8 = createReusableGridPane(Serveur.get(3), "0",employe,8,employesTravail,Table_busy);
+            Table8.setLayoutX(615);
+            Table8.setLayoutY(345);
+        }
+        else{
+            Table1 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(1)),employe,1,employesTravail,Table_busy);
+            Table1.setLayoutX(55);
+            Table1.setLayoutY(86);
 
-        GridPane Table8 = createReusableGridPane(Serveur.get(3), "0",employe,8,employesTravail);
-        Table8.setLayoutX(615);
-        Table8.setLayoutY(345);
+            Table2 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(2)),employe,2,employesTravail,Table_busy);
+            Table2.setLayoutX(243);
+            Table2.setLayoutY(86);
+
+            Table3 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(3)),employe,3,employesTravail,Table_busy);
+            Table3.setLayoutX(429);
+            Table3.setLayoutY(86);
+
+            Table4 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(4)),employe,4,employesTravail,Table_busy);
+            Table4.setLayoutX(615);
+            Table4.setLayoutY(86);
+
+            Table5 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(5)),employe,5,employesTravail,Table_busy);
+            Table5.setLayoutX(55);
+            Table5.setLayoutY(345);
+
+            Table6 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(6)),employe,6,employesTravail,Table_busy);
+            Table6.setLayoutX(243);
+            Table6.setLayoutY(345);
+
+            Table7 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(7)),employe,7,employesTravail,Table_busy);
+            Table7.setLayoutX(429);
+            Table7.setLayoutY(345);
+
+            Table8 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(8)),employe,8,employesTravail,Table_busy);
+            Table8.setLayoutX(615);
+            Table8.setLayoutY(345);
+        }
 
         // Pane Components
         Pane ServeurPane = new Pane();
@@ -1175,68 +1228,109 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe, int num_table, List<Employe> listemploye) {
+    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe, int num_table, List<Employe> listemploye,Map<Integer, Integer> Table_busy) {
 
         GridPane gridPaneClient = new GridPane();
+        if (Table_busy.get(num_table)==0 || Table_busy.get(num_table)== null) {
+            Text ServeurText = new Text("Serveur: " + Serveur);
+            Text ClientText = new Text("Client: " + Client);
+            Button ButtonClient = new Button("Prendre");
+            TextField InputClient = new TextField();
 
-        Text ServeurText = new Text("Serveur: " + Serveur);
-        Text ClientText = new Text("Client: " + Client);
-        Button ButtonClient = new Button("Prendre");
-        TextField InputClient = new TextField();
 
-        VBox textTable = new VBox(ServeurText,ClientText);
-        HBox buttonTable = new HBox(ButtonClient,InputClient);
-        GridPane.setMargin(buttonTable, new Insets(150, 0, 0, 0));
-        buttonTable.setSpacing(10);
-        buttonTable.setAlignment(Pos.CENTER);
-        gridPaneClient.getChildren().addAll(textTable,buttonTable);
+            VBox textTable = new VBox(ServeurText, ClientText);
+            HBox buttonTable = new HBox(ButtonClient, InputClient);
+            GridPane.setMargin(buttonTable, new Insets(150, 0, 0, 0));
+            buttonTable.setSpacing(10);
+            buttonTable.setAlignment(Pos.CENTER);
+            gridPaneClient.getChildren().addAll(textTable, buttonTable);
 
-        // Style
-        ServeurText.getStyleClass().add("serveur");
-        ClientText.getStyleClass().add("client");
-        ButtonClient.getStyleClass().add("client-button");
-        InputClient.getStyleClass().add("client-input");
-        gridPaneClient.getStylesheets().add("login.css");
+            // Style
+            ServeurText.getStyleClass().add("serveur");
+            ClientText.getStyleClass().add("client");
+            ButtonClient.getStyleClass().add("client-button");
+            InputClient.getStyleClass().add("client-input");
+            gridPaneClient.getStylesheets().add("login.css");
 
-        ButtonClient.setOnAction(e -> {
-            String userInput = InputClient.getText();
-            ClientText.setText("Client: " + userInput);
-            if (isNumeric(userInput)) {
-                int number = Integer.parseInt(userInput);
-                if (number >= 1 && number <= 10) {
+            ButtonClient.setOnAction(e -> {
+                String userInput = InputClient.getText();
+                ClientText.setText("Client: " + userInput);
+                Table_busy.put(num_table, Integer.parseInt(userInput));
+                if (isNumeric(userInput)) {
+                    int number = Integer.parseInt(userInput);
+                    if (number >= 1 && number <= 10) {
 
-                    Button paymentButton = new Button();
-                    ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
-                    paymentImageView.setFitWidth(22);
-                    paymentImageView.setFitHeight(22);
-                    paymentButton.setGraphic(paymentImageView);
-                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,Serveur, userInput,num_table));
+                        Button paymentButton = new Button();
+                        ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
+                        paymentImageView.setFitWidth(22);
+                        paymentImageView.setFitHeight(22);
+                        paymentButton.setGraphic(paymentImageView);
+                        paymentButton.setOnAction(e1 -> openPayementPanel(employe, Serveur, userInput, num_table, Table_busy));
 
-                    Button serviceButton = new Button();
-                    ImageView serviceImageView = new ImageView(new Image("images/service.png"));
-                    serviceImageView.setFitWidth(22);
-                    serviceImageView.setFitHeight(22);
-                    serviceButton.setGraphic(serviceImageView);
+                        Button serviceButton = new Button();
+                        ImageView serviceImageView = new ImageView(new Image("images/service.png"));
+                        serviceImageView.setFitWidth(22);
+                        serviceImageView.setFitHeight(22);
+                        serviceButton.setGraphic(serviceImageView);
 
-                    Button orderButton = new Button();
-                    ImageView orderImageView = new ImageView(new Image("images/Order.png"));
-                    orderImageView.setFitWidth(22);
-                    orderImageView.setFitHeight(22);
-                    orderButton.setGraphic(orderImageView);
-                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste,num_table,listemploye,idProduit));
+                        Button orderButton = new Button();
+                        ImageView orderImageView = new ImageView(new Image("images/Order.png"));
+                        orderImageView.setFitWidth(22);
+                        orderImageView.setFitHeight(22);
+                        orderButton.setGraphic(orderImageView);
+                        orderButton.setOnAction(e1 -> openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy));
 
-                    gridPaneClient.getChildren().removeAll(buttonTable);
-                    HBox buttonServeur = new HBox(paymentButton,serviceButton,orderButton);
-                    GridPane.setMargin(buttonServeur, new Insets(160, 0, 0, 0));
-                    buttonServeur.setSpacing(10);
-                    gridPaneClient.getChildren().addAll(buttonServeur);
+                        gridPaneClient.getChildren().removeAll(buttonTable);
+                        HBox buttonServeur = new HBox(paymentButton, serviceButton, orderButton);
+                        GridPane.setMargin(buttonServeur, new Insets(160, 0, 0, 0));
+                        buttonServeur.setSpacing(10);
+                        gridPaneClient.getChildren().addAll(buttonServeur);
 
-                    paymentButton.getStyleClass().addAll("serveur-manage-button");
-                    serviceButton.getStyleClass().add("serveur-manage-button");
-                    orderButton.getStyleClass().add("serveur-manage-button");
+                        paymentButton.getStyleClass().addAll("serveur-manage-button");
+                        serviceButton.getStyleClass().add("serveur-manage-button");
+                        orderButton.getStyleClass().add("serveur-manage-button");
+                    }
                 }
-            }
-        });
+            });
+        }
+        else{
+            Text ServeurText = new Text("Serveur: " + Serveur);
+            Text ClientText = new Text("Client: " + Client);
+            ServeurText.getStyleClass().add("serveur");
+            ClientText.getStyleClass().add("client");
+            gridPaneClient.getStylesheets().add("login.css");
+            Button paymentButton = new Button();
+            VBox textTable = new VBox(ServeurText, ClientText);
+            gridPaneClient.getChildren().addAll(textTable);
+
+            ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
+            paymentImageView.setFitWidth(22);
+            paymentImageView.setFitHeight(22);
+            paymentButton.setGraphic(paymentImageView);
+            paymentButton.setOnAction(e1 -> openPayementPanel(employe, Serveur, String.valueOf(Table_busy.get(num_table)), num_table, Table_busy));
+
+            Button serviceButton = new Button();
+            ImageView serviceImageView = new ImageView(new Image("images/service.png"));
+            serviceImageView.setFitWidth(22);
+            serviceImageView.setFitHeight(22);
+            serviceButton.setGraphic(serviceImageView);
+
+            Button orderButton = new Button();
+            ImageView orderImageView = new ImageView(new Image("images/Order.png"));
+            orderImageView.setFitWidth(22);
+            orderImageView.setFitHeight(22);
+            orderButton.setGraphic(orderImageView);
+            orderButton.setOnAction(e1 -> openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy));
+
+            HBox buttonServeur = new HBox(paymentButton, serviceButton, orderButton);
+            GridPane.setMargin(buttonServeur, new Insets(160, 0, 0, 0));
+            buttonServeur.setSpacing(10);
+            gridPaneClient.getChildren().addAll(buttonServeur);
+
+            paymentButton.getStyleClass().addAll("serveur-manage-button");
+            serviceButton.getStyleClass().add("serveur-manage-button");
+            orderButton.getStyleClass().add("serveur-manage-button");
+        }
         return gridPaneClient;
     }
 
@@ -1251,7 +1345,7 @@ public class App extends Application {
 
 
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit) {
+    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit,Map<Integer,Integer> Table_busy) {
         Commande Current_Commande= new Commande(num_table);
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
@@ -1261,7 +1355,7 @@ public class App extends Application {
             
     // Pannel à Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe,idproduit));
+        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe,idproduit,Table_busy));
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -1356,22 +1450,22 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel(Employe employe, String Serveur, String Nbr_Client,int num_table) {
+    private void openPayementPanel(Employe employe, String Serveur, String Nbr_Client,int num_table,Map<Integer, Integer> Table_busy) {
     Commande commande_tmp = new Commande(num_table);
-    System.out.println(commande_tmp.num_table);
     commande_tmp.Get_addition_From_txt();
     AtomicReference<Double> split_prix = new AtomicReference<>(0.00);
-    double prix_payer = (double) commande_tmp.addition;
+    AtomicReference<Boolean> split = new AtomicReference<>(false);
+    AtomicReference<Float> prix_payer = new AtomicReference<>((float) commande_tmp.addition);
 
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
     ImageView backgroundPayement = new ImageView(new Image("images/BackgroundPayement.png"));
     backgroundPayement.fitWidthProperty().bind(App.widthProperty());
     backgroundPayement.fitHeightProperty().bind(App.heightProperty()); 
-                
+
     // Pannel à Gauche
     Button BackButton = new Button("Retour");
-    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail,idProduit));
+    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail,idProduit,Table_busy));
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55);
 
@@ -1397,14 +1491,13 @@ public class App extends Application {
         SeparateButton.setLayoutY(210);
         SeparateButton.setOnAction(e -> {
                 String paymentValueText = PayementInput.getText();
+                split.set(true);
                 try {
                     // Convertir la valeur du champ de paiement en un nombre
                     int numberOfClients = Integer.parseInt(paymentValueText);
-
                     // Vérifier si le nombre de clients est valide et effectuer la division
-                    if (numberOfClients > 0) {
-                        BigDecimal splitPrice = BigDecimal.valueOf(commande_tmp.addition)
-                                .divide(BigDecimal.valueOf(numberOfClients), 2, BigDecimal.ROUND_HALF_UP);
+                    if (numberOfClients > 0 && numberOfClients <= Integer.parseInt(Nbr_Client)) {
+                        BigDecimal splitPrice = BigDecimal.valueOf(commande_tmp.addition).divide(BigDecimal.valueOf(numberOfClients), 2, BigDecimal.ROUND_HALF_UP);
 
                         split_prix.set(splitPrice.doubleValue());
                         // Afficher un message d'information
@@ -1446,7 +1539,7 @@ public class App extends Application {
 	TableText.setLayoutX(720);
 	TableText.setLayoutY(125);
 	
-	Text Total = new Text(commande_tmp.addition + "€");
+	Text Total = new Text(prix_payer + "€");
 	Total.setLayoutX(695);
 	Total.setLayoutY(462);
 	
@@ -1455,12 +1548,24 @@ public class App extends Application {
 	validText.setLayoutY(560);
 	   
 	Button PayementButton = new Button("PAYER");
-	PayementButton.setOnAction(new EventHandler<ActionEvent>() {
-		public void handle(ActionEvent event) {
-            commande_tmp.clearCommandeFile();
-            openServeurPanel(employe,employesTravail,idProduit);
-	       	validText.setText("✔ payement accepté");
-		}
+    PayementButton.setOnAction(e -> {
+        if (!split.get()){
+                Table_busy.put(num_table, 0);
+                commande_tmp.clearCommandeFile();
+                openServeurPanel(employe,employesTravail,idProduit,Table_busy);
+                validText.setText("✔ payement accepté");
+        }
+        else{
+            prix_payer.set((float) (prix_payer.get() - split_prix.get()));
+            if (prix_payer.get() < 0){
+                Table_busy.put(num_table, 0);
+                commande_tmp.clearCommandeFile();
+                openServeurPanel(employe,employesTravail,idProduit,Table_busy);
+                validText.setText("✔ payement accepté");
+            }
+            Total.setText(prix_payer + "€");
+            validText.setText("✔ payement accepté");
+        }
     });
 	PayementButton.setLayoutX(548);
 	PayementButton.setLayoutY(502);
@@ -1564,12 +1669,12 @@ class RectangleWithOrder extends GridPane {
                 Plats Plat_commande = new Plats(i+1);
                 Current_Commande.add_Plats(Plat_commande);
             }
-            if( i == 16){
-                Boisson Boisson_commande = new Boisson(i);
+            if (i > 10 && i != 16){
+                Boisson Boisson_commande = new Boisson(i+1);
                 Current_Commande.add_Boissons(Boisson_commande);
             }
-            else{
-                Boisson Boisson_commande = new Boisson(i+1);
+            if( i == 16){
+                Boisson Boisson_commande = new Boisson(i);
                 Current_Commande.add_Boissons(Boisson_commande);
             }
             System.out.println("Nombre de plats dans la liste : " + Current_Commande.Plats.size() + " Nombre de Boissons dans la liste : " + Current_Commande.Boissons.size());
