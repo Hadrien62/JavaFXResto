@@ -39,3 +39,47 @@ Bière sans alcool   5€
 Montant à payer :  26.0€
 Fin de la Facture de la table :  1001
 
+Facture de la table :1001
+Date et heure : 10-12-2023 01:07:48
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+potages oignon   8 €
+Montant à payer :  25.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 01:27:00
+Plats:
+potages oignon   8 €
+potages oignon   8 €
+potages oignon   8 €
+Montant à payer :  24.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 01:36:02
+Plats:
+salades avec tomates   9 €
+burger tomate, salades   15 €
+potages tomates   8 €
+potages tomates   8 €
+Montant à payer :  40.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 01:36:24
+Plats:
+salades avec tomates   9 €
+burger tomate, salades   15 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+potages tomates   8 €
+Montant à payer :  88.0€
+Fin de la Facture de la table :  1001
+

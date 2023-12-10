@@ -273,8 +273,7 @@ public class App extends Application {
     //---------- Pepper Manager® | Recrutement ----------//
     private void openRecruitmentPanel() {
     	
-    	// Setup
-        App.setTitle("Pepper Manager® | Recrutement"); 
+    	// Setup        App.setTitle("Pepper Manager® | Recrutement");
         ImageView backgroundRecruitment = new ImageView(new Image("images/BackgroundRecrutement.png"));
         backgroundRecruitment.fitWidthProperty().bind(App.widthProperty());
         backgroundRecruitment.fitHeightProperty().bind(App.heightProperty()); 
@@ -1212,7 +1211,7 @@ class RectangleWithOrder extends GridPane {
 		 ImageView imageView = new ImageView(new Image(imagePath));
 		 imageView.setFitWidth(80);
 		 imageView.setFitHeight(80);
-		 
+
 		 Text nameText = new Text(productName); 
 		 Text priceText = new Text(prices + "€");
 		 ImageView addImageView = new ImageView(new Image("images/add.png"));
@@ -1237,6 +1236,7 @@ class RectangleWithOrder extends GridPane {
             for (Boisson Boissons : Current_Commande.Boissons) {
                 System.out.println(Boissons.getNom());
             }
+
             Current_Commande.Calcule_Addition();
             Total.setText(Current_Commande.Get_addition() + "€");
         });
