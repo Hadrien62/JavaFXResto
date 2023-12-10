@@ -25,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class App extends Application {
 
@@ -1506,11 +1507,10 @@ public class App extends Application {
 	Button CancelButton = new Button("ANNULER");
 	CancelButton.setLayoutX(280);
 	CancelButton.setLayoutY(275);
-	CancelButton.setOnAction(new EventHandler<ActionEvent>() {
-		public void handle(ActionEvent event) {
-
-	       	InfoText.setText("✔ séparation annulée");	
-		}
+    CancelButton.setOnAction(e -> {
+            split_prix.set(0.00);
+	       	InfoText.setText("✔ séparation annulée");
+            TotalRestant.setText(split_prix + "€");
     });
 
     // Pannel à Droite
@@ -1547,8 +1547,8 @@ public class App extends Application {
                 validText.setText("✔ payement accepté");
         }
         else{
-            prix_payer.set((float) (prix_payer.get() - split_prix.get()));
-            if (prix_payer.get() < 0){
+            prix_payer.set(BigDecimal.valueOf(prix_payer.get()).subtract(BigDecimal.valueOf(split_prix.get())).setScale(2, RoundingMode.HALF_UP).floatValue());
+            if (prix_payer.get() <= 0){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
                 openServeurPanel(employe,employesTravail,idProduit,Table_busy);
