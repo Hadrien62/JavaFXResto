@@ -217,7 +217,7 @@ public class App extends Application {
 
         // Style
         BackButton.getStyleClass().add("back-button");
-        OuvrirButton.getStyleClass().add("open-button");
+        OuvrirButton.getStyleClass().add("open-buttonQ");
         PlanningButton.getStyleClass().add("manager-button");
         RecruitmentButton.getStyleClass().add("manager-button");
         StatisticButton.getStyleClass().add("manager-button");
