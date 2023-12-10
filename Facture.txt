@@ -349,3 +349,16 @@ Jus de fruit   1€
 Montant à payer :  1.0€
 Fin de la Facture de la table :  1
 
+Facture de la table :1
+Date et heure : 10-12-2023 19:22:45
+Plats:
+salades avec tomates   9 €
+potages champignon   8 €
+burger que viande   15 €
+Boissons:
+   0€
+   0€
+   0€
+Montant à payer :  32.0€
+Fin de la Facture de la table :  1
+

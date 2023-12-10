@@ -1,3 +1,12 @@
 q:q:12.0:Serveur
-w:w:12.0:Cuisinier
 z:z:12.0:Barman
+b:b:12.0:Barman
+8:90:9.0:Barman
+Coline:azerty:1200.0:Cuisinier
+HB:BJ:9.0:Barman
+aurelien:Piloufifa62:2000.0:Barman
+m:m:1.0:Serveur
+a:b:1.0:Serveur
+t:m:1.0:Serveur
+t:m:1.0:Serveur
+w:w:12.0:Cuisinier

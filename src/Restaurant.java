@@ -30,7 +30,7 @@ public class Restaurant {
 				System.out.println(this.employesDuJour.get(i).getRole());
 			}
 		}
-		if((compteurCuisinier >= 4) && (compteurBarman >= 1) && (compteurServeur >= 2)) {
+		if((compteurCuisinier >= 2) && (compteurBarman >= 1) && (compteurServeur >= 4)) {
 			this.restaurant_ouvert = true;
 		}else {
 			System.out.println("Il n'y a pas assez d'employés pour ouvrir le restaurant " + compteurCuisinier + " " + compteurBarman + " " + compteurServeur);
