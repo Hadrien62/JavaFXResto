@@ -8,7 +8,7 @@
 public class Boisson extends Produit {
 	private int num_ingredient_boisson;
 
-	public Boisson(int num_boisson) {
+	public Boisson(int num_boisson){
 		switch (num_boisson) {
 			case 12:
 				this.num_ingredient_boisson = 10;

@@ -7,6 +7,9 @@ public abstract class Produit {
 	private Double temps_prep;
 
 	private int num_produit;
+	private boolean pret;
+
+	private int numTable;
 	
 	public Produit() {
 		this.nom = "";
@@ -45,5 +48,21 @@ public abstract class Produit {
 
 	public void setNum_produit(int num_produit) {
 		this.num_produit = num_produit;
+	}
+
+	public boolean isPret() {
+		return pret;
+	}
+
+	public void setPret(boolean pret) {
+		this.pret = pret;
+	}
+
+	public int getNumTable() {
+		return numTable;
+	}
+
+	public void setNumTable(int numTable) {
+		this.numTable = numTable;
 	}
 }

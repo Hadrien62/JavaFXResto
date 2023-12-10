@@ -20,7 +20,6 @@ public class Plats extends Produit {
 	
 	private Map<Integer, Integer> ingredients;
 	
-	
 	public Plats(int num_plat) {
 	
 		this.ingredients  = new HashMap<>();
