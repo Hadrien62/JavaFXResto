@@ -46,11 +46,11 @@ public class Commande extends Table {
         // Les données à écrire dans le fichier
         donnees += this.num_table + "\n";
         for (Plats plat : this.Plats) {
-            donnees += plat.getNum_produit() + ":" + false + ":" + plat.getId();
+            donnees += plat.getNum_produit() + ":" + false + ":" + plat.getId() + "\n";
             plat.removestock(tmp_stock,tmp_list);
         }
         for (Boisson boisson : this.Boissons) {
-            donnees += boisson.getNum_produit() + ":" + false + ":" + boisson.getId();
+            donnees += boisson.getNum_produit() + ":" + false + ":" + boisson.getId()+ "\n";
             boisson.removestock(tmp_stock,tmp_list);
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))) { // Ecriture du DATA

@@ -170,6 +170,45 @@ Montant à payer :  15.0€
 Fin de la Facture de la table :  1001
 
 Facture de la table :1001
+Date et heure : 10-12-2023 15:48:25
+Plats:
+salades avec tomates   9 €
+potages tomates   8 €
+potages champignon   8 €
+Montant à payer :  25.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:49:44
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+burger tomate, salades   15 €
+Montant à payer :  32.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:52:03
+Boissons:
+Jus de fruit   1€
+Montant à payer :  1.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 15:59:19
+Boissons:
+Cidre doux   5€
+Montant à payer :  5.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
+Date et heure : 10-12-2023 16:06:34
+Boissons:
+Cidre doux   5€
+Montant à payer :  5.0€
+Fin de la Facture de la table :  1001
+
+Facture de la table :1001
 Date et heure : 10-12-2023 15:13:22
 Plats:
 pizza tomate fromage   12 €
