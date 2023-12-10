@@ -37,21 +37,19 @@ public class Commande extends Table {
     public void envoyerCommande() {
         this.Calcule_Addition();
         Transaction transaction = new Transaction(this.num_table, this.addition);
+        //menu Menu=new menu();
+        //Menu.actualiser_menu(tmp_stock);
         Facture Facturetable= new Facture(this.num_table, this.addition);
         Facturetable.Creation_Facture(this.getPlats(),this.getBoissons());
         String cheminFichier = "commande.txt";
         String donnees = "";
-        stock stock_tmp = new stock();
-        ListeCourse list_tmp = new ListeCourse();
         // Les données à écrire dans le fichier
         donnees += this.num_table + "\n";
         for (Plats plat : this.Plats) {
-            donnees += plat.getNum_produit() + ":" + false;
-            plat.removestock(stock_tmp,list_tmp);
+            donnees += plat.getNum_produit() + ":" + false + ":" + plat.getId();
         }
         for (Boisson boisson : this.Boissons) {
-            donnees += boisson.getNum_produit() + ":" + false;
-            boisson.removestock(stock_tmp,list_tmp);
+            donnees += boisson.getNum_produit() + ":" + false + ":" + boisson.getId();
         }
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(cheminFichier))) { // Ecriture du DATA
             // Écrire les données dans le fichier

@@ -856,6 +856,7 @@ public class App extends Application {
                     if (parts.length == 2) {
                         int identifiantBoisson = Integer.parseInt(parts[0]);
                         boolean boissonPret = Boolean.parseBoolean(parts[1]);
+                        int idBoisson = Integer.parseInt(parts[2]);
 
                         if (identifiantBoisson > 11) {
                             Boisson boisson = new Boisson(identifiantBoisson);
@@ -871,7 +872,16 @@ public class App extends Application {
             System.out.println("Impossible de charger les données des employés.");
         }
     }
-    
+    private Boisson findBoissonInList(int idBoisson) {
+        // Recherche de l'élément dans la liste
+        for (Boisson boisson : listeCommandeBoissons) {
+            if (boisson.getId() == idBoisson) {
+                return boisson;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
+    }
+
     //---------- Pepper Cuisinier® | Préparation ----------//
     private void openCookPanel(Employe employe) {
     
@@ -1000,12 +1010,22 @@ public class App extends Application {
         }
     }
 
+    private Plats findPlatInList(int idPlat) {
+        // Recherche de l'élément dans la liste
+        for (Plats plat : listeCommandePlats) {
+            if (plat.getId() == idPlat) {
+                return plat;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
+    }
+
 
     
     //---------- Pepper Serveur® | Réservation  ----------//
     private void openServeurPanel(Employe employe) {
-
         // Setup
+
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
         backgroundServeur.fitWidthProperty().bind(App.widthProperty());
@@ -1017,13 +1037,37 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
-        GridPane Table1 = createReusableGridPane("Hadrien", "0", employe);
-        Table1.setLayoutX(50);
-        Table1.setLayoutY(100);
+        GridPane Table1 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table1.setLayoutX(55);
+        Table1.setLayoutY(86);
 
-        GridPane Table2 = createReusableGridPane("Matt", "0", employe);
-        Table2.setLayoutX(50);
-        Table2.setLayoutY(300);
+        GridPane Table2 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table2.setLayoutX(243);
+        Table2.setLayoutY(86);
+
+        GridPane Table3 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table3.setLayoutX(429);
+        Table3.setLayoutY(86);
+
+        GridPane Table4 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table4.setLayoutX(615);
+        Table4.setLayoutY(86);
+
+        GridPane Table5 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table5.setLayoutX(55);
+        Table5.setLayoutY(345);
+
+        GridPane Table6 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table6.setLayoutX(243);
+        Table6.setLayoutY(345);
+
+        GridPane Table7 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table7.setLayoutX(429);
+        Table7.setLayoutY(345);
+
+        GridPane Table8 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table8.setLayoutX(615);
+        Table8.setLayoutY(345);
 
         // Pane Components
         Pane ServeurPane = new Pane();
@@ -1039,18 +1083,12 @@ public class App extends Application {
 
     private GridPane createReusableGridPane(String Serveur, String Client, Employe employe) {
         GridPane gridPaneClient = new GridPane();
-        gridPaneClient.setHgap(10);
-        gridPaneClient.setVgap(10);
 
         Text ServeurText = new Text("Serveur: " + Serveur);
-        gridPaneClient.add(ServeurText, 0, 1);
-
         Text ClientText = new Text("Client: " + Client);
         gridPaneClient.add(ClientText, 0, 2);
 
         TextField InputClient = new TextField();
-        InputClient.setPromptText("Client");
-        gridPaneClient.add(InputClient, 0, 3);
 
         Button ButtonClient = new Button("Submit");
         gridPaneClient.add(ButtonClient, 1, 3);
@@ -1058,33 +1096,46 @@ public class App extends Application {
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
             if (isNumeric(userInput)) {
-                System.out.println(userInput);
                 int number = Integer.parseInt(userInput);
-                if (number >= 1 && number <= 20) {
-                    // Mettre à jour le texte existant
-                    ClientText.setText("Client: " + InputClient.getText());
+                if (number >= 1 && number <= 10) {
 
-                    // Supprimer l'ancien champ de texte et le bouton
-                    gridPaneClient.getChildren().removeAll(InputClient, ButtonClient);
+                    Button paymentButton = new Button();
+                    ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
+                    paymentImageView.setFitWidth(22);
+                    paymentImageView.setFitHeight(22);
+                    paymentButton.setGraphic(paymentImageView);
+                    paymentButton.setOnAction(e1 -> openPayementPanel(employe));
 
-                    // Ajouter de nouveaux éléments
-                    Button paymentButton = new Button("Paiement");
-                    gridPaneClient.add(paymentButton, 0, 3);
-                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,InputClient.getText()));
+                    Button serviceButton = new Button();
+                    ImageView serviceImageView = new ImageView(new Image("images/service.png"));
+                    serviceImageView.setFitWidth(22);
+                    serviceImageView.setFitHeight(22);
+                    serviceButton.setGraphic(serviceImageView);
 
-                    Button serviceButton = new Button("Service");
-                    gridPaneClient.add(serviceButton, 1, 3);
-
-                    Button orderButton = new Button("Order");
-                    gridPaneClient.add(orderButton, 2, 3);
+                    Button orderButton = new Button();
+                    ImageView orderImageView = new ImageView(new Image("images/Order.png"));
+                    orderImageView.setFitWidth(22);
+                    orderImageView.setFitHeight(22);
+                    orderButton.setGraphic(orderImageView);
                     orderButton.setOnAction(e1 -> openOrderPanel(employe));
+
+                    gridPaneClient.getChildren().removeAll(ButtonClient, InputClient);
+
+                    gridPaneClient.add(paymentButton, 0, 2);
+                    gridPaneClient.add(serviceButton,1, 2);
+                    gridPaneClient.add(orderButton, 2, 2);
+
+                    paymentButton.getStyleClass().addAll("serveur-manage-button");
+                    serviceButton.getStyleClass().add("serveur-manage-button");
+                    orderButton.getStyleClass().add("serveur-manage-button");
+                    GridPane.setMargin(paymentButton, new Insets(134, 0, 0, 0));
+                    GridPane.setMargin(serviceButton, new Insets(134, 0, 0, -60));
+                    GridPane.setMargin(orderButton, new Insets(134, 0, 0, -10));
                 }
             }
         });
-
         return gridPaneClient;
     }
-
 
     private boolean isNumeric(String str) {
         try {
@@ -1195,7 +1246,7 @@ public class App extends Application {
     }
     
     //---------- Pepper Serveur® | Paiement  ----------//
-    private void openPayementPanel(Employe employe, String NbrClient) {
+    private void openPayementPanel(Employe employe) {
     
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
@@ -1209,7 +1260,7 @@ public class App extends Application {
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55); 
 
-	Text ClientText = new Text("Clients: " + NbrClient + " personnes");
+	Text ClientText = new Text("Clients: " + " personnes");
 	ClientText.setLayoutX(280);
 	ClientText.setLayoutY(125);
 
@@ -1226,7 +1277,6 @@ public class App extends Application {
 	SeparateButton.setLayoutX(280);
 	SeparateButton.setLayoutY(210);
 	SeparateButton.setOnAction(new EventHandler<ActionEvent>() {
-
 		public void handle(ActionEvent event) {
 	       	InfoText.setText("✔ payement séparé");	
 		}

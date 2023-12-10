@@ -243,6 +243,7 @@ public class ListeCourse {
 		} else {
 			lst_course_automatique.put(numero_ingredient, quantite);
 		}
+
 	}
 	public void ecrire_Map_Fichier_automatique(String nomFichier) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
