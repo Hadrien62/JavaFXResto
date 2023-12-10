@@ -1004,8 +1004,8 @@ public class App extends Application {
     
     //---------- Pepper Serveur® | Réservation  ----------//
     private void openServeurPanel(Employe employe) {
-
         // Setup
+
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
         backgroundServeur.fitWidthProperty().bind(App.widthProperty());
@@ -1017,17 +1017,41 @@ public class App extends Application {
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(40);
 
-        GridPane Table1 = createReusableGridPane("Paul", "8", employe);
-        Table1.setLayoutX(50);
-        Table1.setLayoutY(100);
+        GridPane Table1 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table1.setLayoutX(55);
+        Table1.setLayoutY(86);
 
-        GridPane Table2 = createReusableGridPane("Paul", "8", employe);
-        Table2.setLayoutX(50);
-        Table2.setLayoutY(300);
+        GridPane Table2 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table2.setLayoutX(243);
+        Table2.setLayoutY(86);
+
+        GridPane Table3 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table3.setLayoutX(429);
+        Table3.setLayoutY(86);
+
+        GridPane Table4 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table4.setLayoutX(615);
+        Table4.setLayoutY(86);
+
+        GridPane Table5 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table5.setLayoutX(55);
+        Table5.setLayoutY(345);
+
+        GridPane Table6 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table6.setLayoutX(243);
+        Table6.setLayoutY(345);
+
+        GridPane Table7 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table7.setLayoutX(429);
+        Table7.setLayoutY(345);
+
+        GridPane Table8 = createReusableGridPane("Pauqsqsl", "8", employe);
+        Table8.setLayoutX(615);
+        Table8.setLayoutY(345);
 
         // Pane Components
         Pane ServeurPane = new Pane();
-        ServeurPane.getChildren().addAll(backgroundServeur, BackButton, Table1, Table2);
+        ServeurPane.getChildren().addAll(backgroundServeur, BackButton,Table1,Table2,Table3,Table4,Table5,Table6,Table7,Table8);
 
         // Style
         BackButton.getStyleClass().add("backServeur-button");
@@ -1037,38 +1061,67 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client, Employe employe) {
+    private GridPane createReusableGridPane(String Serveur, String Client,Employe employe) {
+
         GridPane gridPaneClient = new GridPane();
-        gridPaneClient.setHgap(10);
-        gridPaneClient.setVgap(10);
 
         Text ServeurText = new Text("Serveur: " + Serveur);
-        gridPaneClient.add(ServeurText, 0, 1);
-
         Text ClientText = new Text("Client: " + Client);
-        gridPaneClient.add(ClientText, 0, 2);
-
+        Button ButtonClient = new Button("Prendre");
         TextField InputClient = new TextField();
-        InputClient.setPromptText("Client");
-        gridPaneClient.add(InputClient, 0, 3);
 
-        Button ButtonClient = new Button("Submit");
-        gridPaneClient.add(ButtonClient, 1, 3);
+        gridPaneClient.add(ServeurText, 0, 0);
+        gridPaneClient.add(ClientText, 0, 1);
+        gridPaneClient.add(ButtonClient, 0, 2);
+        gridPaneClient.add(InputClient, 1, 2);
+        GridPane.setMargin(ButtonClient, new Insets(137, 0, 0, 0));
+        GridPane.setMargin(InputClient, new Insets(117, 0, 0, -20));
+
+        // Style
+        ServeurText.getStyleClass().add("serveur");
+        ClientText.getStyleClass().add("client");
+        ButtonClient.getStyleClass().add("client-button");
+        InputClient.getStyleClass().add("client-input");
+        gridPaneClient.getStylesheets().add("login.css");
 
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
             if (isNumeric(userInput)) {
                 int number = Integer.parseInt(userInput);
                 if (number >= 1 && number <= 10) {
-                    gridPaneClient.getChildren().removeAll(InputClient, ButtonClient);
-                    Button paymentButton = new Button("Paiement");
-                    gridPaneClient.add(paymentButton, 0, 3);
+
+                    Button paymentButton = new Button();
+                    ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
+                    paymentImageView.setFitWidth(22);
+                    paymentImageView.setFitHeight(22);
+                    paymentButton.setGraphic(paymentImageView);
                     paymentButton.setOnAction(e1 -> openPayementPanel(employe));
-                    Button serviceButton = new Button("Service");
-                    gridPaneClient.add(serviceButton, 1, 3);
-                    Button orderButton = new Button("Order");
-                    gridPaneClient.add(orderButton, 2, 3);
+
+                    Button serviceButton = new Button();
+                    ImageView serviceImageView = new ImageView(new Image("images/service.png"));
+                    serviceImageView.setFitWidth(22);
+                    serviceImageView.setFitHeight(22);
+                    serviceButton.setGraphic(serviceImageView);
+
+                    Button orderButton = new Button();
+                    ImageView orderImageView = new ImageView(new Image("images/Order.png"));
+                    orderImageView.setFitWidth(22);
+                    orderImageView.setFitHeight(22);
+                    orderButton.setGraphic(orderImageView);
                     orderButton.setOnAction(e1 -> openOrderPanel(employe));
+
+                    gridPaneClient.getChildren().removeAll(ButtonClient, InputClient);
+
+                    gridPaneClient.add(paymentButton, 0, 2);
+                    gridPaneClient.add(serviceButton,1, 2);
+                    gridPaneClient.add(orderButton, 2, 2);
+
+                    paymentButton.getStyleClass().addAll("serveur-manage-button");
+                    serviceButton.getStyleClass().add("serveur-manage-button");
+                    orderButton.getStyleClass().add("serveur-manage-button");
+                    GridPane.setMargin(paymentButton, new Insets(134, 0, 0, 0));
+                    GridPane.setMargin(serviceButton, new Insets(134, 0, 0, -60));
+                    GridPane.setMargin(orderButton, new Insets(134, 0, 0, -10));
                 }
             }
         });
@@ -1083,7 +1136,7 @@ public class App extends Application {
             return false;
         }
     }
-    
+
     //---------- Pepper Serveur® | Commander ----------//
     private void openOrderPanel(Employe employe) {
         Commande Current_Commande= new Commande(1001);
