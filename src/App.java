@@ -856,6 +856,7 @@ public class App extends Application {
                     if (parts.length == 2) {
                         int identifiantBoisson = Integer.parseInt(parts[0]);
                         boolean boissonPret = Boolean.parseBoolean(parts[1]);
+                        int idBoisson = Integer.parseInt(parts[2]);
 
                         if (identifiantBoisson > 11) {
                             Boisson boisson = new Boisson(identifiantBoisson);
@@ -871,7 +872,16 @@ public class App extends Application {
             System.out.println("Impossible de charger les données des employés.");
         }
     }
-    
+    private Boisson findBoissonInList(int idBoisson) {
+        // Recherche de l'élément dans la liste
+        for (Boisson boisson : listeCommandeBoissons) {
+            if (boisson.getId() == idBoisson) {
+                return boisson;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
+    }
+
     //---------- Pepper Cuisinier® | Préparation ----------//
     private void openCookPanel(Employe employe) {
     
@@ -1000,6 +1010,16 @@ public class App extends Application {
         }
     }
 
+    private Plats findPlatInList(int idPlat) {
+        // Recherche de l'élément dans la liste
+        for (Plats plat : listeCommandePlats) {
+            if (plat.getId() == idPlat) {
+                return plat;
+            }
+        }
+        return null; // Retourner null si l'élément n'est pas trouvé dans la liste
+    }
+
 
     
     //---------- Pepper Serveur® | Réservation  ----------//
@@ -1051,7 +1071,7 @@ public class App extends Application {
 
         // Pane Components
         Pane ServeurPane = new Pane();
-        ServeurPane.getChildren().addAll(backgroundServeur, BackButton,Table1,Table2,Table3,Table4,Table5,Table6,Table7,Table8);
+        ServeurPane.getChildren().addAll(backgroundServeur, BackButton, Table1, Table2);
 
         // Style
         BackButton.getStyleClass().add("backServeur-button");
@@ -1061,28 +1081,17 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client,Employe employe) {
-
+    private GridPane createReusableGridPane(String Serveur, String Client, Employe employe) {
         GridPane gridPaneClient = new GridPane();
 
         Text ServeurText = new Text("Serveur: " + Serveur);
         Text ClientText = new Text("Client: " + Client);
-        Button ButtonClient = new Button("Prendre");
+        gridPaneClient.add(ClientText, 0, 2);
+
         TextField InputClient = new TextField();
 
-        gridPaneClient.add(ServeurText, 0, 0);
-        gridPaneClient.add(ClientText, 0, 1);
-        gridPaneClient.add(ButtonClient, 0, 2);
-        gridPaneClient.add(InputClient, 1, 2);
-        GridPane.setMargin(ButtonClient, new Insets(137, 0, 0, 0));
-        GridPane.setMargin(InputClient, new Insets(117, 0, 0, -20));
-
-        // Style
-        ServeurText.getStyleClass().add("serveur");
-        ClientText.getStyleClass().add("client");
-        ButtonClient.getStyleClass().add("client-button");
-        InputClient.getStyleClass().add("client-input");
-        gridPaneClient.getStylesheets().add("login.css");
+        Button ButtonClient = new Button("Submit");
+        gridPaneClient.add(ButtonClient, 1, 3);
 
         ButtonClient.setOnAction(e -> {
             String userInput = InputClient.getText();
@@ -1136,7 +1145,7 @@ public class App extends Application {
             return false;
         }
     }
-
+    
     //---------- Pepper Serveur® | Commander ----------//
     private void openOrderPanel(Employe employe) {
         Commande Current_Commande= new Commande(1001);
