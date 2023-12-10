@@ -362,3 +362,80 @@ Boissons:
 Montant à payer :  32.0€
 Fin de la Facture de la table :  1
 
+Facture de la table :2
+Date et heure : 10-12-2023 22:55:14
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Boissons:
+   0€
+   0€
+Montant à payer :  17.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 22:57:26
+Plats:
+salades avec tomates   9 €
+burger que viande   15 €
+Boissons:
+   0€
+   0€
+Montant à payer :  24.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 23:01:09
+Plats:
+potages oignon   8 €
+burger tomate, salades   15 €
+Boissons:
+   0€
+   0€
+Montant à payer :  23.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 23:02:49
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Boissons:
+   0€
+   0€
+Montant à payer :  17.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 23:11:35
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Boissons:
+   0€
+   0€
+Montant à payer :  17.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 23:14:15
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+Boissons:
+   0€
+   0€
+Montant à payer :  17.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 10-12-2023 23:19:30
+Plats:
+salades avec tomates   9 €
+potages tomates   8 €
+Boissons:
+   0€
+   0€
+Montant à payer :  17.0€
+Fin de la Facture de la table :  2
+
