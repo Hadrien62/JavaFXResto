@@ -93,7 +93,7 @@ public class App extends Application {
 				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password) && restaurant.getRestaurant_ouvert()) {
 						    switch (employe.getRole()) {
 							    case "Cuisinier" -> openCookPanel(employe);
-		                        case "Serveur" -> openServeurPanel(employe,employesTravail);
+		                        case "Serveur" -> openServeurPanel(employe,employesTravail,idProduit);
 		                        case "Barman" -> openBartenderPanel(employe);
 						    }
 				        }
@@ -1108,7 +1108,7 @@ public class App extends Application {
 
     
     //---------- Pepper Serveur® | Réservation  ----------//
-    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail) {
+    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit) {
         // Setup
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
@@ -1223,7 +1223,7 @@ public class App extends Application {
                     orderImageView.setFitWidth(22);
                     orderImageView.setFitHeight(22);
                     orderButton.setGraphic(orderImageView);
-                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste,num_table,listemploye));
+                    orderButton.setOnAction(e1 -> openOrderPanel(employe,tmp_liste,num_table,listemploye,idProduit));
 
                     gridPaneClient.getChildren().removeAll(buttonTable);
                     HBox buttonServeur = new HBox(paymentButton,serviceButton,orderButton);
@@ -1251,7 +1251,7 @@ public class App extends Application {
 
 
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe) {
+    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit) {
         Commande Current_Commande= new Commande(num_table);
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
@@ -1261,7 +1261,7 @@ public class App extends Application {
             
     // Pannel à Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe));
+        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe,idproduit));
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -1317,17 +1317,17 @@ public class App extends Application {
        	   
        	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
                System.out.println(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()]);
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()-1], prices[menu_actuel.getLst_plats().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()-1],i,Current_Commande,Total);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()-1], prices[menu_actuel.getLst_plats().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_plats().get(i).getNum_produit()-1],i,Current_Commande,Total,idProduit);
        	    gridPane.add(rectangle, i % 2, i / 2);
        	    rectangle.getStyleClass().add("grid-cell");
        	}
         for (int i = 0; i < menu_actuel.getLst_boissons().size(); i++) {
             System.out.println(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()]);
-            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i+11,Current_Commande,Total);
+            RectangleWithOrder rectangle = new RectangleWithOrder(productNames[menu_actuel.getLst_boissons().get(i).getNum_produit()-1], prices[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],imagePaths[menu_actuel.getLst_boissons().get(i).getNum_produit()-1],i+11,Current_Commande,Total,idproduit);
             gridPane.add(rectangle, (i+menu_actuel.getLst_plats().size()) % 2, (i+menu_actuel.getLst_plats().size())  / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
-        RectangleWithOrder rectangle = new RectangleWithOrder(productNames[15], prices[15],imagePaths[15],16 ,Current_Commande,Total);
+        RectangleWithOrder rectangle = new RectangleWithOrder(productNames[15], prices[15],imagePaths[15],16 ,Current_Commande,Total,idproduit);
         gridPane.add(rectangle, size_menu % 2, size_menu  / 2);
         rectangle.getStyleClass().add("grid-cell");
        	gridPane.setPrefSize(230, 450);
@@ -1371,7 +1371,7 @@ public class App extends Application {
                 
     // Pannel à Gauche
     Button BackButton = new Button("Retour");
-    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail));
+    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail,idProduit));
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55);
 
@@ -1458,7 +1458,7 @@ public class App extends Application {
 	PayementButton.setOnAction(new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event) {
             commande_tmp.clearCommandeFile();
-            openServeurPanel(employe,employesTravail);
+            openServeurPanel(employe,employesTravail,idProduit);
 	       	validText.setText("✔ payement accepté");
 		}
     });
@@ -1546,7 +1546,7 @@ class RectangleWithProductInfo extends GridPane {
 
 //Commande plat rectangle
 class RectangleWithOrder extends GridPane {
-    public RectangleWithOrder(String productName,int prices,String imagePath, int i, Commande Current_Commande, Text Total ) {
+    public RectangleWithOrder(String productName,int prices,String imagePath, int i, Commande Current_Commande, Text Total, int idproduit ) {
 		 ImageView imageView = new ImageView(new Image(imagePath));
 		 imageView.setFitWidth(80);
 		 imageView.setFitHeight(80);
