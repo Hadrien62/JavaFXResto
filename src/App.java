@@ -1070,7 +1070,7 @@ public class App extends Application {
                     // Ajouter de nouveaux éléments
                     Button paymentButton = new Button("Paiement");
                     gridPaneClient.add(paymentButton, 0, 3);
-                    paymentButton.setOnAction(e1 -> openPayementPanel(employe));
+                    paymentButton.setOnAction(e1 -> openPayementPanel(employe,InputClient.getText()));
 
                     Button serviceButton = new Button("Service");
                     gridPaneClient.add(serviceButton, 1, 3);
@@ -1196,8 +1196,6 @@ public class App extends Application {
     
     //---------- Pepper Serveur® | Paiement  ----------//
     private void openPayementPanel(Employe employe, String NbrClient) {
-
-        Transaction transaction = new Transaction();
     
     // Setup
     App.setTitle("Pepper Serveur® | Paiement");
