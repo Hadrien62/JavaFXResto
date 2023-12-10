@@ -362,6 +362,18 @@ Boissons:
 Montant à payer :  32.0€
 Fin de la Facture de la table :  1
 
+Facture de la table :1
+Date et heure : 10-12-2023 20:49:37
+Plats:
+salades avec tomates   9 €
+salades avec tomates   9 €
+Boissons:
+   0€
+   0€
+Limonade   4€
+Montant à payer :  22.0€
+Fin de la Facture de la table :  1
+
 Facture de la table :2
 Date et heure : 10-12-2023 22:55:14
 Plats:

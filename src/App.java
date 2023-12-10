@@ -36,6 +36,8 @@ public class App extends Application {
     private static final String DATA_Commande = "commande.txt"; // DATA commande
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
     private final ListeCourse tmp_liste = new ListeCourse();
+
+
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private final List<Boisson> listeCommandeBoissons = new ArrayList<>();// Liste des boissons
     private final List<Plats> listeCommandePlats = new ArrayList<>();// Liste des plats
@@ -268,21 +270,11 @@ public class App extends Application {
         Total.setLayoutX(695);
         Total.setLayoutY(462);
         ListView<String> stocklistView = new ListView<>();
-        int taille_lst = tmp_liste.get_liste_course_quanitite().length;
-        if(tmp_liste != null) {
-            for (int i = 0; i < taille_lst; i++) {
+        stocklistView.getStyleClass().add("list4");
 
-                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
-                stocklistView.getItems().add(stockInfo);
-            }
-        }
+
         stocklistView.setLayoutX(540);
         stocklistView.setLayoutY(116);
-        //---------- Cellule Personnalisée ----------//
-
-
-            //---------- Méthode Mise à jour de la cellule ----------//
-
 
         // Style
         BackButton.getStyleClass().add("backRecrutement-button");
@@ -317,7 +309,7 @@ public class App extends Application {
 
         for (int i = 0; i < 13; i++) {
             RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-                    quantities[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App);
+                    quantities[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App, Total);
             gridPane.add(rectangle, i % 2, i / 2);
             rectangle.getStyleClass().add("grid-cell");
         }
@@ -834,8 +826,8 @@ public class App extends Application {
                 validText.setText("✔ Liste de Course Imprimée");
             }
         });
-        PrintButton.setLayoutX(280);
-        PrintButton.setLayoutY(425);
+            PrintButton.setLayoutX(280);
+            PrintButton.setLayoutY(425);
 
         Text PlatTotal = new Text(""+tmp_stat.getNb_plat_vendu());
         PlatTotal.setLayoutX(578);
@@ -845,7 +837,7 @@ public class App extends Application {
         CocktailTotal.setLayoutX(678);
         CocktailTotal.setLayoutY(330);
 
-        Text CoinTotal = new Text(""+tmp_stat.getChiffre_d_affaire());
+        Text CoinTotal = new Text(""+ (int)tmp_stat.getChiffre_d_affaire());
         CoinTotal.setLayoutX(563);
         CoinTotal.setLayoutY(185);
 
@@ -1603,7 +1595,7 @@ public class App extends Application {
 
 // Stock rectangle
 class RectangleWithProductInfo extends GridPane {
-    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, ListView<String> stocklistView,ListeCourse tmp_liste  ,int  num_ingredient, Stage stage) {
+    public RectangleWithProductInfo(String productName,int prices, int quantity, String imagePath, ListeCourse tmp_liste_course, ListView<String> stocklistView,ListeCourse tmp_liste  ,int  num_ingredient, Stage stage , Text Total) {
         ImageView imageView = new ImageView(new Image(imagePath));
         imageView.setFitWidth(80);
         imageView.setFitHeight(80);
@@ -1621,8 +1613,19 @@ class RectangleWithProductInfo extends GridPane {
         addButton.setGraphic(addImageView);
         addButton.setOnAction(e -> {
             tmp_liste_course.add_quantities(num_ingredient);
+            List<String> tmp_liste_ingredient = new ArrayList<>(Arrays.asList(tmp_liste.get_name_liste_course()));
+            List<String> tmp_prix_ingredient = new ArrayList<>();
+            List<String> tmp_quantite_ingredient = new ArrayList<>();
+            for (int i = 0; i<tmp_liste.get_prix_liste_course().length;i++) {
+                int tmp = tmp_liste.get_liste_course_quanitite()[i] * tmp_liste.get_prix_liste_course()[i] ;
+                tmp_prix_ingredient.add(String.valueOf(tmp));
+            }
+            for (int numeroInt2 : tmp_liste.get_liste_course_quanitite()) {
+                tmp_quantite_ingredient.add(String.valueOf(numeroInt2));
+            }
+            Total.setText(" " + tmp_liste.get_prix_total() + " €" );
             stage.getScene().getRoot().requestFocus();
-            updateItemStock(stocklistView,tmp_liste );
+            updatestocklist(stocklistView,tmp_liste_ingredient,tmp_prix_ingredient,tmp_quantite_ingredient);
         });
         HBox priceAndButtonBox = new HBox(10, priceText, addButton);
         priceAndButtonBox.setAlignment(Pos.CENTER);
@@ -1641,16 +1644,21 @@ class RectangleWithProductInfo extends GridPane {
         priceText.getStyleClass().add("name-text");
         addButton.getStyleClass().add("add-button");
     }
-    private void updateItemStock(ListView<String> stocklistView,ListeCourse tmp_liste) {
-        int taille_lst = tmp_liste.get_liste_course_quanitite().length;
+    private void updatestocklist(ListView<String>  tmp_stocklistView, List<String> tmp_liste_ingredient,List<String> tmp_prix_ingredient, List<String> tmp_quantite_ingredient ) {
+        tmp_stocklistView.getItems().clear();
 
-        if(tmp_liste != null) {
-            for (int i = 0; i < taille_lst; i++) {
 
-                String stockInfo = tmp_liste.get_name_liste_course()[i] + "\n" + tmp_liste.get_prix_liste_course()[i];
-                stocklistView.getItems().add(stockInfo);
-            }
+        for (String ingredient : tmp_liste_ingredient) {
+
+            tmp_stocklistView.getItems().add(ingredient);
         }
+        for (int i = 0;i<tmp_prix_ingredient.size();i++) {
+            String tmp = tmp_quantite_ingredient.get(i) +" " +tmp_stocklistView.getItems().get(i) + "\n" +"   " + tmp_prix_ingredient.get(i) +"€";
+            tmp_stocklistView.getItems().add(i, tmp);
+            tmp_stocklistView.getItems().remove(i+1);
+        }
+
+
     }
 
 }
