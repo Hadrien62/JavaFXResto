@@ -239,6 +239,10 @@ public class ListeCourse {
 		lst_course.clear();
 	}
 
+	public void clear_liste_course(){
+		lst_course.clear();
+	}
+
 
 
 	public Map<Integer, Integer> getLst_course_automatique() {
@@ -258,12 +262,51 @@ public class ListeCourse {
 	public void ecrire_Map_Fichier_automatique(String nomFichier) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(nomFichier))) {
 			for (Map.Entry<Integer, Integer> entry : lst_course_automatique.entrySet()) {
-				writer.write(entry.getKey() + ":" + entry.getValue());
+				int numero_ingredient = entry.getKey();
+				String nom_ingredient = getNomIngredient(numero_ingredient); // Utiliser la méthode existante
+				int quantite = entry.getValue();
+				System.out.println(entry.getKey());
+				// Écrire dans le fichier le nom suivi de la quantité
+				writer.write(nom_ingredient + ":" + quantite);
 				writer.newLine();
 			}
 			lst_course_automatique.clear();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	private String getNomIngredient(int numero_ingredient) {
+		switch (numero_ingredient) {
+			case 1:
+				return "tomate";
+			case 2:
+				return "boeuf";
+			case 3:
+				return "pain";
+			case 4:
+				return "frommage";
+			case 5:
+				return "oignon";
+			case 6:
+				return "champignon";
+			case 7:
+				return "salades";
+			case 8:
+				return "saucisse";
+			case 9:
+				return "pate a pizza";
+			case 10:
+				return "limonade";
+			case 11:
+				return "cidre doux";
+			case 12:
+				return "biere sans alcool";
+			case 13:
+				return "jus de fruits";
+			default:
+				System.out.println("Ingrédient non reconnu");
+				return "";
 		}
 	}
 

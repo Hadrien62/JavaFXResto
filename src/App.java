@@ -255,7 +255,11 @@ public class App extends Application {
 
         // Pannel à Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openManagerPanel());
+        BackButton.setOnAction(e -> {
+            openManagerPanel();
+            tmp_liste.clear_liste_course();
+
+        });
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -291,7 +295,12 @@ public class App extends Application {
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
-                validText.setText("✔ Stock remplis");
+                if(tmp_liste.getLst_course().size()>0){
+
+                    validText.setText("✔ Stock remplis");
+                }
+
+
                 tmp_liste.confirme_liste_course(tmp_stock);
             }
         });

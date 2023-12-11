@@ -451,3 +451,28 @@ Boissons:
 Montant à payer :  17.0€
 Fin de la Facture de la table :  2
 
+Facture de la table :1
+Date et heure : 11-12-2023 08:50:23
+Plats:
+salades avec tomates   9 €
+Boissons:
+Limonade   4€
+Montant à payer :  13.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 08:54:34
+Boissons:
+Limonade   4€
+Montant à payer :  4.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 08:57:24
+Plats:
+pizza champignon   12 €
+Boissons:
+Limonade   4€
+Montant à payer :  16.0€
+Fin de la Facture de la table :  1
+
