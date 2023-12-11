@@ -883,8 +883,8 @@ public class App extends Application {
     //---------- Pepper Barman® | Préparation ----------//
     private void openBartenderPanel(Employe employe) {
 
-        // Setup
-        App.setTitle("Pepper Barman " + employe.getUsername() + "® | Préparation");
+// Setup
+        App.setTitle("Pepper Barman® | Préparation | " + employe.getUsername());
         ImageView backgroundBartender = new ImageView(new Image("images/BackgroundBarman.png"));
         backgroundBartender.fitWidthProperty().bind(App.widthProperty());
         backgroundBartender.fitHeightProperty().bind(App.heightProperty());
@@ -899,11 +899,11 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNom() +"\n"+"Table N°: " + boisson.getNumTable();
+            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
-        listEnPrep.setLayoutX(271);
+        listEnPrep.setLayoutX(260);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -913,14 +913,14 @@ public class App extends Application {
             String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedBoisson != null) {
                 listEnPrep.getItems().remove(selectedBoisson);
-                listeCommandeBoissons.removeIf(boisson -> (boisson.getNom() +"\n" +"Table N°: " + boisson.getNumTable()).equals(selectedBoisson));// Suppression de l'élément dans la liste
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));// Suppression de l'élément dans la liste
                 Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));// Création d'un nouvel élément boisson
                 boisson.setPret(true);// Préparation de la boisson
                 boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));// Récupération du numéro de table
                 listeCommandeServir.add(boisson);// Ajouter l'élément à la liste
             }
         });
-        validerButton.setLayoutX(281);
+        validerButton.setLayoutX(260);
         validerButton.setLayoutY(500);
 
         // Pane Components
@@ -929,7 +929,7 @@ public class App extends Application {
 
         // Style
         BackButton.getStyleClass().add("backBarman-button");
-        validerButton.getStyleClass().add("stock-button");
+
         BartenderPane.getStylesheets().add("login.css");
         App.setScene(new Scene(BartenderPane, 800, 600));
     }
