@@ -977,7 +977,7 @@ public class App extends Application {
     private void openCookPanel(Employe employe) {
 
         // Setup
-        App.setTitle("Pepper Cuisinier " + employe.getUsername() + "® | Préparation");
+        App.setTitle("Pepper Cuisinier® | Préparation | " + employe.getUsername());
         ImageView backgroundCook = new ImageView(new Image("images/BackgroundCuisinier.png"));
         backgroundCook.fitWidthProperty().bind(App.widthProperty());
         backgroundCook.fitHeightProperty().bind(App.heightProperty());
@@ -992,10 +992,10 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list3");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Plats plat : listeCommandePlats) {
-            String platInfo = plat.getNom() + "\n" + "Table N°: " + plat.getNumTable() ;
+            String platInfo =  plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep();
             listEnPrep.getItems().add(platInfo);
         }
-        listEnPrep.setLayoutX(271);
+        listEnPrep.setLayoutX(260);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -1005,14 +1005,14 @@ public class App extends Application {
             String selectedPlat = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedPlat != null) {
                 listEnPrep.getItems().remove(selectedPlat);
-                listeCommandePlats.removeIf(plat -> (plat.getNom() + "\n" + "Table N°: " + plat.getNumTable()).equals(selectedPlat));
+                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));// Suppression de l'élément dans la liste
                 Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));// Création d'un nouvel élément plat
                 plat.setPret(true);// Préparation du plat
                 plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));// Récupération du numéro de table
                 listeCommandeServir.add(plat);// Ajouter l'élément à la liste
             }
         });
-        validerButton.setLayoutX(281);
+        validerButton.setLayoutX(260);
         validerButton.setLayoutY(500);
 
         // Pane Components
