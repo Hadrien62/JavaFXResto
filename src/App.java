@@ -298,19 +298,21 @@ public class App extends Application {
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
 
             public void handle(ActionEvent event) {
-                if(tmp_liste.getLst_course().size()>0){
+                if(tmp_liste.getLst_course().size()>0) {
 
                     validText.setText("✔ Stock remplis");
-                }
 
 
-                tmp_liste.confirme_liste_course(tmp_stock);
-                int[] quantities2 = tmp_stock.get_lst_quantities();
-                for (int i = 0; i < 13; i++) {
-                    RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-                            quantities2[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App, Total);
-                    gridPane.add(rectangle, i % 2, i / 2);
-                    rectangle.getStyleClass().add("grid-cell");
+                    tmp_liste.confirme_liste_course(tmp_stock);
+                    stocklistView.getItems().clear();
+                    Total.setText("000");
+                    int[] quantities2 = tmp_stock.get_lst_quantities();
+                    for (int i = 0; i < 13; i++) {
+                        RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
+                                quantities2[i], imagePaths[i], tmp_liste, stocklistView, tmp_liste, i + 1, App, Total);
+                        gridPane.add(rectangle, i % 2, i / 2);
+                        rectangle.getStyleClass().add("grid-cell");
+                    }
                 }
             }
         });
