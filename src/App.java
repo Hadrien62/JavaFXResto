@@ -1383,9 +1383,6 @@ public class App extends Application {
 
 
     // Setup
-    	App.setTitle("Pepper Serveur® | Commander"); 
-	    ImageView backgroundOrder = new ImageView(new Image("images/BackgroundCommand.png"));
-        // Setup
         App.setTitle("Pepper Serveur® | Commander");
         ImageView backgroundOrder = new ImageView(new Image("images/BackgroundCommand.png"));
         backgroundOrder.fitWidthProperty().bind(App.widthProperty());
