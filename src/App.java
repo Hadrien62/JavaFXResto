@@ -1577,16 +1577,21 @@ public class App extends Application {
 	Text validText = new Text();
 	validText.setLayoutX(548);
 	validText.setLayoutY(560);
-	   
 	Button PayementButton = new Button("PAYER");
     PayementButton.setOnAction(e -> {
-        if (!split.get()){
+        int count = 0;
+        for (Produit elem : listeCommandeServir) {
+            if (elem.getNumTable() == num_table){
+                count++;
+            }
+        }
+        if (!split.get() && count == Tab_table[num_table-1]){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
                 openServeurPanel(employe,employesTravail,idProduit,Table_busy);
                 validText.setText("✔ payement accepté");
         }
-        else{
+        else if(count == Tab_table[num_table-1]){
             prix_payer.set(BigDecimal.valueOf(prix_payer.get()).subtract(BigDecimal.valueOf(split_prix.get())).setScale(2, RoundingMode.HALF_UP).floatValue());
             if (prix_payer.get() <= 0){
                 Table_busy.put(num_table, 0);
@@ -1596,6 +1601,8 @@ public class App extends Application {
             }
             Total.setText(prix_payer + "€");
             validText.setText("✔ payement accepté");
+        }else{
+            validText.setText("❌ plat non livré");
         }
     });
 	PayementButton.setLayoutX(548);
