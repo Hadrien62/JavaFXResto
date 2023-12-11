@@ -1254,6 +1254,8 @@ public class App extends Application {
 
             ButtonClient.setOnAction(e -> {
                 String userInput = InputClient.getText();
+                Stat  tmp_stat = new Stat();
+                tmp_stat.add_stat(Integer.parseInt(InputClient.getText()),2);
                 ClientText.setText("Client: " + userInput);
                 Table_busy.put(num_table, Integer.parseInt(userInput));
                 if (isNumeric(userInput)) {
