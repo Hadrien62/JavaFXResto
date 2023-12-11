@@ -289,8 +289,11 @@ public class App extends Application {
         Text validText = new Text();
         validText.setLayoutX(548);
         validText.setLayoutY(560);
-
-
+        String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
+        String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
+        int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};
+        int[] quantities = tmp_stock.get_lst_quantities();
+        GridPane gridPane = new GridPane();
         Button CommandButton = new Button("COMMANDER");
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -302,20 +305,24 @@ public class App extends Application {
 
 
                 tmp_liste.confirme_liste_course(tmp_stock);
+                int[] quantities2 = tmp_stock.get_lst_quantities();
+                for (int i = 0; i < 13; i++) {
+                    RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
+                            quantities2[i], imagePaths[i],tmp_liste,stocklistView,tmp_liste,i+1,App, Total);
+                    gridPane.add(rectangle, i % 2, i / 2);
+                    rectangle.getStyleClass().add("grid-cell");
+                }
             }
         });
         CommandButton.setLayoutX(548);
         CommandButton.setLayoutY(502);
 
-        GridPane gridPane = new GridPane();
+
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
 
-        String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
-        String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
-        int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};
-        int[] quantities = tmp_stock.get_lst_quantities();
+
 
 
         for (int i = 0; i < 13; i++) {
