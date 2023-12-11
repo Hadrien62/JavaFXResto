@@ -452,6 +452,261 @@ Montant à payer :  17.0€
 Fin de la Facture de la table :  2
 
 Facture de la table :1
+Date et heure : 11-12-2023 02:30:27
+Plats:
+salades avec tomates   9 €
+salades sans tomates   9 €
+Montant à payer :  18.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 02:33:28
+Plats:
+salades avec tomates   9 €
+potages oignon   8 €
+salades sans tomates   9 €
+Montant à payer :  26.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :3
+Date et heure : 11-12-2023 02:36:37
+Plats:
+salades avec tomates   9 €
+potages tomates   8 €
+Montant à payer :  17.0€
+Fin de la Facture de la table :  3
+
+Facture de la table :2
+Date et heure : 11-12-2023 02:38:11
+Plats:
+burger que viande   15 €
+burger salade   15 €
+pizza tomate fromage   12 €
+pizza champignon   12 €
+salades sans tomates   9 €
+Montant à payer :  63.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :4
+Date et heure : 11-12-2023 02:41:08
+Boissons:
+Jus de fruit   1€
+Bière sans alcool   5€
+Montant à payer :  6.0€
+Fin de la Facture de la table :  4
+
+Facture de la table :4
+Date et heure : 11-12-2023 02:43:34
+Boissons:
+Bière sans alcool   5€
+Montant à payer :  5.0€
+Fin de la Facture de la table :  4
+
+Facture de la table :1
+Date et heure : 11-12-2023 02:46:19
+Boissons:
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Bière sans alcool   5€
+Montant à payer :  160.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :2
+Date et heure : 11-12-2023 03:48:43
+Plats:
+Salade Tomate   9 €
+Salade   9 €
+Soupe Oignon   8 €
+Soupe Tomate   8 €
+Soupe Enoki   8 €
+Burger   15 €
+Burger Végétarien   15 €
+Burger Carnivore   15 €
+Pizza 4 fromages   12 €
+Pizza Calzone   12 €
+Pizza Napolitaine   12 €
+Boissons:
+Limonade   5€
+Cidre   5€
+Bière   5€
+Jus   1€
+Verre d’eau   0€
+Montant à payer :  139.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:50:03
+Plats:
+Soupe Enoki   8 €
+Burger   15 €
+Salade Tomate   9 €
+Salade   9 €
+Soupe Tomate   8 €
+Boissons:
+Limonade   5€
+Montant à payer :  54.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:52:35
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:54:19
+Plats:
+Salade   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:55:20
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:57:55
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 03:59:07
+Plats:
+Salade Tomate   9 €
+Soupe Oignon   8 €
+Montant à payer :  17.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:01:00
+Plats:
+Salade Tomate   9 €
+Salade Tomate   9 €
+Salade Tomate   9 €
+Salade Tomate   9 €
+Montant à payer :  36.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:02:27
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:03:03
+Plats:
+Soupe Oignon   8 €
+Montant à payer :  8.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :3
+Date et heure : 11-12-2023 04:05:08
+Plats:
+Salade   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  3
+
+Facture de la table :3
+Date et heure : 11-12-2023 04:06:23
+Plats:
+Salade   9 €
+Soupe Tomate   8 €
+Soupe Tomate   8 €
+Soupe Tomate   8 €
+Soupe Tomate   8 €
+Soupe Tomate   8 €
+Montant à payer :  49.0€
+Fin de la Facture de la table :  3
+
+Facture de la table :6
+Date et heure : 11-12-2023 04:07:48
+Boissons:
+Jus   1€
+Cidre   5€
+Montant à payer :  6.0€
+Fin de la Facture de la table :  6
+
+Facture de la table :2
+Date et heure : 11-12-2023 04:14:09
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :2
+Date et heure : 11-12-2023 04:14:15
+Montant à payer :  0.0€
+Fin de la Facture de la table :  2
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:22:52
+Plats:
+Salade Tomate   9 €
+Montant à payer :  9.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:24:39
+Plats:
+Salade Tomate   9 €
+Boissons:
+Cidre   5€
+Montant à payer :  14.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
+Date et heure : 11-12-2023 04:27:47
+Plats:
+Salade Tomate   9 €
+Salade   9 €
+Boissons:
+Limonade   5€
+Cidre   5€
+Cidre   5€
+Cidre   5€
+Cidre   5€
+Cidre   5€
+Montant à payer :  48.0€
+Fin de la Facture de la table :  1
+
+Facture de la table :1
 Date et heure : 11-12-2023 08:50:23
 Plats:
 salades avec tomates   9 €

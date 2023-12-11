@@ -11,7 +11,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
 import java.io.*;
 import java.util.*;
 import javafx.scene.layout.VBox;
@@ -28,25 +27,18 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class App extends Application {
-
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
-
     private int[] Tab_table = new int[8];
     private static final String DATA_Commande = "commande.txt"; // DATA commande
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
     private final ListeCourse tmp_liste = new ListeCourse();
-
-
     private final List<Employe> employesTravail = new ArrayList<>();// Liste des employés qui travaillent ce jour
     private final List<Boisson> listeCommandeBoissons = new ArrayList<>();// Liste des boissons
     private final List<Plats> listeCommandePlats = new ArrayList<>();// Liste des plats
-
     private final List<Produit> listeCommandeServir = new ArrayList<>();// Liste des produits à servir
-
     private int idProduit = 0; // ID des produits
     private Stage App;
-
     private Map<Integer, Integer> Table_busy = new HashMap<Integer, Integer>() {{
         put(1, 0);
         put(2, 0);
@@ -95,14 +87,13 @@ public class App extends Application {
 			    String password = PasswordInput.getText();
 
 		    	// Ouvrir le pannel Manager
-		        if(username.equalsIgnoreCase("a") && password.equals("az")){
+		        if(username.equalsIgnoreCase("admin") && password.equals("admin123")){
 		        	openManagerPanel();
 		        }
 		        else{
-		        	errorMessageText.setText("⚠ Nom d'utilisateur ou Mot de passe incorrect ou vous n'êtes pas dans le planning.");
+		        	errorMessageText.setText("⚠ Nom / Mot de passe / Planning incorrecte.");
                     loadEmployeeDuJourData();
 				    for (Employe employe : employesTravail) {
-				    	
 				    	// Validation mot de passe et username avec la DATA + Ouvrir le pannel en fonction du rôle
 				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password) && restaurant.getRestaurant_ouvert()) {
 						    switch (employe.getRole()) {
@@ -140,15 +131,16 @@ public class App extends Application {
         backgroundManager.fitWidthProperty().bind(App.widthProperty());
         backgroundManager.fitHeightProperty().bind(App.heightProperty());
 
-        // Boutons
         Button BackButton = new Button("Retour");
         BackButton.setOnAction(e -> start(App));
         BackButton.setLayoutX(55);
         BackButton.setLayoutY(50);
+
         Text errorMessageText = new Text();
         errorMessageText.getStyleClass().add("error");
-        errorMessageText.setLayoutX(15);
+        errorMessageText.setLayoutX(58);
         errorMessageText.setLayoutY(350);
+
         String message = "";
         if(!restaurant.getRestaurant_ouvert()){
             message = "OUVRIR PEPPER";
@@ -162,7 +154,7 @@ public class App extends Application {
                 restaurant.setEmployesDuJour(employesTravail);
                 restaurant.ouvrirResto();
                 if(!restaurant.getRestaurant_ouvert()){
-                    errorMessageText.setText("⚠ Il n'y a pas assez d'employés pour ouvrir le restaurant");
+                    errorMessageText.setText("⚠ Pas assez d'employés");
                 }else{
                     for(Employe employe : employes){
                         employe.setNombreDeSoir(0);
@@ -170,7 +162,6 @@ public class App extends Application {
                     for(Employe employe : employesTravail){
                         employe.setNombreDeSoir(employe.getNombreDeSoir() + 1);
                     }
-                    openManagerPanel();
                 }
             }else{
                 loadEmployeeDuJourData();
@@ -202,7 +193,6 @@ public class App extends Application {
                 } catch (IOException exception2) {
                     System.err.println("Erreur lors de la manipulation du fichier : " + exception2.getMessage());
                 }
-                openManagerPanel();
             }
         });
         OuvrirButton.setLayoutX(58);
@@ -255,11 +245,7 @@ public class App extends Application {
 
         // Pannel à Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> {
-            openManagerPanel();
-            tmp_liste.clear_liste_course();
-
-        });
+        BackButton.setOnAction(e -> openManagerPanel());
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -272,13 +258,12 @@ public class App extends Application {
         String formattedDate = currentDate.format(formatter);
         Date.setText(formattedDate);
 
-        Text Total = new Text("000 €");
+        Text Total = new Text("0 €");
         Total.setLayoutX(695);
         Total.setLayoutY(462);
+
         ListView<String> stocklistView = new ListView<>();
         stocklistView.getStyleClass().add("list4");
-
-
         stocklistView.setLayoutX(540);
         stocklistView.setLayoutY(116);
 
@@ -289,43 +274,26 @@ public class App extends Application {
         Text validText = new Text();
         validText.setLayoutX(548);
         validText.setLayoutY(560);
-        String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
-        String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
-        int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};
-        int[] quantities = tmp_stock.get_lst_quantities();
-        GridPane gridPane = new GridPane();
+
         Button CommandButton = new Button("COMMANDER");
         CommandButton.setOnAction(new EventHandler<ActionEvent>() {
-
             public void handle(ActionEvent event) {
-                if(tmp_liste.getLst_course().size()>0) {
-
-                    validText.setText("✔ Stock remplis");
-
-
-                    tmp_liste.confirme_liste_course(tmp_stock);
-                    stocklistView.getItems().clear();
-                    Total.setText("000");
-                    int[] quantities2 = tmp_stock.get_lst_quantities();
-                    for (int i = 0; i < 13; i++) {
-                        RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
-                                quantities2[i], imagePaths[i], tmp_liste, stocklistView, tmp_liste, i + 1, App, Total);
-                        gridPane.add(rectangle, i % 2, i / 2);
-                        rectangle.getStyleClass().add("grid-cell");
-                    }
-                }
+                validText.setText("✔ Stock remplis");
+                tmp_liste.confirme_liste_course(tmp_stock);
             }
         });
         CommandButton.setLayoutX(548);
         CommandButton.setLayoutY(502);
 
-
+        GridPane gridPane = new GridPane();
         gridPane.setPadding(new Insets(10, 10, 10, 10));
         gridPane.setVgap(10);
         gridPane.setHgap(10);
 
-
-
+        String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
+        String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
+        int[] prices = {3,2,4,3,5,2,6,8,1,2,2,2,3,7};
+        int[] quantities = tmp_stock.get_lst_quantities();
 
         for (int i = 0; i < 13; i++) {
             RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
@@ -354,7 +322,6 @@ public class App extends Application {
         CommandButton.getStyleClass().add("stock-button");
         BackButton.getStyleClass().add("backStock-button");
 
-
         StockPane.getStylesheets().add("login.css");
         App.setScene(new Scene(StockPane, 800, 600));
     }
@@ -362,7 +329,8 @@ public class App extends Application {
     //---------- Pepper Manager® | Recrutement ----------//
     private void openRecruitmentPanel() {
     	
-    	// Setup        App.setTitle("Pepper Manager® | Recrutement");
+    	// Setup
+        App.setTitle("Pepper Manager® | Recrutement");
         ImageView backgroundRecruitment = new ImageView(new Image("images/BackgroundRecrutement.png"));
         backgroundRecruitment.fitWidthProperty().bind(App.widthProperty());
         backgroundRecruitment.fitHeightProperty().bind(App.heightProperty()); 
@@ -580,54 +548,50 @@ public class App extends Application {
         App.setTitle("Pepper Manager® | Planning");
 
         // Création des composants
-        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundPlanning.png"));//Image de fond
-        backgroundPlanning.fitWidthProperty().bind(App.widthProperty());//Taille de l'image
-        backgroundPlanning.fitHeightProperty().bind(App.heightProperty());//Taille de l'image
+        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundPlanning.png"));
+        backgroundPlanning.fitWidthProperty().bind(App.widthProperty());
+        backgroundPlanning.fitHeightProperty().bind(App.heightProperty());
+
         //Panel de Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openManagerPanel());//Bouton retour
+        BackButton.setOnAction(e -> openManagerPanel());
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
-        Text Member = new Text(employes.size() + " membres");//Texte nombre de membre
-        Member.getStyleClass().add("text-member2");
-        Member.setLayoutX(275);
-        Member.setLayoutY(120);
-
-        ListView<String> employeDispo = new ListView<>();//Liste des employés disponibles
+        ListView<String> employeDispo = new ListView<>();
         employeDispo.getStyleClass().add("list2");
-        employeDispo.setCellFactory(param -> createCustomListCell());//Cellule personnalisée
+        employeDispo.setCellFactory(param -> createCustomListCell());
         loadEmployeeDuJourData();
         for (Employe employe : employes) {
-            if(employe.getNombreDeSoir() >= 3){//Si l'employé a déjà travaillé 3 soirs, il ne peut pas travailler ce soir
+            if(employe.getNombreDeSoir() >= 3){
                 continue;
             }
-            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();//Affichage username et role
-            employeDispo.getItems().add(employeInfoUsername);//Ajout de l'employé dans la liste
+            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+            employeDispo.getItems().add(employeInfoUsername);
 
         }
-        employeDispo.setLayoutX(260);
-        employeDispo.setLayoutY(136);
+        employeDispo.setLayoutX(270);
+        employeDispo.setLayoutY(116);
 
         ListView<String> employeDuJour = new ListView<>();
         employeDuJour.getStyleClass().add("list2");
-        for(Employe employe : employesTravail){//Liste des employés qui travaillent ce soir
-            String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();//Affichage username et role
+        for(Employe employe : employesTravail){
+            String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
             employeDuJour.getItems().add(employeTaffInfoUsername);
         }
-        employeDuJour.setLayoutX(525);
-        employeDuJour.setLayoutY(136);
+        employeDuJour.setLayoutX(535);
+        employeDuJour.setLayoutY(116);
+
         Text AddText = new Text();
         AddText.setLayoutX(280);
         AddText.setLayoutY(560);
 
-
-        Button selectButton = new Button("AJOUTER");//Bouton ajouter
+        Button selectButton = new Button("AJOUTER");
         selectButton.setOnAction(e -> {
             // Obtenir l'élément sélectionné
-            String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();//Récupération de l'employé sélectionné
+            String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();
 
-            if (selectedEmployee != null) {//Si l'employé est sélectionné
+            if (selectedEmployee != null) {
                 // Ajouter l'employé à la liste employesTravail
                 employesTravail.add(findEmployeeByUsername(selectedEmployee));
                 // Supprimer l'employé de la liste employes
@@ -637,7 +601,7 @@ public class App extends Application {
                 AddText.setText("✔ Employé ajouté");
             }
         });
-        selectButton.setLayoutX(274);
+        selectButton.setLayoutX(281);
         selectButton.setLayoutY(502);
 
         Button confirmerEquipe = new Button("VALIDER");
@@ -651,23 +615,20 @@ public class App extends Application {
                     if (!Files.exists(fichierPath)) {
                         Files.createFile(fichierPath);
                     }
-
                     // Utiliser BufferedWriter pour écrire dans le fichier
                     try (BufferedWriter writer = new BufferedWriter(new FileWriter(NomFichier))) {
                         for (Employe employe : employesTravail) {
                             writer.write(employe.getUsername() + ":" + employe.getPassword() + ":" + employe.getSalaire() + ":" + employe.getRole());
                             writer.newLine(); // Ajouter une nouvelle ligne
                         }
-
                         System.out.println("Données écrites avec succès dans le fichier : " + NomFichier);
                         try (BufferedWriter writer2 = new BufferedWriter(new FileWriter(DATA_FILE, false))) {
                             for (Employe employe : employes) {
                                 writer2.write(employe.getUsername() + ":" + employe.getPassword() + ":" + employe.getSalaire() + ":" + employe.getRole());
                                 writer2.newLine(); // Ajouter une nouvelle ligne
                             }
-
                             System.out.println("Données écrites avec succès dans le fichier : " + DATA_FILE);
-                            validText.setText("✔ Planning terminé");
+                            validText.setText("✔ Planning modifié");
                         } catch (IOException e) {
                             e.printStackTrace();
                             // Gérer l'exception selon votre logique d'application
@@ -677,18 +638,16 @@ public class App extends Application {
                     System.err.println("Erreur lors de la manipulation du fichier : " + e.getMessage());
                 }
         });
-        confirmerEquipe.setLayoutX(537);
+        confirmerEquipe.setLayoutX(548);
         confirmerEquipe.setLayoutY(502);
 
-        // Assemblage du panneau avec l'arrière-plan et les composants
         Pane PlanningPane = new Pane();
-        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,AddText,employeDispo,Member,employeDuJour,selectButton,confirmerEquipe,validText);
+        PlanningPane.getChildren().addAll(backgroundPlanning,BackButton,AddText,employeDispo,employeDuJour,selectButton,confirmerEquipe,validText);
         BackButton.getStyleClass().add("backRecrutement-button");
         selectButton.getStyleClass().add("stock-button");
         AddText.getStyleClass().add("valid");
         confirmerEquipe.getStyleClass().add("stock-button");
         validText.getStyleClass().add("valid");
-        // Application du style
         PlanningPane.getStylesheets().add("login.css");
 
         // Définition de la scène
@@ -723,15 +682,13 @@ public class App extends Application {
             System.out.println("Impossible de charger les données des employés.");
         }
     }
-
-
     // Fonction pour créer une cellule personnalisée pour la ListView
     private ListCell<String> createCustomListCell() {
         return new ListCell<>() {
             @Override
-            protected void updateItem(String item, boolean empty) {//Mise à jour de la cellule
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-                if (item == null || empty) {//Si la cellule est vide
+                if (item == null || empty) {
                     setText(null);
                     setDisable(false);
                     setGraphic(null);
@@ -748,9 +705,7 @@ public class App extends Application {
                         setStyle("-fx-control-inner-background: white;"); // Fond blanc
                         setDisable(false); // Activer la sélection
                     }
-
                     setText(item);
-
                     // Changer la couleur du fond en rouge lorsque la cellule est sélectionnée
                     selectedProperty().addListener((obs, wasSelected, isNowSelected) -> {
                         if (isNowSelected) {
@@ -770,11 +725,10 @@ public class App extends Application {
         };
     }
 
-
     // Fonction pour trouver un employé par son nom d'utilisateur
     private Employe findEmployeeByUsername(String username) {
         for (Employe employe : employes) {
-            if ((employe.getUsername() + "\n" + employe.getRole()).equals(username)) {//Si l'employé est trouvé
+            if ((employe.getUsername() + "\n" + employe.getRole()).equals(username)) {
                 return employe;
             }
         }
@@ -788,19 +742,18 @@ public class App extends Application {
 
         for (Employe employe : employes) {
             String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
-            employeDispo.getItems().add(employeInfoUsername);//Ajout de l'employé dans la liste
+            employeDispo.getItems().add(employeInfoUsername);
         }
         for (Employe employe : employesTravail) {
             try{
                 String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
-                employeDuJour.getItems().add(employeTaffInfoUsername);//Ajout de l'employé dans la liste
+                employeDuJour.getItems().add(employeTaffInfoUsername);
             }
             catch (Exception e){
                 System.out.println("Pas d'employé dans la liste");
             }
         }
     }
-
 
     //---------- Pepper Manager® | Statistique ----------//
     private void openStatisticPanel() {
@@ -882,12 +835,11 @@ public class App extends Application {
         App.setScene(new Scene(StatisticPane, 800, 600));
     }
 
-
     //---------- Pepper Barman® | Préparation ----------//
     private void openBartenderPanel(Employe employe) {
     
     // Setup
-        App.setTitle("Pepper Barman® | Préparation | " + employe.getUsername());
+        App.setTitle("Pepper Barman " + employe.getUsername() + "® | Préparation");
         ImageView backgroundBartender = new ImageView(new Image("images/BackgroundBarman.png"));
         backgroundBartender.fitWidthProperty().bind(App.widthProperty());
         backgroundBartender.fitHeightProperty().bind(App.heightProperty());     
@@ -902,11 +854,11 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
+            String boissonInfo = boisson.getNom() +"\n"+"Table N°: " + boisson.getNumTable();
             listEnPrep.getItems().add(boissonInfo);
 
         }
-        listEnPrep.setLayoutX(260);
+        listEnPrep.setLayoutX(271);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -916,14 +868,14 @@ public class App extends Application {
             String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedBoisson != null) {
                 listEnPrep.getItems().remove(selectedBoisson);
-                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));// Suppression de l'élément dans la liste
-                Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));// Création d'un nouvel élément boisson
-                boisson.setPret(true);// Préparation de la boisson
-                boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));// Récupération du numéro de table
-                listeCommandeServir.add(boisson);// Ajouter l'élément à la liste
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNom() +"\n" +"Table N°: " + boisson.getNumTable()).equals(selectedBoisson));
+                Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));
+                boisson.setPret(true);
+                boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));
+                listeCommandeServir.add(boisson);
             }
         });
-        validerButton.setLayoutX(260);
+        validerButton.setLayoutX(281);
         validerButton.setLayoutY(500);
 
     // Pane Components
@@ -932,30 +884,30 @@ public class App extends Application {
 
     // Style
         BackButton.getStyleClass().add("backBarman-button");
-                   
+        validerButton.getStyleClass().add("stock-button");
         BartenderPane.getStylesheets().add("login.css");        
         App.setScene(new Scene(BartenderPane, 800, 600));    
     }
-    private void loadCommandeDataBoisson() {// Chargement des données de la commande
+    private void loadCommandeDataBoisson() {
         try (BufferedReader reader = new BufferedReader(new FileReader(DATA_Commande))) {
-            String numTable;// Récupération du numéro de table
+            String numTable;
             while ((numTable = reader.readLine()) != null) {
                 int tableNumber = Integer.parseInt(numTable);
                 System.out.println("Table N°: " + tableNumber);
                 String boissonInfo;
-                while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {// Récupération des informations de la boisson
-                    String[] parts = boissonInfo.split(":");// Séparer les informations
+                while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {
+                    String[] parts = boissonInfo.split(":");
                     if (parts.length == 3) {
-                        int identifiantBoisson = Integer.parseInt(parts[0]);// Récupération de l'identifiant de la boisson
-                        boolean boissonPret = Boolean.parseBoolean(parts[1]);// Récupération de l'état de préparation de la boisson
-                        int idBoisson = Integer.parseInt(parts[2]);// Récupération de l'id de la boisson
+                        int identifiantBoisson = Integer.parseInt(parts[0]);
+                        boolean boissonPret = Boolean.parseBoolean(parts[1]);
+                        int idBoisson = Integer.parseInt(parts[2]);
 
-                        if (identifiantBoisson > 11) {// Si l'identifiant de la boisson est supérieur à 11
+                        if (identifiantBoisson > 11) {
                                 // Ajouter l'élément à la liste
-                                Boisson boisson = new Boisson(identifiantBoisson);// Création d'un nouvel élément boisson
-                                boisson.setPret(boissonPret);// Préparation de la boisson
-                                boisson.setNumTable(tableNumber);// Récupération du numéro de table
-                                boisson.setId(idBoisson);// Récupération de l'id de la boisson
+                                Boisson boisson = new Boisson(identifiantBoisson);
+                                boisson.setPret(boissonPret);
+                                boisson.setNumTable(tableNumber);
+                                boisson.setId(idBoisson);
                                 listeCommandeBoissons.add(boisson);
                         }
                     }
@@ -980,7 +932,7 @@ public class App extends Application {
     private void openCookPanel(Employe employe) {
     
     // Setup
-        App.setTitle("Pepper Cuisinier® | Préparation | " + employe.getUsername());
+        App.setTitle("Pepper Cuisinier " + employe.getUsername() + "® | Préparation");
         ImageView backgroundCook = new ImageView(new Image("images/BackgroundCuisinier.png"));
         backgroundCook.fitWidthProperty().bind(App.widthProperty());
         backgroundCook.fitHeightProperty().bind(App.heightProperty()); 
@@ -995,10 +947,10 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list3");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Plats plat : listeCommandePlats) {
-            String platInfo =  plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep();
+            String platInfo = plat.getNom() + "\n" + "Table N°: " + plat.getNumTable() ;
             listEnPrep.getItems().add(platInfo);
         }
-        listEnPrep.setLayoutX(260);
+        listEnPrep.setLayoutX(271);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -1008,14 +960,14 @@ public class App extends Application {
             String selectedPlat = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedPlat != null) {
                 listEnPrep.getItems().remove(selectedPlat);
-                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));// Suppression de l'élément dans la liste
-                Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));// Création d'un nouvel élément plat
-                plat.setPret(true);// Préparation du plat
-                plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));// Récupération du numéro de table
-                listeCommandeServir.add(plat);// Ajouter l'élément à la liste
+                listeCommandePlats.removeIf(plat -> (plat.getNom() + "\n" + "Table N°: " + plat.getNumTable()).equals(selectedPlat));
+                Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));
+                plat.setPret(true);
+                plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));
+                listeCommandeServir.add(plat);
             }
         });
-        validerButton.setLayoutX(260);
+        validerButton.setLayoutX(281);
         validerButton.setLayoutY(500);
 
     // Pane Components
@@ -1029,7 +981,7 @@ public class App extends Application {
        
        App.setScene(new Scene(CookPane, 800, 600)); 
     }
-    private ListCell<String> createCustomListCell2() {// Fonction pour créer une cellule personnalisée pour la ListView
+    private ListCell<String> createCustomListCell2() {
         return new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -1077,7 +1029,7 @@ public class App extends Application {
         };
     }
 
-    private void loadCommandeDataPlats() {// Chargement des données de la commande identique au boisson
+    private void loadCommandeDataPlats() {
         try (BufferedReader reader = new BufferedReader(new FileReader(DATA_Commande))) {
             String numTable;
             while ((numTable = reader.readLine()) != null) {
@@ -1089,7 +1041,7 @@ public class App extends Application {
                         int identifiantPlat = Integer.parseInt(parts[0]);
                         boolean platPret = Boolean.parseBoolean(parts[1]);
                         int idPlat = Integer.parseInt(parts[2]);
-                        if (identifiantPlat <= 11) {// Si l'identifiant du plat est inférieur ou égal à 11
+                        if (identifiantPlat <= 11) {
                                 // Ajouter l'élément à la liste s'il n'existe pas encore
                                 Plats plat = new Plats(identifiantPlat);
                                 plat.setPret(platPret);
@@ -1115,8 +1067,6 @@ public class App extends Application {
         }
         return null; // Retourner null si l'élément n'est pas trouvé dans la liste
     }
-
-
     
     //---------- Pepper Serveur® | Réservation  ----------//
     private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit, Map<Integer,Integer> Table_busy) {
@@ -1132,7 +1082,6 @@ public class App extends Application {
                 Serveur.add(EmployeTravail.get(i).getUsername());
             }
         }
-
 
         // Pannel à Gauche
         Button BackButton = new Button("Retour");
@@ -1254,8 +1203,6 @@ public class App extends Application {
 
             ButtonClient.setOnAction(e -> {
                 String userInput = InputClient.getText();
-                Stat  tmp_stat = new Stat();
-                tmp_stat.add_stat(Integer.parseInt(InputClient.getText()),2);
                 ClientText.setText("Client: " + userInput);
                 Table_busy.put(num_table, Integer.parseInt(userInput));
                 if (isNumeric(userInput)) {
@@ -1356,7 +1303,6 @@ public class App extends Application {
         }
     }
 
-
     //---------- Pepper Serveur® | Commander ----------//
     private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit,Map<Integer,Integer> Table_busy,int[] tab_table,List<Produit> listeCommandeServir) {
         Commande Current_Commande= new Commande(num_table);
@@ -1374,7 +1320,7 @@ public class App extends Application {
         BackButton.setLayoutY(55);
 
     // Pannel à Droite
-        Text Total = new Text("000 €");
+        Text Total = new Text("0 €");
        	Total.setLayoutX(695);
        	Total.setLayoutY(462);
 
@@ -1382,16 +1328,6 @@ public class App extends Application {
         commandelistview.getStyleClass().add("list4");
         commandelistview.setLayoutX(540);
         commandelistview.setLayoutY(116);
-
-
-
-
-
-
-
-
-
-
 
        	Text validText = new Text();
        	validText.setLayoutX(548);
@@ -1438,8 +1374,8 @@ public class App extends Application {
         }
 
         String[] imagePaths = {"images/Salade.png","images/Salade.png","images/Soupe.png","images/Soupe.png","images/Soupe.png","images/Burger.png","images/Burger.png","images/Burger.png","images/Pizza.png","images/Pizza.png","images/Pizza.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png","images/Eau.png"};
-        String[] productNames = {"Salade AT", "Salade ST", "Soupe OI", "Soupe TM", "Soupe CP", "Burger TS","Burger S", "Burger V", "Pizza FT","Pizza CP", "Pizza SA","Limonade 33cl","Cidre 33cl","Bière 50cl","Jus 33cl", "Eau 1L"};
-        int[] prices = {9,9,8,8,8,15,15,15,12,12,12,4,5,5,1,0};
+        String[] productNames = {"Salade TM", "Salade", "Soupe OI", "Soupe TM", "Soupe EK", "Burger ","Burger VG", "Burger CR", "Pizza 4FR","Pizza CZ", "Pizza NA","Limonade","Cidre 33cl","Bière 50cl","Jus 33cl", "Eau 1L"};
+        int[] prices = {9,9,8,8,8,15,15,15,12,12,12,5,5,5,1,0};
        	   
        	for (int i = 0; i < menu_actuel.getLst_plats().size(); i++) {
                System.out.println(productNames[menu_actuel.getLst_plats().get(i).getNum_produit()]);
@@ -1514,6 +1450,10 @@ public class App extends Application {
         InfoText.setLayoutX(280);
         InfoText.setLayoutY(340);
 
+        Text InfoText2 = new Text();
+        InfoText2.setLayoutX(280);
+        InfoText2.setLayoutY(340);
+
         Text TotalRestant = new Text(split_prix + "€");
         TotalRestant.setLayoutX(707);
         TotalRestant.setLayoutY(417);
@@ -1534,12 +1474,14 @@ public class App extends Application {
                         split_prix.set(splitPrice.doubleValue());
                         // Afficher un message d'information
                         InfoText.setText("✔ Paiement séparé");
+                        InfoText2.setText("");
                     } else {
-                        InfoText.setText("❌ Nombre de clients invalide");
+                        InfoText2.setText("❌ Nombre de client(s) invalide");
+                        InfoText.setText("");
                     }
                 } catch (NumberFormatException ex) {
-                    // En cas d'erreur de conversion
-                    InfoText.setText("❌ Veuillez entrer un nombre valide de clients");
+                    InfoText2.setText("❌ Nombre de client(s) invalide");
+                    InfoText.setText("");
                 }
                 TotalRestant.setText(split_prix + "€");
             });
@@ -1550,6 +1492,7 @@ public class App extends Application {
     CancelButton.setOnAction(e -> {
             split_prix.set(0.00);
 	       	InfoText.setText("✔ séparation annulée");
+            InfoText2.setText("");
             TotalRestant.setText(split_prix + "€");
     });
 
@@ -1577,21 +1520,16 @@ public class App extends Application {
 	Text validText = new Text();
 	validText.setLayoutX(548);
 	validText.setLayoutY(560);
+	   
 	Button PayementButton = new Button("PAYER");
     PayementButton.setOnAction(e -> {
-        int count = 0;
-        for (Produit elem : listeCommandeServir) {
-            if (elem.getNumTable() == num_table){
-                count++;
-            }
-        }
-        if (!split.get() && count == Tab_table[num_table-1]){
+        if (!split.get()){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
                 openServeurPanel(employe,employesTravail,idProduit,Table_busy);
                 validText.setText("✔ payement accepté");
         }
-        else if(count == Tab_table[num_table-1]){
+        else{
             prix_payer.set(BigDecimal.valueOf(prix_payer.get()).subtract(BigDecimal.valueOf(split_prix.get())).setScale(2, RoundingMode.HALF_UP).floatValue());
             if (prix_payer.get() <= 0){
                 Table_busy.put(num_table, 0);
@@ -1601,8 +1539,6 @@ public class App extends Application {
             }
             Total.setText(prix_payer + "€");
             validText.setText("✔ payement accepté");
-        }else{
-            validText.setText("❌ plat non livré");
         }
     });
 	PayementButton.setLayoutX(548);
@@ -1610,7 +1546,7 @@ public class App extends Application {
 	
     // Pane Components
     Pane PayementPane   = new Pane();
-    PayementPane.getChildren().addAll( backgroundPayement, BackButton ,ClientText, PayementInput, InfoText,SeparateButton, CancelButton,Date, ServeurText, TableText, TotalRestant, Total, validText,PayementButton);    
+    PayementPane.getChildren().addAll( backgroundPayement, BackButton ,ClientText, PayementInput, InfoText,InfoText2,SeparateButton, CancelButton,Date, ServeurText, TableText, TotalRestant, Total, validText,PayementButton);
            
     // Style
     CancelButton.getStyleClass().add("cancel-button");
@@ -1626,6 +1562,7 @@ public class App extends Application {
     validText.getStyleClass().add("valid");
     BackButton.getStyleClass().add("backOrder-button");
     InfoText.getStyleClass().add("valid");
+    InfoText2.getStyleClass().add("error");
     PayementButton.getStyleClass().add("stock-button");
     PayementPane.getStylesheets().add("login.css"); 
     
@@ -1686,21 +1623,15 @@ class RectangleWithProductInfo extends GridPane {
     }
     private void updatestocklist(ListView<String>  tmp_stocklistView, List<String> tmp_liste_ingredient,List<String> tmp_prix_ingredient, List<String> tmp_quantite_ingredient ) {
         tmp_stocklistView.getItems().clear();
-
-
         for (String ingredient : tmp_liste_ingredient) {
-
             tmp_stocklistView.getItems().add(ingredient);
         }
         for (int i = 0;i<tmp_prix_ingredient.size();i++) {
-            String tmp = tmp_quantite_ingredient.get(i) +" " +tmp_stocklistView.getItems().get(i) + "\n" +"   " + tmp_prix_ingredient.get(i) +"€";
+            String tmp = tmp_quantite_ingredient.get(i) +" " +tmp_stocklistView.getItems().get(i) + "\n"  + tmp_prix_ingredient.get(i) +"€";
             tmp_stocklistView.getItems().add(i, tmp);
             tmp_stocklistView.getItems().remove(i+1);
         }
-
-
     }
-
 }
 
 //Commande plat rectangle
@@ -1717,8 +1648,7 @@ class RectangleWithOrder extends GridPane {
 		 addImageView.setFitHeight(16);
 		 Button addButton = new Button("");
 		 addButton.setGraphic(addImageView);
-        addButton.setOnAction(e -> {
-
+         addButton.setOnAction(e -> {
             if (i <= 10 ){
                 Plats Plat_commande = new Plats(i+1);
                 Current_Commande.add_Plats(Plat_commande);

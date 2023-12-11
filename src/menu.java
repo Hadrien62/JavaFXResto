@@ -1,26 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
 
-/*
-1:salades avec tomates
-2:salades sans tomates
-3:potages oignon
-4:potages tomates
-5:potages champignon
-6:burger tomate,salades
-7:burger salade
-8:burger que viande
-9:pizza tomate fromage
-10:pizza champignon
-11:pizza saucisse
- */
-
 public class menu {
 	private List<Plats> lst_plats;
 	private List<Boisson> lst_boissons;
-	
 	public menu() {
-		
 		List<Boisson> tmp_lst_boissons = new ArrayList<>();
 		List<Plats> tmp_lst_plats = new ArrayList<>();
 		for(int i = 1; i<=11; i++) {
@@ -31,12 +15,8 @@ public class menu {
 			Boisson tmp_boisson = new Boisson(i);
 			tmp_lst_boissons.add(tmp_boisson);
 		}
-		
 		this.lst_boissons = tmp_lst_boissons;
 		this.lst_plats = tmp_lst_plats;
-		
-	
-		
 	}
 	public List<Plats> getLst_plats() {
 		return lst_plats;
@@ -49,10 +29,7 @@ public class menu {
 		return lst_boissons;
 	}
 	public void setLst_boissons(List<Boisson> lst_boissons) {
-		
 			this.lst_boissons = lst_boissons;
-		
-		
 	}
 	public void actualiser_menu(stock tmp_stock) {
 		List<Boisson> tmp_lst_boissons = new ArrayList<>();
@@ -72,11 +49,8 @@ public class menu {
 				}
 			}
 		}
-		
 		this.lst_boissons = tmp_lst_boissons;
 		this.lst_plats = tmp_lst_plats;
 	}
-
-
 }
 

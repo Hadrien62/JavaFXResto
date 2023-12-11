@@ -1,5 +1,0 @@
-tomate:1
-frommage:1
-champignon:1
-pate a pizza:1
-limonade:1

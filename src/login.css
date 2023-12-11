@@ -171,10 +171,12 @@
 .list2{/**Liste des employées à sélectionner**/
     -fx-background-color: white;
     -fx-max-width: 227px;
+    -fx-max-height: 365px;
 }
 .list3{/**Liste des employées à sélectionner**/
     -fx-background-color: white;
     -fx-max-width: 227px;
+    -fx-max-height: 365px;
 }
 
 .list4{/**Liste des employées à sélectionner**/
