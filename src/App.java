@@ -288,7 +288,7 @@ public class App extends Application {
         validText.setLayoutY(560);
         String[] imagePaths = {"images/Tomato.png","images/Beef.png","images/Pan.png","images/Cheese.png","images/Garlic.png","images/Mushroom.png","images/Salad.png","images/Sausage.png","images/Bread.png","images/Citron.png","images/Cidre.png","images/Biere.png","images/Jus.png"};
         String[] productNames = {"Tomate","Boeuf","Pain","Comté","Oignon","Enoki","Salade","Boudin","Pate","Citron","Cidre","Biere","Jus"};
-        int[] prices = {8,2,4,3,5,2,6,8,1,0,2,2,3,7};
+        int[] prices = {3,2,4,3,5,2,6,8,1,2,2,2,3,7};
         int[] quantities = tmp_stock.get_lst_quantities();
         GridPane gridPane = new GridPane();
         Button CommandButton = new Button("COMMANDER");
@@ -302,7 +302,7 @@ public class App extends Application {
 
                     tmp_liste.confirme_liste_course(tmp_stock);
                     stocklistView.getItems().clear();
-                    Total.setText("000");
+                    Total.setText("0 €");
                     int[] quantities2 = tmp_stock.get_lst_quantities();
                     for (int i = 0; i < 13; i++) {
                         RectangleWithProductInfo rectangle = new RectangleWithProductInfo(productNames[i], prices[i],
@@ -359,7 +359,8 @@ public class App extends Application {
     //---------- Pepper Manager® | Recrutement ----------//
     private void openRecruitmentPanel() {
 
-        // Setup        App.setTitle("Pepper Manager® | Recrutement");
+        // Setup
+        App.setTitle("Pepper Manager® | Recrutement");
         ImageView backgroundRecruitment = new ImageView(new Image("images/BackgroundRecrutement.png"));
         backgroundRecruitment.fitWidthProperty().bind(App.widthProperty());
         backgroundRecruitment.fitHeightProperty().bind(App.heightProperty());
@@ -603,7 +604,7 @@ public class App extends Application {
             employeDispo.getItems().add(employeInfoUsername);//Ajout de l'employé dans la liste
 
         }
-        employeDispo.setLayoutX(260);
+        employeDispo.setLayoutX(269);
         employeDispo.setLayoutY(136);
 
         ListView<String> employeDuJour = new ListView<>();
@@ -612,7 +613,7 @@ public class App extends Application {
             String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();//Affichage username et role
             employeDuJour.getItems().add(employeTaffInfoUsername);
         }
-        employeDuJour.setLayoutX(525);
+        employeDuJour.setLayoutX(535);
         employeDuJour.setLayoutY(136);
         Text AddText = new Text();
         AddText.setLayoutX(280);
@@ -899,11 +900,11 @@ public class App extends Application {
         listEnPrep.getStyleClass().add("list2");
         listEnPrep.setCellFactory(param -> createCustomListCell2());
         for (Boisson boisson : listeCommandeBoissons) {
-            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
+            String boissonInfo =  boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" + "Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep();
             listEnPrep.getItems().add(boissonInfo);
 
         }
-        listEnPrep.setLayoutX(260);
+        listEnPrep.setLayoutX(270);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -913,14 +914,14 @@ public class App extends Application {
             String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedBoisson != null) {
                 listEnPrep.getItems().remove(selectedBoisson);
-                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));// Suppression de l'élément dans la liste
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " + boisson.getId() + "\n" + "Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));// Suppression de l'élément dans la liste
                 Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));// Création d'un nouvel élément boisson
                 boisson.setPret(true);// Préparation de la boisson
                 boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));// Récupération du numéro de table
                 listeCommandeServir.add(boisson);// Ajouter l'élément à la liste
             }
         });
-        validerButton.setLayoutX(260);
+        validerButton.setLayoutX(280);
         validerButton.setLayoutY(500);
 
         // Pane Components
@@ -929,7 +930,7 @@ public class App extends Application {
 
         // Style
         BackButton.getStyleClass().add("backBarman-button");
-
+        validerButton.getStyleClass().add("stock-button");
         BartenderPane.getStylesheets().add("login.css");
         App.setScene(new Scene(BartenderPane, 800, 600));
     }
@@ -995,7 +996,7 @@ public class App extends Application {
             String platInfo =  plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep();
             listEnPrep.getItems().add(platInfo);
         }
-        listEnPrep.setLayoutX(260);
+        listEnPrep.setLayoutX(270);
         listEnPrep.setLayoutY(120);
         listEnPrep.setPrefSize(250, 350);
 
@@ -1012,7 +1013,7 @@ public class App extends Application {
                 listeCommandeServir.add(plat);// Ajouter l'élément à la liste
             }
         });
-        validerButton.setLayoutX(260);
+        validerButton.setLayoutX(280);
         validerButton.setLayoutY(500);
 
         // Pane Components
