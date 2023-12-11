@@ -1564,7 +1564,7 @@ public class App extends Application {
                 int numberOfClients = Integer.parseInt(paymentValueText);
                 // Vérifier si le nombre de clients est valide et effectuer la division
                 if (numberOfClients > 0 && numberOfClients <= Integer.parseInt(Nbr_Client)) {
-                    BigDecimal splitPrice = BigDecimal.valueOf(commande_tmp.addition).divide(BigDecimal.valueOf(numberOfClients), 2, BigDecimal.ROUND_HALF_UP);
+                    BigDecimal splitPrice = BigDecimal.valueOf(commande_tmp.addition).divide(BigDecimal.valueOf(numberOfClients), 2, BigDecimal.ROUND_HALF_DOWN);
 
                     split_prix.set(splitPrice.doubleValue());
                     // Afficher un message d'information
