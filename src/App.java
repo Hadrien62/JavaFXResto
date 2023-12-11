@@ -580,30 +580,30 @@ public class App extends Application {
         App.setTitle("Pepper Manager® | Planning");
 
         // Création des composants
-        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundPlanning.png"));
-        backgroundPlanning.fitWidthProperty().bind(App.widthProperty());
-        backgroundPlanning.fitHeightProperty().bind(App.heightProperty());
+        ImageView backgroundPlanning = new ImageView(new Image("images/BackgroundPlanning.png"));//Image de fond
+        backgroundPlanning.fitWidthProperty().bind(App.widthProperty());//Taille de l'image
+        backgroundPlanning.fitHeightProperty().bind(App.heightProperty());//Taille de l'image
         //Panel de Gauche
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openManagerPanel());
+        BackButton.setOnAction(e -> openManagerPanel());//Bouton retour
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
-        Text Member = new Text(employes.size() + " membres");
+        Text Member = new Text(employes.size() + " membres");//Texte nombre de membre
         Member.getStyleClass().add("text-member2");
         Member.setLayoutX(275);
         Member.setLayoutY(120);
 
-        ListView<String> employeDispo = new ListView<>();
+        ListView<String> employeDispo = new ListView<>();//Liste des employés disponibles
         employeDispo.getStyleClass().add("list2");
-        employeDispo.setCellFactory(param -> createCustomListCell());
+        employeDispo.setCellFactory(param -> createCustomListCell());//Cellule personnalisée
         loadEmployeeDuJourData();
         for (Employe employe : employes) {
-            if(employe.getNombreDeSoir() >= 3){
+            if(employe.getNombreDeSoir() >= 3){//Si l'employé a déjà travaillé 3 soirs, il ne peut pas travailler ce soir
                 continue;
             }
-            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
-            employeDispo.getItems().add(employeInfoUsername);
+            String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();//Affichage username et role
+            employeDispo.getItems().add(employeInfoUsername);//Ajout de l'employé dans la liste
 
         }
         employeDispo.setLayoutX(260);
@@ -611,8 +611,8 @@ public class App extends Application {
 
         ListView<String> employeDuJour = new ListView<>();
         employeDuJour.getStyleClass().add("list2");
-        for(Employe employe : employesTravail){
-            String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
+        for(Employe employe : employesTravail){//Liste des employés qui travaillent ce soir
+            String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();//Affichage username et role
             employeDuJour.getItems().add(employeTaffInfoUsername);
         }
         employeDuJour.setLayoutX(525);
@@ -622,12 +622,12 @@ public class App extends Application {
         AddText.setLayoutY(560);
 
 
-        Button selectButton = new Button("AJOUTER");
+        Button selectButton = new Button("AJOUTER");//Bouton ajouter
         selectButton.setOnAction(e -> {
             // Obtenir l'élément sélectionné
-            String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();
+            String selectedEmployee = employeDispo.getSelectionModel().getSelectedItem();//Récupération de l'employé sélectionné
 
-            if (selectedEmployee != null) {
+            if (selectedEmployee != null) {//Si l'employé est sélectionné
                 // Ajouter l'employé à la liste employesTravail
                 employesTravail.add(findEmployeeByUsername(selectedEmployee));
                 // Supprimer l'employé de la liste employes
@@ -729,9 +729,9 @@ public class App extends Application {
     private ListCell<String> createCustomListCell() {
         return new ListCell<>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {//Mise à jour de la cellule
                 super.updateItem(item, empty);
-                if (item == null || empty) {
+                if (item == null || empty) {//Si la cellule est vide
                     setText(null);
                     setDisable(false);
                     setGraphic(null);
@@ -774,7 +774,7 @@ public class App extends Application {
     // Fonction pour trouver un employé par son nom d'utilisateur
     private Employe findEmployeeByUsername(String username) {
         for (Employe employe : employes) {
-            if ((employe.getUsername() + "\n" + employe.getRole()).equals(username)) {
+            if ((employe.getUsername() + "\n" + employe.getRole()).equals(username)) {//Si l'employé est trouvé
                 return employe;
             }
         }
@@ -788,12 +788,12 @@ public class App extends Application {
 
         for (Employe employe : employes) {
             String employeInfoUsername = employe.getUsername() + "\n" + employe.getRole();
-            employeDispo.getItems().add(employeInfoUsername);
+            employeDispo.getItems().add(employeInfoUsername);//Ajout de l'employé dans la liste
         }
         for (Employe employe : employesTravail) {
             try{
                 String employeTaffInfoUsername = employe.getUsername() + "\n" + employe.getRole();
-                employeDuJour.getItems().add(employeTaffInfoUsername);
+                employeDuJour.getItems().add(employeTaffInfoUsername);//Ajout de l'employé dans la liste
             }
             catch (Exception e){
                 System.out.println("Pas d'employé dans la liste");
@@ -916,11 +916,11 @@ public class App extends Application {
             String selectedBoisson = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedBoisson != null) {
                 listEnPrep.getItems().remove(selectedBoisson);
-                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));
-                Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));
-                boisson.setPret(true);
-                boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));
-                listeCommandeServir.add(boisson);
+                listeCommandeBoissons.removeIf(boisson -> (boisson.getNum_produit() + " " + boisson.getNumTable() + " " + boisson.getNom() + " " +  boisson.getId() +"\n" +"Table N°: " + boisson.getNumTable() + "\n" + boisson.getTemps_prep()).equals(selectedBoisson));// Suppression de l'élément dans la liste
+                Boisson boisson = new Boisson(Integer.parseInt(selectedBoisson.split(" ")[0]));// Création d'un nouvel élément boisson
+                boisson.setPret(true);// Préparation de la boisson
+                boisson.setNumTable(Integer.parseInt(selectedBoisson.split(" ")[1]));// Récupération du numéro de table
+                listeCommandeServir.add(boisson);// Ajouter l'élément à la liste
             }
         });
         validerButton.setLayoutX(260);
@@ -936,26 +936,26 @@ public class App extends Application {
         BartenderPane.getStylesheets().add("login.css");        
         App.setScene(new Scene(BartenderPane, 800, 600));    
     }
-    private void loadCommandeDataBoisson() {
+    private void loadCommandeDataBoisson() {// Chargement des données de la commande
         try (BufferedReader reader = new BufferedReader(new FileReader(DATA_Commande))) {
-            String numTable;
+            String numTable;// Récupération du numéro de table
             while ((numTable = reader.readLine()) != null) {
                 int tableNumber = Integer.parseInt(numTable);
                 System.out.println("Table N°: " + tableNumber);
                 String boissonInfo;
-                while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {
-                    String[] parts = boissonInfo.split(":");
+                while ((boissonInfo = reader.readLine()) != null && boissonInfo.length() > 0) {// Récupération des informations de la boisson
+                    String[] parts = boissonInfo.split(":");// Séparer les informations
                     if (parts.length == 3) {
-                        int identifiantBoisson = Integer.parseInt(parts[0]);
-                        boolean boissonPret = Boolean.parseBoolean(parts[1]);
-                        int idBoisson = Integer.parseInt(parts[2]);
+                        int identifiantBoisson = Integer.parseInt(parts[0]);// Récupération de l'identifiant de la boisson
+                        boolean boissonPret = Boolean.parseBoolean(parts[1]);// Récupération de l'état de préparation de la boisson
+                        int idBoisson = Integer.parseInt(parts[2]);// Récupération de l'id de la boisson
 
-                        if (identifiantBoisson > 11) {
+                        if (identifiantBoisson > 11) {// Si l'identifiant de la boisson est supérieur à 11
                                 // Ajouter l'élément à la liste
-                                Boisson boisson = new Boisson(identifiantBoisson);
-                                boisson.setPret(boissonPret);
-                                boisson.setNumTable(tableNumber);
-                                boisson.setId(idBoisson);
+                                Boisson boisson = new Boisson(identifiantBoisson);// Création d'un nouvel élément boisson
+                                boisson.setPret(boissonPret);// Préparation de la boisson
+                                boisson.setNumTable(tableNumber);// Récupération du numéro de table
+                                boisson.setId(idBoisson);// Récupération de l'id de la boisson
                                 listeCommandeBoissons.add(boisson);
                         }
                     }
@@ -1008,11 +1008,11 @@ public class App extends Application {
             String selectedPlat = listEnPrep.getSelectionModel().getSelectedItem();
             if (selectedPlat != null) {
                 listEnPrep.getItems().remove(selectedPlat);
-                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));
-                Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));
-                plat.setPret(true);
-                plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));
-                listeCommandeServir.add(plat);
+                listeCommandePlats.removeIf(plat -> (plat.getNum_produit() + " " + plat.getNumTable() + " " + plat.getNom() + " " + plat.getId() + "\n" + "Table N°: " + plat.getNumTable() + "\n" + plat.getTemps_prep()).equals(selectedPlat));// Suppression de l'élément dans la liste
+                Plats plat = new Plats(Integer.parseInt(selectedPlat.split(" ")[0]));// Création d'un nouvel élément plat
+                plat.setPret(true);// Préparation du plat
+                plat.setNumTable(Integer.parseInt(selectedPlat.split(" ")[1]));// Récupération du numéro de table
+                listeCommandeServir.add(plat);// Ajouter l'élément à la liste
             }
         });
         validerButton.setLayoutX(260);
@@ -1029,7 +1029,7 @@ public class App extends Application {
        
        App.setScene(new Scene(CookPane, 800, 600)); 
     }
-    private ListCell<String> createCustomListCell2() {
+    private ListCell<String> createCustomListCell2() {// Fonction pour créer une cellule personnalisée pour la ListView
         return new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -1077,7 +1077,7 @@ public class App extends Application {
         };
     }
 
-    private void loadCommandeDataPlats() {
+    private void loadCommandeDataPlats() {// Chargement des données de la commande identique au boisson
         try (BufferedReader reader = new BufferedReader(new FileReader(DATA_Commande))) {
             String numTable;
             while ((numTable = reader.readLine()) != null) {
@@ -1089,7 +1089,7 @@ public class App extends Application {
                         int identifiantPlat = Integer.parseInt(parts[0]);
                         boolean platPret = Boolean.parseBoolean(parts[1]);
                         int idPlat = Integer.parseInt(parts[2]);
-                        if (identifiantPlat <= 11) {
+                        if (identifiantPlat <= 11) {// Si l'identifiant du plat est inférieur ou égal à 11
                                 // Ajouter l'élément à la liste s'il n'existe pas encore
                                 Plats plat = new Plats(identifiantPlat);
                                 plat.setPret(platPret);
@@ -1577,16 +1577,21 @@ public class App extends Application {
 	Text validText = new Text();
 	validText.setLayoutX(548);
 	validText.setLayoutY(560);
-	   
 	Button PayementButton = new Button("PAYER");
     PayementButton.setOnAction(e -> {
-        if (!split.get()){
+        int count = 0;
+        for (Produit elem : listeCommandeServir) {
+            if (elem.getNumTable() == num_table){
+                count++;
+            }
+        }
+        if (!split.get() && count == Tab_table[num_table-1]){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
                 openServeurPanel(employe,employesTravail,idProduit,Table_busy);
                 validText.setText("✔ payement accepté");
         }
-        else{
+        else if(count == Tab_table[num_table-1]){
             prix_payer.set(BigDecimal.valueOf(prix_payer.get()).subtract(BigDecimal.valueOf(split_prix.get())).setScale(2, RoundingMode.HALF_UP).floatValue());
             if (prix_payer.get() <= 0){
                 Table_busy.put(num_table, 0);
@@ -1596,6 +1601,8 @@ public class App extends Application {
             }
             Total.setText(prix_payer + "€");
             validText.setText("✔ payement accepté");
+        }else{
+            validText.setText("❌ plat non livré");
         }
     });
 	PayementButton.setLayoutX(548);
