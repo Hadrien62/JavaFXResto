@@ -1,4 +1,4 @@
 Chiffre d'affaire : 0
-Nombre de clients : 6
+Nombre de clients : 0
 Nombre de plats vendus : 0
 Nombre de cocktails vendus : 0
