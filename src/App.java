@@ -170,6 +170,7 @@ public class App extends Application {
                     for(Employe employe : employesTravail){
                         employe.setNombreDeSoir(employe.getNombreDeSoir() + 1);
                     }
+                    openManagerPanel();
                 }
             }else{
                 loadEmployeeDuJourData();
@@ -201,6 +202,7 @@ public class App extends Application {
                 } catch (IOException exception2) {
                     System.err.println("Erreur lors de la manipulation du fichier : " + exception2.getMessage());
                 }
+                openManagerPanel();
             }
         });
         OuvrirButton.setLayoutX(58);
