@@ -399,6 +399,20 @@
     -fx-background-color: #ff6565;
     -fx-text-fill: white;
 }
+#uniqueButton{
+    -fx-background-radius: 5px;
+    -fx-font-size: 14px;
+    -fx-font-weight: 900;
+    -fx-text-transform: uppercase;
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-margin: 20px 0px 0px 0px;
+    -fx-cursor: hand;
+    -fx-border-radius: 6px;
+    -fx-background-color: #42f383;
+    -fx-text-fill: white;
+}
+
 .serveur-manage-button:pressed {
     -fx-transition: "scale-squeeze";
     -fx-transition-duration: 0.3s;

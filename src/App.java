@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.*;
 import java.util.*;
@@ -32,6 +33,7 @@ public class App extends Application {
     private static final String DATA_FILE = "user_data.txt"; // DATA
     private static final String NomFichier = "employesDuJour.txt";//DATA employés du jour
 
+    private SimpleBooleanProperty commande_envoyee = new SimpleBooleanProperty(false);
     private int[] Tab_table = new int[8];
     private static final String DATA_Commande = "commande.txt"; // DATA commande
     private final List<Employe> employes = new ArrayList<>(); // Liste des employés
@@ -44,6 +46,7 @@ public class App extends Application {
 
     private final List<Produit> listeCommandeServir = new ArrayList<>();// Liste des produits à servir
 
+    private Boolean commande_effectuer = false;
     private int idProduit = 0; // ID des produits
     private Stage App;
 
@@ -107,7 +110,7 @@ public class App extends Application {
 				    	if (employe.getUsername().equalsIgnoreCase(username) && employe.getPassword().equals(password) && restaurant.getRestaurant_ouvert()) {
 						    switch (employe.getRole()) {
 							    case "Cuisinier" -> openCookPanel(employe);
-		                        case "Serveur" -> openServeurPanel(employe,employesTravail,idProduit,Table_busy);
+		                        case "Serveur" -> openServeurPanel(employe,employesTravail,idProduit,Table_busy,commande_effectuer);
 		                        case "Barman" -> openBartenderPanel(employe);
 						    }
 				        }
@@ -1119,7 +1122,7 @@ public class App extends Application {
 
     
     //---------- Pepper Serveur® | Réservation  ----------//
-    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit, Map<Integer,Integer> Table_busy) {
+    private void openServeurPanel(Employe employe, List<Employe> EmployeTravail, int idproduit, Map<Integer,Integer> Table_busy, Boolean commande_effectuer) {
         // Setup
         App.setTitle("Pepper Serveur® | Réservation");
         ImageView backgroundServeur = new ImageView(new Image("images/BackgroundServer.png"));
@@ -1150,68 +1153,68 @@ public class App extends Application {
         GridPane Table8;
 
         if (Table_busy.isEmpty()){
-            Table1 = createReusableGridPane(Serveur.get(0), "0",employe,1,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table1 = createReusableGridPane(Serveur.get(0), "0",employe,1,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table1.setLayoutX(55);
             Table1.setLayoutY(86);
 
-            Table2 = createReusableGridPane(Serveur.get(0), "0",employe,2,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table2 = createReusableGridPane(Serveur.get(0), "0",employe,2,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table2.setLayoutX(243);
             Table2.setLayoutY(86);
 
-            Table3 = createReusableGridPane(Serveur.get(1), "0",employe,3,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table3 = createReusableGridPane(Serveur.get(1), "0",employe,3,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table3.setLayoutX(429);
             Table3.setLayoutY(86);
 
-            Table4 = createReusableGridPane(Serveur.get(1), "0",employe,4,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table4 = createReusableGridPane(Serveur.get(1), "0",employe,4,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table4.setLayoutX(615);
             Table4.setLayoutY(86);
 
-            Table5 = createReusableGridPane(Serveur.get(2), "0",employe,5,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table5 = createReusableGridPane(Serveur.get(2), "0",employe,5,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table5.setLayoutX(55);
             Table5.setLayoutY(345);
 
-            Table6 = createReusableGridPane(Serveur.get(2), "0",employe,6,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table6 = createReusableGridPane(Serveur.get(2), "0",employe,6,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table6.setLayoutX(243);
             Table6.setLayoutY(345);
 
-            Table7 = createReusableGridPane(Serveur.get(3), "0",employe,7,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table7 = createReusableGridPane(Serveur.get(3), "0",employe,7,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table7.setLayoutX(429);
             Table7.setLayoutY(345);
 
-            Table8 = createReusableGridPane(Serveur.get(3), "0",employe,8,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table8 = createReusableGridPane(Serveur.get(3), "0",employe,8,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table8.setLayoutX(615);
             Table8.setLayoutY(345);
         }
         else{
-            Table1 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(1)),employe,1,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table1 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(1)),employe,1,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table1.setLayoutX(55);
             Table1.setLayoutY(86);
 
-            Table2 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(2)),employe,2,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table2 = createReusableGridPane(Serveur.get(0), String.valueOf(Table_busy.get(2)),employe,2,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table2.setLayoutX(243);
             Table2.setLayoutY(86);
 
-            Table3 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(3)),employe,3,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table3 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(3)),employe,3,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table3.setLayoutX(429);
             Table3.setLayoutY(86);
 
-            Table4 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(4)),employe,4,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table4 = createReusableGridPane(Serveur.get(1), String.valueOf(Table_busy.get(4)),employe,4,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table4.setLayoutX(615);
             Table4.setLayoutY(86);
 
-            Table5 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(5)),employe,5,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table5 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(5)),employe,5,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table5.setLayoutX(55);
             Table5.setLayoutY(345);
 
-            Table6 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(6)),employe,6,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table6 = createReusableGridPane(Serveur.get(2), String.valueOf(Table_busy.get(6)),employe,6,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table6.setLayoutX(243);
             Table6.setLayoutY(345);
 
-            Table7 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(7)),employe,7,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table7 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(7)),employe,7,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table7.setLayoutX(429);
             Table7.setLayoutY(345);
 
-            Table8 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(8)),employe,8,employesTravail,Table_busy,Tab_table,listeCommandeServir);
+            Table8 = createReusableGridPane(Serveur.get(3), String.valueOf(Table_busy.get(8)),employe,8,employesTravail,Table_busy,Tab_table,listeCommandeServir,commande_envoyee,commande_effectuer);
             Table8.setLayoutX(615);
             Table8.setLayoutY(345);
         }
@@ -1228,10 +1231,12 @@ public class App extends Application {
         App.setScene(new Scene(ServeurPane, 800, 600));
     }
 
-    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe, int num_table, List<Employe> listemploye,Map<Integer, Integer> Table_busy,int[] tab_table,List<Produit> listeCommandeServir) {
+    private GridPane createReusableGridPane(String Serveur, String Client , Employe employe, int num_table, List<Employe> listemploye,Map<Integer, Integer> Table_busy,int[] tab_table,List<Produit> listeCommandeServir,SimpleBooleanProperty commande_envoyee,Boolean commande_effectuer) {
 
         GridPane gridPaneClient = new GridPane();
+        Boolean Commande_ready = false;
         if (Table_busy.get(num_table)==0 || Table_busy.get(num_table)== null) {
+            Commande_ready = false;
             Text ServeurText = new Text("Serveur: " + Serveur);
             Text ClientText = new Text("Client: " + Client);
             Button ButtonClient = new Button("Prendre");
@@ -1252,6 +1257,7 @@ public class App extends Application {
             InputClient.getStyleClass().add("client-input");
             gridPaneClient.getStylesheets().add("login.css");
 
+            Boolean finalCommande_ready1 = Commande_ready;
             ButtonClient.setOnAction(e -> {
                 String userInput = InputClient.getText();
                 Stat  tmp_stat = new Stat();
@@ -1267,7 +1273,6 @@ public class App extends Application {
                         paymentImageView.setFitWidth(22);
                         paymentImageView.setFitHeight(22);
                         paymentButton.setGraphic(paymentImageView);
-                        paymentButton.setOnAction(e1 -> openPayementPanel(employe, Serveur, userInput, num_table, Table_busy));
 
                         Button serviceButton = new Button();
                         ImageView serviceImageView = new ImageView(new Image("images/service.png"));
@@ -1280,7 +1285,7 @@ public class App extends Application {
                         orderImageView.setFitWidth(22);
                         orderImageView.setFitHeight(22);
                         orderButton.setGraphic(orderImageView);
-                        orderButton.setOnAction(e1 -> openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy,tab_table,listeCommandeServir));
+                        orderButton.setOnAction(e1 -> openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy,tab_table,commande_envoyee));
 
                         gridPaneClient.getChildren().removeAll(buttonTable);
                         HBox buttonServeur = new HBox(paymentButton, serviceButton, orderButton);
@@ -1292,10 +1297,14 @@ public class App extends Application {
                         serviceButton.getStyleClass().add("serveur-manage-button");
                         orderButton.getStyleClass().add("serveur-manage-button");
                     }
+                    else{
+                        ClientText.setText("Trop de client !");
+                    }
                 }
             });
         }
         else{
+            System.out.println("Panthera !!");
             Text ServeurText = new Text("Serveur: " + Serveur);
             Text ClientText = new Text("Client: " + Client);
             ServeurText.getStyleClass().add("serveur");
@@ -1304,13 +1313,7 @@ public class App extends Application {
             Button paymentButton = new Button();
             VBox textTable = new VBox(ServeurText, ClientText);
             gridPaneClient.getChildren().addAll(textTable);
-
-            ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
-            paymentImageView.setFitWidth(22);
-            paymentImageView.setFitHeight(22);
-            paymentButton.setGraphic(paymentImageView);
-            paymentButton.setOnAction(e1 -> openPayementPanel(employe, Serveur, String.valueOf(Table_busy.get(num_table)), num_table, Table_busy));
-
+            
             Button serviceButton = new Button();
             ImageView serviceImageView = new ImageView(new Image("images/service.png"));
             serviceImageView.setFitWidth(22);
@@ -1322,7 +1325,12 @@ public class App extends Application {
             orderImageView.setFitWidth(22);
             orderImageView.setFitHeight(22);
             orderButton.setGraphic(orderImageView);
-            orderButton.setOnAction(e1 -> openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy,tab_table,listeCommandeServir));
+            orderButton.setOnAction(e1 -> {
+                if (!commande_effectuer){
+                    openOrderPanel(employe, tmp_liste, num_table, listemploye, idProduit, Table_busy,tab_table,commande_envoyee);
+
+                }
+            });
 
             HBox buttonServeur = new HBox(paymentButton, serviceButton, orderButton);
             GridPane.setMargin(buttonServeur, new Insets(160, 0, 0, 0));
@@ -1331,18 +1339,36 @@ public class App extends Application {
 
             paymentButton.getStyleClass().addAll("serveur-manage-button");
             orderButton.getStyleClass().add("serveur-manage-button");
+            serviceButton.getStyleClass().add("serveur-manage-button");
             int count = 0;
             for (Produit elem : listeCommandeServir) {
                 if (elem.getNumTable() == num_table){
                     count++;
                 }
             }
-            if (tab_table[num_table-1] == count ){
+            if (commande_effectuer){
+                orderButton.setId("uniqueButton"); // Définir un identifiant unique sur le bouton
+                orderButton.getStyleClass().add("serveur-manage-button-green");
+            }
+            if (tab_table[num_table - 1] == count && count != 0) {
+                serviceButton.setId("uniqueButton"); // Définir un identifiant unique sur le bouton
                 serviceButton.getStyleClass().add("serveur-manage-button-green");
+                Commande_ready = true;
+            } else {
+                Commande_ready = false;
+                System.out.println(Commande_ready);
             }
-            else{
-                serviceButton.getStyleClass().add("serveur-manage-button");
-            }
+
+            ImageView paymentImageView = new ImageView(new Image("images/payment.png"));
+            paymentImageView.setFitWidth(22);
+            paymentImageView.setFitHeight(22);
+            paymentButton.setGraphic(paymentImageView);
+            Boolean finalCommande_ready = Commande_ready;
+            paymentButton.setOnAction(e1 -> {
+                if (finalCommande_ready) {
+                    openPayementPanel(employe, Serveur, Client, num_table, Table_busy);
+                }
+            });
         }
         return gridPaneClient;
     }
@@ -1358,18 +1384,22 @@ public class App extends Application {
 
 
     //---------- Pepper Serveur® | Commander ----------//
-    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit,Map<Integer,Integer> Table_busy,int[] tab_table,List<Produit> listeCommandeServir) {
+    private void openOrderPanel(Employe employe,ListeCourse tmp_liste,int num_table,List<Employe> List_employe, int idproduit,Map<Integer,Integer> Table_busy,int[] tab_table,SimpleBooleanProperty commande_envoyee) {
         Commande Current_Commande= new Commande(num_table);
+
 
     // Setup
     	App.setTitle("Pepper Serveur® | Commander"); 
 	    ImageView backgroundOrder = new ImageView(new Image("images/BackgroundCommand.png"));
         backgroundOrder.fitWidthProperty().bind(App.widthProperty());
-        backgroundOrder.fitHeightProperty().bind(App.heightProperty()); 
-            
+        backgroundOrder.fitHeightProperty().bind(App.heightProperty());
+
     // Pannel à Gauche
+
         Button BackButton = new Button("Retour");
-        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe,idproduit,Table_busy));
+        Current_Commande.Plats.clear();
+        Current_Commande.Boissons.clear();
+        BackButton.setOnAction(e -> openServeurPanel(employe,List_employe,idproduit,Table_busy,commande_effectuer));
         BackButton.setLayoutX(50);
         BackButton.setLayoutY(55);
 
@@ -1383,36 +1413,39 @@ public class App extends Application {
         commandelistview.setLayoutX(540);
         commandelistview.setLayoutY(116);
 
-
-
-
-
-
-
-
-
-
+        Text errorText = new Text();
+        errorText.setLayoutX(548);
+        errorText.setLayoutY(560);
 
        	Text validText = new Text();
        	validText.setLayoutX(548);
        	validText.setLayoutY(560);
        		   
        	Button CommandButton = new Button("COMMANDER");
-        CommandButton.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
-                int size_commande = Current_Commande.Boissons.size() + Current_Commande.Plats.size();
-                tab_table[num_table-1] = size_commande;
-                System.out.println(tab_table[num_table-1]);
-                Stat tmp_stat = new Stat();
-                tmp_stat.add_stat(Current_Commande.addition, 1);
-                tmp_stat.add_stat(Current_Commande.Boissons.size(), 4);
-                tmp_stat.add_stat(Current_Commande.Plats.size(), 3);
-                Current_Commande.envoyerCommande(tmp_liste);
-                loadCommandeDataPlats();
-                loadCommandeDataBoisson();
-                validText.setText("✔ Commande envoyée");
-            }
-        });
+
+               CommandButton.setOnAction(e -> {
+                   if (!Current_Commande.Plats.isEmpty() || !Current_Commande.Boissons.isEmpty()) {
+                       int size_commande = Current_Commande.Boissons.size() + Current_Commande.Plats.size();
+                       commande_envoyee.set(true);
+                       tab_table[num_table - 1] = size_commande;
+                       Stat tmp_stat = new Stat();
+                       tmp_stat.add_stat(Current_Commande.addition, 1);
+                       tmp_stat.add_stat(Current_Commande.Boissons.size(), 4);
+                       tmp_stat.add_stat(Current_Commande.Plats.size(), 3);
+                       Current_Commande.envoyerCommande(tmp_liste);
+                       loadCommandeDataPlats();
+                       loadCommandeDataBoisson();
+                       errorText.setText("");
+                       validText.setText("✔ Commande envoyée");
+                       commande_effectuer = true;
+                       openServeurPanel(employe,List_employe,idproduit,Table_busy,commande_effectuer);
+                   }
+                   else {
+                       errorText.setText("⚠ Commande vide");
+                       errorText.getStyleClass().add("error");
+                       validText.setText("");
+                   }
+               });
        	CommandButton.setLayoutX(548);
        	CommandButton.setLayoutY(502);
 
@@ -1466,7 +1499,7 @@ public class App extends Application {
 
     // Pane Components
         Pane OrderPane   = new Pane();
-        OrderPane.getChildren().addAll( backgroundOrder, BackButton, Total,validText, CommandButton, gridPane,scrollPane,commandelistview);
+        OrderPane.getChildren().addAll( backgroundOrder, BackButton, Total,errorText,validText, CommandButton, gridPane,scrollPane,commandelistview);
            
     // Style
         BackButton.getStyleClass().add("backOrder-button");
@@ -1485,6 +1518,7 @@ public class App extends Application {
     private void openPayementPanel(Employe employe, String Serveur, String Nbr_Client,int num_table,Map<Integer, Integer> Table_busy) {
     Commande commande_tmp = new Commande(num_table);
     commande_tmp.Get_addition_From_txt();
+    commande_tmp.Get_commande_From_txt(commande_tmp);
     AtomicReference<Double> split_prix = new AtomicReference<>(0.00);
     AtomicReference<Boolean> split = new AtomicReference<>(false);
     AtomicReference<Float> prix_payer = new AtomicReference<>((float) commande_tmp.addition);
@@ -1497,7 +1531,7 @@ public class App extends Application {
 
     // Pannel à Gauche
     Button BackButton = new Button("Retour");
-    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail,idProduit,Table_busy));
+    BackButton.setOnAction(e -> openServeurPanel(employe,employesTravail,idProduit,Table_busy,commande_effectuer));
     BackButton.setLayoutX(50);
     BackButton.setLayoutY(55);
 
@@ -1569,6 +1603,12 @@ public class App extends Application {
 	Text TableText = new Text("#T" + commande_tmp.num_table);
 	TableText.setLayoutX(720);
 	TableText.setLayoutY(125);
+
+    ListView<String> Ctransaclistview = new ListView<>();
+    updateTransactionlist(Ctransaclistview,commande_tmp);
+    Ctransaclistview.getStyleClass().add("list4");
+    Ctransaclistview.setLayoutX(540);
+    Ctransaclistview.setLayoutY(105);
 	
 	Text Total = new Text(prix_payer + "€");
 	Total.setLayoutX(695);
@@ -1588,7 +1628,7 @@ public class App extends Application {
         if (!split.get() && count == Tab_table[num_table-1]){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
-                openServeurPanel(employe,employesTravail,idProduit,Table_busy);
+                openServeurPanel(employe,employesTravail,idProduit,Table_busy,commande_effectuer);
                 validText.setText("✔ payement accepté");
         }
         else if(count == Tab_table[num_table-1]){
@@ -1596,7 +1636,7 @@ public class App extends Application {
             if (prix_payer.get() <= 0){
                 Table_busy.put(num_table, 0);
                 commande_tmp.clearCommandeFile();
-                openServeurPanel(employe,employesTravail,idProduit,Table_busy);
+                openServeurPanel(employe,employesTravail,idProduit,Table_busy,commande_effectuer);
                 validText.setText("✔ payement accepté");
             }
             Total.setText(prix_payer + "€");
@@ -1610,7 +1650,7 @@ public class App extends Application {
 	
     // Pane Components
     Pane PayementPane   = new Pane();
-    PayementPane.getChildren().addAll( backgroundPayement, BackButton ,ClientText, PayementInput, InfoText,SeparateButton, CancelButton,Date, ServeurText, TableText, TotalRestant, Total, validText,PayementButton);    
+    PayementPane.getChildren().addAll( backgroundPayement, BackButton ,ClientText, PayementInput, InfoText,SeparateButton, CancelButton,Date, ServeurText, TableText,Ctransaclistview, TotalRestant, Total, validText,PayementButton);
            
     // Style
     CancelButton.getStyleClass().add("cancel-button");
@@ -1630,6 +1670,31 @@ public class App extends Application {
     PayementPane.getStylesheets().add("login.css"); 
     
     App.setScene(new Scene(PayementPane, 800, 600)); 
+    }
+
+    private void updateTransactionlist(ListView<String>  tmp_stocklistView, Commande Current_Commande) {
+        tmp_stocklistView.getItems().clear();
+        if (!Current_Commande.Plats.isEmpty()){
+            for (Plats plat: Current_Commande.Plats) {
+                System.out.println(plat.getNom());
+                tmp_stocklistView.getItems().add(plat.getNom());
+            }
+            for (int i = 0;i<Current_Commande.Plats.size();i++) {
+                String tmp = tmp_stocklistView.getItems().get(i) + "\n" + Current_Commande.Plats.get(i).getPrix() +"€";
+                tmp_stocklistView.getItems().add(i, tmp);
+                tmp_stocklistView.getItems().remove(i+1);
+            }
+        }
+        if (!Current_Commande.Boissons.isEmpty()){
+            for (Boisson boisson: Current_Commande.Boissons) {
+                tmp_stocklistView.getItems().add(boisson.getNom());
+            }
+            for (int i = Current_Commande.Plats.size();i<Current_Commande.Boissons.size()+Current_Commande.Plats.size();i++) {
+                String tmp = tmp_stocklistView.getItems().get(i) + "\n" + Current_Commande.Boissons.get(i- Current_Commande.Plats.size()).getPrix() +"€";
+                tmp_stocklistView.getItems().add(i, tmp);
+                tmp_stocklistView.getItems().remove(i+1);
+            }
+        }
     }
 }
 

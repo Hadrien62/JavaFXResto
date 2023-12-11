@@ -149,8 +149,8 @@ public class Plats extends Produit {
 		for(int i=1; i<=13 ;i++) {
 			if (this.ingredients.containsKey(i)) {
 				int quantite_actuelle = ingredients.get(i);
-		    
-				Boolean result = tmp_stock.check_ingredient(i,quantite_actuelle);
+
+				Boolean result = tmp_stock.check_ingredient(i,quantite_actuelle*10);
 				if(result == false) {
 					return false;
 				}

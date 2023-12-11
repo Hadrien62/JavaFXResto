@@ -67,7 +67,7 @@ public class menu {
 		for(int i = 10; i<=14; i++) {
 			Boisson tmp_boisson = new Boisson(i+2);
 			if(i < 14) {
-				if (tmp_stock.check_ingredient(i, 1)) {
+				if (tmp_stock.check_ingredient(i, 10)) {
 					tmp_lst_boissons.add(tmp_boisson);
 				}
 			}

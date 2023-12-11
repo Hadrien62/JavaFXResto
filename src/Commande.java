@@ -118,7 +118,41 @@ public class Commande extends Table {
             }
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Impossible de charger les données des employés.");
+            System.out.println("Impossible de charger les données des plats/boissons.");
+        }
+    }
+
+    public void Get_commande_From_txt(Commande commande_actu){
+        List<Plats>listeCommandePlats = new ArrayList<>();
+        List<Boisson>listeCommandeBoisson = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("commande.txt"))) {
+            String numTable;
+            while ((numTable = reader.readLine()) != null) {
+                int tableNumber = Integer.parseInt(numTable);
+                this.num_table = tableNumber;
+                String platInfo;
+                while ((platInfo = reader.readLine()) != null && platInfo.length() > 0) {
+                    String[] parts = platInfo.split(":");
+                    if (parts.length == 3) {
+                        int identifiantPlat = Integer.parseInt(parts[0]);
+
+                        if (identifiantPlat <= 11) {
+                            Plats plat = new Plats(identifiantPlat);
+                            plat.setNumTable(tableNumber);
+                            commande_actu.Plats.add(plat);
+                        }
+                        if (identifiantPlat > 11) {
+                            Boisson boisson = new Boisson(identifiantPlat);
+                            boisson.setNumTable(tableNumber);
+                            listeCommandeBoisson.add(boisson);
+                            commande_actu.Boissons.add(boisson);
+                        }
+                    }
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Impossible de charger les données des plats/boissons.");
         }
     }
 
