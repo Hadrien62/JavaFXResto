@@ -1,4 +1,0 @@
-b:b:12.0:Barman
-8:90:9.0:Barman
-HB:BJ:9.0:Barman
-aurelien:Piloufifa62:2000.0:Barman

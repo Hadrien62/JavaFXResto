@@ -6,28 +6,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 public class ListeCourse {
-
 	private Map<Integer, Integer> lst_course ;
 	private Map<Integer, Integer> lst_course_automatique;
 	public ListeCourse() {
-
 		this.lst_course = new HashMap<>();
 		this.lst_course_automatique = new HashMap<>();
 	}
-
 	public Map<Integer, Integer> getLst_course() {
 		return lst_course;
 	}
-
 	public void setLst_course(Map<Integer, Integer> lst_course) {
 		this.lst_course = lst_course;
 	}
-
 	public void add_quantities(int numero_ingredient) {
 		if (lst_course.containsKey(numero_ingredient)) {
 			int quantite_Actuelle = lst_course.get(numero_ingredient);
 			lst_course.put(numero_ingredient, quantite_Actuelle + 1);
-
 		} else {
 			lst_course.put(numero_ingredient,1);
 		}
@@ -37,23 +31,18 @@ public class ListeCourse {
 		if (lst_course.containsKey(numero_ingredient)) {
 			int quantite_actuelle = lst_course.get(numero_ingredient);
 			lst_course.put(numero_ingredient, quantite_actuelle - 1);
-
 		} else {
 			System.out.println("ingredient pas dans la liste");
 		}
 	}
 
 	public int[] get_liste_course_quanitite(){
-
 		int[] result = lst_course.values().stream().mapToInt(Integer::intValue).toArray();
 		return result;
 	}
 	public  String[] get_imagePaths_liste_course() {
-
 		// Conversion du tableau en liste pour permettre l'ajout d'éléments
 		List<String> lst_tmp = new ArrayList<>();
-
-
 		for (Map.Entry<Integer, Integer> entry : lst_course.entrySet()) {
 			int key = entry.getKey();
 			switch (key) {
@@ -75,8 +64,6 @@ public class ListeCourse {
 					lst_tmp.add("images/Salad.png");
 				case 9:
 					lst_tmp.add("images/Sausage.png");
-
-					//manque des images ----------------------------
 				case 10:
 					lst_tmp.add("images/Beef.png");
 				case 11:
@@ -85,27 +72,20 @@ public class ListeCourse {
 					lst_tmp.add("images/Beef.png");
 				case 13:
 					lst_tmp.add("images/Beef.png");
-
 			}
-
 		}
 		// Conversion de la liste en un nouveau tableau
 		String[] result  = lst_tmp.toArray(new String[0]);
 		return result;
 	}
-	@SuppressWarnings("null")
 	public  int[] get_prix_liste_course() {
-
 		// Conversion du tableau en liste pour permettre l'ajout d'éléments
-
 		List<Integer> lst_tmp = new ArrayList<>();
-
-
 		for (Map.Entry<Integer, Integer> entry : lst_course.entrySet()) {
 			int key = entry.getKey();
 			switch (key) {
 				case 1:
-					lst_tmp.add(8);
+					lst_tmp.add(3);
 					break;
 				case 2:
 					lst_tmp.add(2);
@@ -132,7 +112,7 @@ public class ListeCourse {
 					lst_tmp.add(1);
 					break;
 				case 10:
-					lst_tmp.add(0);
+					lst_tmp.add(2);
 					break;
 				case 11:
 					lst_tmp.add(2);
@@ -153,53 +133,49 @@ public class ListeCourse {
 	}
 
 	public  String[] get_name_liste_course() {
-
 		// Conversion du tableau en liste pour permettre l'ajout d'éléments
-
 		List<String> lst_tmp = new ArrayList<>();;
-
-
 		for (Map.Entry<Integer, Integer> entry : lst_course.entrySet()) {
 			int key = entry.getKey();
 			switch (key) {
 				case 1:
-					lst_tmp.add("tomate");
+					lst_tmp.add("Tomate(s)");
 					break;
 				case 2:
-					lst_tmp.add("boeuf");
+					lst_tmp.add("Boeuf(s)");
 					break;
 				case 3:
-					lst_tmp.add("pain");
+					lst_tmp.add("Pain(s)");
 					break;
 				case 4:
-					lst_tmp.add("frommage");
+					lst_tmp.add("Comte(s)");
 					break;
 				case 5:
-					lst_tmp.add("oignon");
+					lst_tmp.add("Oignon(s)");
 					break;
 				case 6:
-					lst_tmp.add("champignon");
+					lst_tmp.add("Enoki(s)");
 					break;
 				case 7:
-					lst_tmp.add("salades");
+					lst_tmp.add("Salade(s)");
 					break;
 				case 8:
-					lst_tmp.add("saucise");
+					lst_tmp.add("Boudin(s)");
 					break;
 				case 9:
-					lst_tmp.add("pate a pizza");
+					lst_tmp.add("Pate(s)");
 					break;
 				case 10:
-					lst_tmp.add("limonade");
+					lst_tmp.add("Citron(s)");
 					break;
 				case 11:
-					lst_tmp.add("cidre doux");
+					lst_tmp.add("Cidre(s)");
 					break;
 				case 12:
-					lst_tmp.add("biere sans alcool");
+					lst_tmp.add("Biere(s)");
 					break;
 				case 13:
-					lst_tmp.add("jus de fruits");
+					lst_tmp.add("Jus(s)");
 					break;
 				default:
 					System.out.println("ingredient non reconnu");
@@ -242,8 +218,6 @@ public class ListeCourse {
 	public void clear_liste_course(){
 		lst_course.clear();
 	}
-
-
 
 	public Map<Integer, Integer> getLst_course_automatique() {
 		return lst_course_automatique;
@@ -309,7 +283,4 @@ public class ListeCourse {
 				return "";
 		}
 	}
-
-
-
 }

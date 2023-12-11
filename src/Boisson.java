@@ -1,18 +1,10 @@
-/*
-10: Limonade: 4€
-11: Cidre doux: 5€
-12: Bière sans alcool: 5€
-13: Jus de fruit: 1€
-14: Verre d’eau: Gratuit
-*/
 public class Boisson extends Produit {
 	private int num_ingredient_boisson;
-
 	public Boisson(int num_boisson){
 		switch (num_boisson) {
 			case 12:
 				this.num_ingredient_boisson = 10;
-				setPrix(4);
+				setPrix(5);
 				setNom("Limonade");
 				setTemps_prep(2.0);
 				setNum_produit(12);
@@ -20,21 +12,21 @@ public class Boisson extends Produit {
 			case 13:
 				this.num_ingredient_boisson = 11;
 				setPrix(5);
-				setNom("Cidre doux");
+				setNom("Cidre");
 				setTemps_prep(2.0);
 				setNum_produit(13);
 				break;
 			case 14:
 				this.num_ingredient_boisson = 12;
 				setPrix(5);
-				setNom("Bière sans alcool");
+				setNom("Bière");
 				setTemps_prep(2.0);
 				setNum_produit(14);
 				break;
 			case 15:
 				this.num_ingredient_boisson = 13;
 				setPrix(1);
-				setNom("Jus de fruit");
+				setNom("Jus");
 				setTemps_prep(2.0);
 				setNum_produit(15);
 				break;
@@ -46,17 +38,12 @@ public class Boisson extends Produit {
 				setNum_produit(16);
 				break;
 		}
-
-
 	}
 
 	public int getNum_boisson() {
 		return num_ingredient_boisson;
 	}
-
 	public void setboisson(int num_boisson) {
-
-
 	}
 	public void removestock(stock tmp_stock, ListeCourse tmp_liste) {
 		tmp_stock.remove_quantities(num_ingredient_boisson, 1);

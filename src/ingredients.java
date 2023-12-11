@@ -1,5 +1,3 @@
-
-
 public class ingredients {
 	private String nom;
 	private Double prix;
